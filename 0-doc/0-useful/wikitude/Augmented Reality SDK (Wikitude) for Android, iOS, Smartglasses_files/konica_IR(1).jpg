@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+<meta charset="UTF-8" />
+    
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	  <script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+  if (!_fbq.loaded) {
+    var fbds = document.createElement('script');
+    fbds.async = true;
+    fbds.src = '//connect.facebook.net/en_US/fbds.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fbds, s);
+    _fbq.loaded = true;
+  }
+  _fbq.push(['addPixelId', "1576557622569660"]);
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(["track", "PixelInitialized", {}]);
+</script>
+<noscript><img height="1" width="1" border="0" alt="" style="display:none" src="https://www.facebook.com/tr?id=1576557622569660&amp;ev=NoScript" /></noscript>
+  <!--[if lt IE 9]><script src="http://www.wikitude.com/wp-content/themes/xtreme-one/js/ie-html5.js"></script><![endif]-->
+    <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css' />
+    <link rel='stylesheet' href='http://www.wikitude.com/wp-content/themes/xtreme-one/output/1/wikitude/production-min.css?ver=20160524-707'  />
+<!--[if lte IE 8]><link href='http://www.wikitude.com/wp-content/themes/xtreme-one/output/1/wikitude/xtreme_patch.css' rel='stylesheet' type='text/css' /><![endif]-->
+    <link href='//www.wikitude.com/wp-content/themes/wikitude/css/screen/animation.css' rel='stylesheet' type='text/css' />
+    <link rel='icon' href='http://www.wikitude.com/wp-content/themes/wikitude/images/favicon.ico' type='image/x-icon' />
+<link rel='shortcut icon' href='http://www.wikitude.com/wp-content/themes/wikitude/images/favicon.ico' type='image/x-icon' />
+<link rel="pingback" href="http://www.wikitude.com/xmlrpc.php" />
+<script src="//www.wikitude.com/wp-content/themes/wikitude/js/responsive-tables.js"></script>
+<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//www.wikitude.com/wp-content/themes/wikitude/js/jquery.animateNumber.min.js"></script>
+
+<!-- This site is optimized with the Yoast SEO plugin v3.2.5 - https://yoast.com/wordpress/plugins/seo/ -->
+<title>Page not found - Wikitude</title>
+<meta name="robots" content="noindex,follow"/>
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="object" />
+<meta property="og:title" content="Page not found - Wikitude" />
+<meta property="og:site_name" content="Wikitude" />
+<meta property="fb:admins" content="810580726" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Wikitude &raquo; Feed" href="http://www.wikitude.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Wikitude &raquo; Comments Feed" href="http://www.wikitude.com/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.wikitude.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=ae983e360bd348837d958028f325c08b"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;return g&&g.fillText?(g.textBaseline="top",g.font="600 32px Arial","flag"===a?(g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3):"diversity"===a?(g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e):("simple"===a?g.fillText(h(55357,56835),0,0):g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag"),unicode8:d("unicode8"),diversity:d("diversity")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag&&c.supports.unicode8&&c.supports.diversity||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='easy-tooltip-css'  href='http://www.wikitude.com/wp-content/plugins/easy-tooltip/css/easy-tooltip.css?ver=1.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='q-a-plus-css'  href='http://www.wikitude.com/wp-content/plugins/q-and-a/css/q-a-plus.css?ver=1.0.6.2' type='text/css' media='screen' />
+<link rel='stylesheet' id='crayon-css'  href='http://www.wikitude.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.wikitude.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='responsive-video-css'  href='http://www.wikitude.com/wp-content/plugins/responsive-video/css/responsive-videos.css?ver=27082012' type='text/css' media='all' />
+<link rel='stylesheet' id='wpmenucart-css'  href='http://www.wikitude.com/wp-content/plugins/woocommerce-menu-bar-cart/css/wpmenucart-main.css?ver=ae983e360bd348837d958028f325c08b' type='text/css' media='all' />
+<link rel='stylesheet' id='woocommerce-layout-css'  href='//www.wikitude.com/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=2.5.3' type='text/css' media='all' />
+<link rel='stylesheet' id='woocommerce-smallscreen-css'  href='//www.wikitude.com/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=2.5.3' type='text/css' media='only screen and (max-width: 768px)' />
+<link rel='stylesheet' id='woocommerce-general-css'  href='//www.wikitude.com/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=2.5.3' type='text/css' media='all' />
+<link rel='stylesheet' id='essb-cct-style-css'  href='http://www.wikitude.com/wp-content/plugins/easy-social-share-buttons/lib/modules/click-to-tweet/assets/css/styles.css?ver=3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='easy-social-share-buttons-css'  href='http://www.wikitude.com/wp-content/plugins/easy-social-share-buttons/assets/css/clear-retina/easy-social-share-buttons.min.css?ver=3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='easy-social-share-buttons-mailform-css'  href='http://www.wikitude.com/wp-content/plugins/easy-social-share-buttons/assets/css/essb-mailform.min.css?ver=3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='ubermenu-basic-css'  href='http://www.wikitude.com/wp-content/plugins/ubermenu/standard/styles/basic.css?ver=2.3.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='ubermenu-generated-skin-css'  href='http://www.wikitude.com/wp-content/plugins/ubermenu/standard/stylegenerator/skin.css?ver=2.3.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='slickr-flickr-css'  href='http://www.wikitude.com/wp-content/plugins/slickr-flickr/styles/public.css?ver=2.5.4' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='http://www.wikitude.com/wp-includes/css/dashicons.min.css?ver=ae983e360bd348837d958028f325c08b' type='text/css' media='all' />
+<link rel='stylesheet' id='thickbox-css'  href='http://www.wikitude.com/wp-includes/js/thickbox/thickbox.css?ver=ae983e360bd348837d958028f325c08b' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.wikitude.com/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/www.wikitude.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/respondjs/js/respond.min.js?ver=1.4.2'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.4.9'></script>
+<script type="text/javascript">
+	!function(){var analytics=window.analytics=window.analytics||[];if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.0";
+		window.analytics.load("JnvEtTQmAQ");
+	window.analytics.page();
+	  }}();
+</script>
+<link rel='https://api.w.org/' href='http://www.wikitude.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.wikitude.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.wikitude.com/wp-includes/wlwmanifest.xml" /> 
+
+<!-- Q & A -->
+		<noscript><link rel="stylesheet" type="text/css" href="http://www.wikitude.com/wp-content/plugins/q-and-a/css/q-a-plus-noscript.css?ver=1.0.6.2" /></noscript><!-- Q & A --><script type="text/javascript">
+(function(url){
+	if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+	var addEvent = function(evt, handler) {
+		if (window.addEventListener) {
+			document.addEventListener(evt, handler, false);
+		} else if (window.attachEvent) {
+			document.attachEvent('on' + evt, handler);
+		}
+	};
+	var removeEvent = function(evt, handler) {
+		if (window.removeEventListener) {
+			document.removeEventListener(evt, handler, false);
+		} else if (window.detachEvent) {
+			document.detachEvent('on' + evt, handler);
+		}
+	};
+	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
+	var logHuman = function() {
+		var wfscr = document.createElement('script');
+		wfscr.type = 'text/javascript';
+		wfscr.async = true;
+		wfscr.src = url + '&r=' + Math.random();
+		(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+		for (var i = 0; i < evts.length; i++) {
+			removeEvent(evts[i], logHuman);
+		}
+	};
+	for (var i = 0; i < evts.length; i++) {
+		addEvent(evts[i], logHuman);
+	}
+})('//www.wikitude.com/?wordfence_logHuman=1&hid=B530B52F3185249948D289BB17F30186');
+</script><style type="text/css">.essb_totalcount_item_before, .essb_totalcount_item_after { display: block !important; } .essb_totalcount_item_before .essb_totalcount, .essb_totalcount_item_after .essb_totalcount { border: 0px !important; } .essb_counter_insidebeforename { margin-right: 5px; font-weight: bold; } .essb_width_columns_1 li { width: 100%; } .essb_width_columns_1 li a { width: 92%; } .essb_width_columns_2 li { width: 49%; } .essb_width_columns_2 li a { width: 86%; } .essb_width_columns_3 li { width: 32%; } .essb_width_columns_3 li a { width: 80%; } .essb_width_columns_4 li { width: 24%; } .essb_width_columns_4 li a { width: 70%; } .essb_width_columns_5 li { width: 19.5%; } .essb_width_columns_5 li a { width: 60%; } .essb_links li.essb_totalcount_item_before, .essb_width_columns_1 li.essb_totalcount_item_after { width: 100%; text-align: left; } .essb_network_align_center a { text-align: center; } .essb_network_align_right .essb_network_name { float: right;}</style>
+<script type="text/javascript">var essb_settings = {"ajax_url":"http:\/\/www.wikitude.com\/wp-admin\/admin-ajax.php","essb3_nonce":"3fcef5926e","essb3_plugin_url":"http:\/\/www.wikitude.com\/wp-content\/plugins\/easy-social-share-buttons","essb3_facebook_total":false,"essb3_admin_ajax":false,"essb3_internal_counter":false,"essb3_stats":false,"essb3_ga":false,"essb3_ga_mode":"simple","essb3_counter_button_min":0,"essb3_counter_total_min":0,"blog_url":"http:\/\/www.wikitude.com\/","ajax_type":"wp","essb3_postfloat_stay":false};</script>		<!--[if lt IE 8]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
+		<![endif]-->
+		    <script src="http://www.wikitude.com/wp-content/themes/wikitude/js/custom.min.js" language="javascript" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" /><style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><!-- Google Analytics Tracking by Google Analyticator 6.4.9: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">window.google_analytics_uacct = "489-013-5228";</script>
+<script type="text/javascript">
+    var analyticsFileTypes = ['pdf'];
+    var analyticsSnippet = 'disabled';
+    var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-11754809-8', 'auto');
+	ga('require', 'displayfeatures');
+ 
+	ga('send', 'pageview');
+</script>
+
+<!-- UberMenu CSS - Controlled through UberMenu Options Panel 
+================================================================ -->
+<style type="text/css" id="ubermenu-style-generator-css">
+/* Menu Width - UberMenu Advanced Settings */
+#megaMenu{ width: 960px; max-width:100%; }
+
+/* Inner Menu Width - used for centering - UberMenu Advanced Settings */
+#megaMenu ul.megaMenu{ max-width: 960px; }
+/* Image Text Padding */
+#megaMenu .ss-nav-menu-with-img > a > .wpmega-link-title, #megaMenu .ss-nav-menu-with-img > a > .wpmega-link-description, #megaMenu .ss-nav-menu-with-img > a > .wpmega-item-description, #megaMenu .ss-nav-menu-with-img > span.um-anchoremulator > .wpmega-link-title, #megaMenu .ss-nav-menu-with-img > span.um-anchoremulator > .wpmega-link-description, #megaMenu .ss-nav-menu-with-img > span.um-anchoremulator > .wpmega-item-description{
+  padding-left: 219px;
+}	
+</style>
+<!-- end UberMenu CSS -->
+		
+			<script type="text/javascript">document.documentElement.className = document.documentElement.className.length ? document.documentElement.className + " js" : "js";</script></head>
+<body id="error404" class="logo error404 xf_layout-default  design-blog xf-html5 xf-layout2">
+      <ul class="ym-skiplinks">
+            <li><a class="ym-skip" href="#primarynav">Skip to primary navigation (Press Enter).</a></li>
+                <li><a class="ym-skip" href="#content">Skip to content (Press Enter).</a></li>
+            </ul>
+    <div class='ym-wrapper'><div class='ym-wbox'>
+<header id='header' class='xf-container ym-clearfix linearize-level-1 xf-blog' >
+    <!--<div class="subnaviBG">&nbsp;</div>-->
+    <div class="headerResponsive">
+    <nav id="megaMenu" class="megaMenuContainer megaMenu-nojs megaResponsive megaResponsiveToggle wpmega-withjs megaMenuFade megaMenuOnHover megaFullWidthSubs megaMenuHorizontal wpmega-noconflict megaCenterMenubar megaClear megaMinimizeResiduals megaResetStyles"><div id="megaMenuToggle" class="megaMenuToggle"> &nbsp; <span class="megaMenuToggle-icon"></span></div><ul id="megaUber" class="megaMenu"><li id="menu-item-20892" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-0 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter ss-nav-menu-with-img ss-nav-menu-notext"><a href="http://www.wikitude.com/"><img class="um-img um-img-noresize" src="http://www.wikitude.com/wp-content/uploads/2014/02/logo1.png" alt="logo" title="logo" /></a></li><li id="menu-item-20819" class="menu-item menu-item-type- menu-item-object- menu-item-has-children mega-with-sub ss-nav-menu-item-1 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-fullWidth ss-nav-menu-mega-alignCenter ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Products</span></span>
+<ul class="sub-menu sub-menu-1">
+<li id="menu-item-29503" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-1 ss-nav-menu-nolink ss-override"><span class="um-anchoremulator" ><span class="wpmega-link-title">Products</span></span><div class="wpmega-nonlink uberClearfix">These are the tools that will build the future. Our suite of award-winning technology products has the powerful Wikitude SDK at the core, and is complimented by additional tools and services.</div></li><li id="menu-item-20964" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Augmented Reality SDK</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-24095" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2 ss-nav-menu-highlight"><a href="http://www.wikitude.com/products/wikitude-sdk"><span class="wpmega-link-title">Wikitude SDK for Android, iOS &#038; SmartGlasses</span></a></li>	</ul>
+</li><li id="menu-item-29532" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Extensions</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-20950" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/extensions/cordova-plugin-augmented-reality/"><span class="wpmega-link-title">Cordova Plugin</span></a></li><li id="menu-item-20951" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/extensions/titanium-module-augmented-reality/"><span class="wpmega-link-title">Titanium Module</span></a></li><li id="menu-item-29575" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/extensions/augmented-reality-for-xamarin/"><span class="wpmega-link-title">Xamarin Component</span></a></li><li id="menu-item-28841" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/extensions/unity-3d/"><span class="wpmega-link-title">Unity Plugin</span></a></li><li id="menu-item-29719" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/wikitude-sdk-features/wikitude-sdk-plugins-api/"><span class="wpmega-link-title">Plugins API</span></a></li>	</ul>
+</li><li id="menu-item-29533" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Cloud Services</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-23969" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/wikitude-cloud-recognition/"><span class="wpmega-link-title">Wikitude Cloud Recognition</span></a></li><li id="menu-item-22844" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/wikitude-cloud-targets-api/"><span class="wpmega-link-title">Targets API</span></a></li><li id="menu-item-20968" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/products/studio/"><span class="wpmega-link-title">Wikitude Studio</span></a></li>	</ul>
+</li><li id="menu-item-24097" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Augmented Reality Browser</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-20967" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/app/"><span class="wpmega-link-title">Wikitude App</span></a></li>	</ul>
+</li></ul>
+</li><li id="menu-item-20970" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mega-with-sub ss-nav-menu-item-2 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-fullWidth ss-nav-menu-mega-alignCenter ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Developer</span></span>
+<ul class="sub-menu sub-menu-1">
+<li id="menu-item-29535" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-1 ss-nav-menu-nolink ss-override"><span class="um-anchoremulator" ><span class="wpmega-link-title">Developer</span></span><div class="wpmega-nonlink uberClearfix">With more than 100,000 Wikitude developers, all the information, resources and support you need is right here at your fingertips.</div></li><li id="menu-item-29537" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Learning &#038; Knowledge</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-29540" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/documentation/"><span class="wpmega-link-title">Documentation</span></a></li><li id="menu-item-20973" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/developer/knowledge-base"><span class="wpmega-link-title">Knowledge Base</span></a></li>	</ul>
+</li><li id="menu-item-29541" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">News &#038; Support</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-29543" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/blog/dev2dev/"><span class="wpmega-link-title">Developer Blog</span></a></li><li id="menu-item-20972" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/developer/developer-forum"><span class="wpmega-link-title">Forum</span></a></li>	</ul>
+</li><li id="menu-item-20985" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Tools</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-20986" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/developer/tools/3d-encoder"><span class="wpmega-link-title">3D Encoder</span></a></li><li id="menu-item-20987" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/developer/tools/target-manager"><span class="wpmega-link-title">Target Manager</span></a></li><li id="menu-item-20988" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/developer/tools/publish-in-wikitude"><span class="wpmega-link-title">Publish in Wikitude</span></a></li><li id="menu-item-20989" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://studio.wikitude.com"><span class="wpmega-link-title">Wikitude Studio</span></a></li><li id="menu-item-30426" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-2"><a href="http://wikitude.com/developer/tools/target-manager"><span class="wpmega-link-title">New Wikitude Studio (Beta)</span></a></li>	</ul>
+</li><li id="menu-item-20990" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Downloads</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-29547" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/download/"><span class="wpmega-link-title">Download the Wikitude SDK</span></a></li>	</ul>
+</li></ul>
+</li><li id="menu-item-20991" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mega-with-sub ss-nav-menu-item-3 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-fullWidth ss-nav-menu-mega-alignCenter ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Partner</span></span>
+<ul class="sub-menu sub-menu-1">
+<li id="menu-item-29548" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-1 ss-nav-menu-nolink ss-override"><span class="um-anchoremulator" ><span class="wpmega-link-title">Partner</span></span><div class="wpmega-nonlink uberClearfix">We can’t do it alone, which is why we have established a partner network around the world. Do you have what it takes to join us?</div></li><li id="menu-item-30336" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Industry Partners</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-30337" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/lighthouse-projects/"><span class="wpmega-link-title">Lighthouse Projects</span></a></li>	</ul>
+</li><li id="menu-item-20995" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Premium Partner Program</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-20994" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/agency/premium-partners/"><span class="wpmega-link-title">Premium Partners</span></a></li><li id="menu-item-20993" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/agency/become-premium-partner/"><span class="wpmega-link-title">Become a Premium Partner</span></a></li>	</ul>
+</li></ul>
+</li><li id="menu-item-20999" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mega-with-sub ss-nav-menu-item-4 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-fullWidth ss-nav-menu-mega-alignCenter ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Demos</span></span>
+<ul class="sub-menu sub-menu-1">
+<li id="menu-item-29551" class="menu-item menu-item-type-custom menu-item-object-custom ss-nav-menu-item-depth-1 ss-nav-menu-nolink ss-override"><span class="um-anchoremulator" ><span class="wpmega-link-title">Demos</span></span><div class="wpmega-nonlink uberClearfix">Need some convincing, or are you still working on your augmented reality app ideas? Get some inspiration and see what others have done already.</div></li><li id="menu-item-29552" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Watch &#038; Learn</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-27296" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/videos/"><span class="wpmega-link-title">Videos</span></a></li>	</ul>
+</li><li id="menu-item-29553" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children ss-nav-menu-item-depth-1 ss-nav-menu-nolink"><span class="um-anchoremulator" ><span class="wpmega-link-title">Get Inspired</span></span>
+	<ul class="sub-menu sub-menu-2">
+<li id="menu-item-21000" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/showcases/"><span class="wpmega-link-title">Customer Showcases</span></a></li><li id="menu-item-30335" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-depth-2"><a href="http://www.wikitude.com/lighthouse-project/"><span class="wpmega-link-title">Lighthouse Projects</span></a></li>	</ul>
+</li></ul>
+</li><li id="menu-item-20996" class="menu-item menu-item-type-post_type menu-item-object-page ss-nav-menu-item-5 ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-fullWidth ss-nav-menu-mega-alignCenter"><a href="http://www.wikitude.com/store/"><span class="wpmega-link-title">Pricing</span></a></li><li class="wpmenucartli wpmenucart-display-right menu-item ss-nav-menu-item-depth-0 ss-nav-menu-mega ss-nav-menu-mega-alignCenter" id="wpmenucartli"><a class="wpmenucart-contents empty-wpmenucart-visible" href="http://www.wikitude.com/store/" title="Start shopping"><span class="cartcontents">0</span></a></li></ul></nav><h1 class="blogtitle"><a href="http://www.wikitude.com" title="Jump to Homepage">Wikitude</a></h1></header>
+<section id='teaser' class='xf-container ym-clearfix linearize-level-1 xf-blog' >
+<section id="text-409120157" class="widget widget_text ym-cbox">			<div class="textwidget"> </div>
+		</section></section>
+<div id='main' class='xf-container ym-clearfix linearize-level-1 xf-blog one  xf-blogone' >
+<div id='content' class='ym-col1' >  <div class='ym-cbox-left ym-clearfix'>    <article class="post">
+        <header><h2>Sorry, Page Not Found</h2></header>
+	<div class="entry-content">
+		<p>Apologies, but the page you requested could not be found.</p>
+	</div>
+</article></div></div></div>
+    <div class="bgFooter">
+    <section id='footer' class='xf-container ym-clearfix linearize-level-1 xf-blog' >
+<div class="ym-grid ym-equalize linearize-level-1"><div class='txt-left ym-g20'>
+<div class='sync ym-gbox-left'>
+<section id="nav_menu-3" class="widget widget_nav_menu ym-cbox"><h4 class="widget-title">Company</h4><div class="menu-company-container"><ul id="menu-company" class="menu"><li id="menu-item-15348" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15348"><a href="http://www.wikitude.com/about/">About</a></li>
+<li id="menu-item-15356" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15356"><a href="http://www.wikitude.com/about/jobs-career/">Jobs</a></li>
+<li id="menu-item-18996" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18996"><a href="http://www.wikitude.com/about/wikitude-technology/">Wikitude at a Glance</a></li>
+<li id="menu-item-15367" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15367"><a href="http://www.wikitude.com/about/investor-relations/">Investor Relations</a></li>
+<li id="menu-item-15375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15375"><a href="http://www.wikitude.com/about/contact/">Contact</a></li>
+</ul></div></section></div></div><div class='txt-left ym-g20'>
+<div class='sync ym-gbox'>
+<section id="nav_menu-5" class="widget widget_nav_menu ym-cbox"><h4 class="widget-title">Support</h4><div class="menu-support-container"><ul id="menu-support" class="menu"><li id="menu-item-15377" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15377"><a href="http://www.wikitude.com/about/contact/">Contact</a></li>
+<li id="menu-item-22118" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22118"><a href="http://www.wikitude.com/faqs/">FAQs</a></li>
+<li id="menu-item-23481" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23481"><a href="http://www.wikitude.com/wikitude-academy/">Academy</a></li>
+<li id="menu-item-15378" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15378"><a href="http://www.wikitude.com/developer/developer-forum">Developer Forum</a></li>
+<li id="menu-item-18029" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-18029"><a href="http://www.wikitude.com/developer/developer-forum?p_p_id=58&#038;p_p_lifecycle=0&#038;p_p_state=maximized&#038;p_p_mode=view&#038;saveLastPath=0&#038;_58_struts_action=%2Flogin%2Fcreate_account">Developer Registration</a></li>
+<li id="menu-item-23473" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-23473"><a href="http://www.wikitude.com/legal/return-policy/">Return Policy</a></li>
+</ul></div></section></div></div><div class='txt-left ym-g20'>
+<div class='sync ym-gbox'>
+<section id="nav_menu-7" class="widget widget_nav_menu ym-cbox"><h4 class="widget-title">News</h4><div class="menu-news-container"><ul id="menu-news" class="menu"><li id="menu-item-15381" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15381"><a href="http://www.wikitude.com/blog/">Blog</a></li>
+<li id="menu-item-16512" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16512"><a href="http://www.wikitude.com/newsletter/">Newsletter</a></li>
+<li id="menu-item-15385" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15385"><a href="http://www.wikitude.com/about/awards/">Awards</a></li>
+</ul></div></section></div></div><div class='txt-left ym-g40'>
+<div class='sync ym-gbox-right'>
+<section id="search-8" class="widget widget_search ym-cbox"><h4 class="widget-title">More</h4><form  method="get" id="searchform" action="http://www.wikitude.com/" >
+    <div><label class="screen-reader-text" for="s">Search for:</label>
+    <input type="search" value="Search..." name="s" id="s" accesskey="s"/>
+    <input type="submit" id="searchsubmit" value="Send"  class='ym-hideme' />
+    </div>
+</form></section><section id="text-409120160" class="widget widget_text ym-cbox">			<div class="textwidget"><section id="social-widget-2" class="widget Social_Widget"><div class="socialmedia-buttons smw_left"><a class="sm-facebook" href="http://www.facebook.com/WIKITUDE" rel="nofollow" target="_blank"></a><a class="sm-twitter" href="http://twitter.com/wikitude" rel="nofollow" target="_blank"></a><a class="sm-linkedin" href="https://www.linkedin.com/company/wikitude-gmbh" rel="nofollow" target="_blank"></a><a class="sm-youtube" href="http://www.youtube.com/wikitude" rel="nofollow" target="_blank"></a></div></section></div>
+		</section></div></div></div></section>
+    </div>
+        <div class="bgFooter">
+    <footer id='siteinfo' class='xf-container ym-clearfix linearize-level-1 xf-blog' >
+<p align='center'>&copy; 2016 Wikitude GmbH  &middot;  <a href='http://www.wikitude.com/imprint/'><strong>Imprint</strong></a>  &middot;  <a href='http://www.wikitude.com/legal/'><strong>Legal</strong></a></p></footer>
+    </div>
+    </div></div>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1012891210;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1012891210/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/q-and-a/js/q-a-plus.js?ver=1.0.6.2'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/themes/xtreme-one/js/yaml-focusfix.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/themes/xtreme-one/js/jquery/syncheight/jquery.syncheight.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var uberMenuSettings = {"speed":"300","trigger":"hover","orientation":"horizontal","transition":"fade","hoverInterval":"20","hoverTimeout":"400","removeConflicts":"on","autoAlign":"off","noconflict":"off","fullWidthSubs":"on","androidClick":"on","iOScloseButton":"on","loadGoogleMaps":"off","repositionOnLoad":"off"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/ubermenu/core/js/ubermenu.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/themes/xtreme-one/js/jquery/fancybox/jquery.easing-1.3.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/themes/xtreme-one/js/jquery/fancybox/jquery.mousewheel-3.0.6.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/themes/xtreme-one/js/jquery/fancybox/jquery.fancybox-1.3.4.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.wikitude.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","recaptchaEmpty":"Please verify that you are not a robot.","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wc_add_to_cart_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/products\/wikitude-sdk\/wikitude.com\/wp-content\/uploads\/2015\/01\/konica_IR.jpg?wc-ajax=%%endpoint%%","i18n_view_cart":"View Cart","cart_url":"https:\/\/www.wikitude.com\/checkout\/","is_cart":"","cart_redirect_after_add":"yes"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.wikitude.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=2.5.3'></script>
+<script type='text/javascript' src='//www.wikitude.com/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.70'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var woocommerce_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/products\/wikitude-sdk\/wikitude.com\/wp-content\/uploads\/2015\/01\/konica_IR.jpg?wc-ajax=%%endpoint%%"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.wikitude.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=2.5.3'></script>
+<script type='text/javascript' src='//www.wikitude.com/wp-content/plugins/woocommerce/assets/js/jquery-cookie/jquery.cookie.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wc_cart_fragments_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":"\/products\/wikitude-sdk\/wikitude.com\/wp-content\/uploads\/2015\/01\/konica_IR.jpg?wc-ajax=%%endpoint%%","fragment_name":"wc_fragments"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='//www.wikitude.com/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=2.5.3'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/easy-social-share-buttons/assets/js/essb-mailform.js?ver=3.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"http:\/\/www.wikitude.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-includes/js/thickbox/thickbox.js?ver=3.1-20121105'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-content/plugins/slickr-flickr/scripts/responsiveslides.min.js?ver=1.54'></script>
+<script type='text/javascript' src='http://www.wikitude.com/wp-includes/js/wp-embed.min.js?ver=ae983e360bd348837d958028f325c08b'></script>
+<!-- WooCommerce JavaScript -->
+<script type="text/javascript">
+jQuery(function($) {
+
+			$( '.add_to_cart_button:not(.product_type_variable, .product_type_grouped)' ).click( function() {
+				ga('send', 'event', 'Products', 'Add to Cart', ($(this).data('product_sku')) ? ('SKU: ' + $(this).data('product_sku')) : ('#' + $(this).data('product_id')));
+			});
+		
+});
+</script>
+<style type="text/css"></style><script type="text/javascript">var essb_clicked_lovethis = false; var essb_love_you_message_thanks = "Thank you for loving this."; var essb_love_you_message_loved = "You already love this today."; var essb_lovethis = function(oInstance) { if (essb_clicked_lovethis) { alert(essb_love_you_message_loved); return; } var element = jQuery('.essb_'+oInstance); if (!element.length) { return; } var instance_post_id = jQuery(element).attr("data-essb-postid") || ""; var cookie_set = essb_get_lovecookie("essb_love_"+instance_post_id); if (cookie_set) { alert(essb_love_you_message_loved); return; } if (typeof(essb_settings) != "undefined") { jQuery.post(essb_settings.ajax_url, { 'action': 'essb_love_action', 'post_id': instance_post_id, 'service': 'love', 'nonce': essb_settings.essb3_nonce }, function (data) { if (data) { alert(essb_love_you_message_thanks); }},'json'); } essb_tracking_only('', 'love', oInstance, true); }; var essb_get_lovecookie = function(name) { var value = "; " + document.cookie; var parts = value.split("; " + name + "="); if (parts.length == 2) return parts.pop().split(";").shift(); }; var essb_window = function(oUrl, oService, oInstance) { var element = jQuery('.essb_'+oInstance); var instance_post_id = jQuery(element).attr("data-essb-postid") || ""; var instance_position = jQuery(element).attr("data-essb-position") || ""; var wnd; var w = 800 ; var h = 500; if (oService == "twitter") { w = 500; h= 300; } var left = (screen.width/2)-(w/2); var top = (screen.height/2)-(h/2); if (oService == "twitter") { wnd = window.open( oUrl, "essb_share_window", "height=300,width=500,resizable=1,scrollbars=yes,top="+top+",left="+left ); } else { wnd = window.open( oUrl, "essb_share_window", "height=500,width=800,resizable=1,scrollbars=yes,top="+top+",left="+left ); } if (typeof(essb_settings) != "undefined") { if (essb_settings.essb3_stats) { if (typeof(essb_handle_stats) != "undefined") { essb_handle_stats(oService, instance_post_id, oInstance); } } if (essb_settings.essb3_ga) { essb_ga_tracking(oService, oUrl, instance_position); } } essb_self_postcount(oService, instance_post_id); var pollTimer = window.setInterval(function() { if (wnd.closed !== false) { window.clearInterval(pollTimer); essb_smart_onclose_events(oService, instance_post_id); } }, 200); }; var essb_self_postcount = function(oService, oCountID) { if (typeof(essb_settings) != "undefined") { oCountID = String(oCountID); jQuery.post(essb_settings.ajax_url, { 'action': 'essb_self_postcount', 'post_id': oCountID, 'service': oService, 'nonce': essb_settings.essb3_nonce }, function (data) { if (data) { }},'json'); } }; var essb_smart_onclose_events = function(oService, oPostID) { if (typeof (essbasc_popup_show) == 'function') { essbasc_popup_show(); } if (typeof essb_acs_code == 'function') { essb_acs_code(oService, oPostID); } }; var essb_tracking_only = function(oUrl, oService, oInstance, oAfterShare) { var element = jQuery('.essb_'+oInstance); if (oUrl == "") { oUrl = document.URL; } var instance_post_id = jQuery(element).attr("data-essb-postid") || ""; var instance_position = jQuery(element).attr("data-essb-position") || ""; if (typeof(essb_settings) != "undefined") { if (essb_settings.essb3_stats) { if (typeof(essb_handle_stats) != "undefined") { essb_handle_stats(oService, instance_post_id, oInstance); } } if (essb_settings.essb3_ga) { essb_ga_tracking(oService, oUrl, instance_position); } } essb_self_postcount(oService, instance_post_id); if (oAfterShare) { essb_smart_onclose_events(oService, instance_post_id); } }; var essb_pinterest_picker = function(oInstance) { essb_tracking_only('', 'pinterest', oInstance); var e=document.createElement('script'); e.setAttribute('type','text/javascript'); e.setAttribute('charset','UTF-8'); e.setAttribute('src','//assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e); };</script><script type="text/javascript">
+//<![CDATA[
+
+//xtreme one - configurations
+var xtreme_fancybox = {
+	"data" : {"settings":{"options":{"padding":10,"margin":60,"opacity":false,"modal":false,"cyclic":false,"scrolling":"auto","width":560,"height":340,"autoScale":true,"autoDimensions":true,"centerOnScroll":false,"hideOnOverlayClick":true,"hideOnContentClick":false,"overlayShow":true,"overlayOpacity":0.3,"overlayColor":"#666","titleShow":true,"titlePosition":"float","transitionIn":"elastic","transitionOut":"elastic","speedIn":300,"speedOut":300,"changeSpeed":300,"changeFade":"fast","easingIn":"swing","easingOut":"swing","showCloseButton":true,"showNavArrows":true,"enableEscapeButton":true},"gallery":true,"fancybox":true}}
+};
+
+//xtreme one - initializers
+				var known_sizes = { 'bw' : jQuery('body').width(), 'bh' : jQuery('body').height(), 'fs' : parseInt(jQuery('body').css('font-size')) };
+function detect_zoom() {
+	nbfz = { 'bw' : jQuery('body').width(), 'bh' : jQuery('body').height() , 'fs' : parseInt(jQuery('body').css('font-size')), 'c' : false };
+	if(known_sizes.bw != nbfz.bw) { known_sizes.bw = nbfz.bw; nbfz.c = true; }
+	if(known_sizes.fs != nbfz.fs) { known_sizes.fs = nbfz.fs; nbfz.c = true; }
+	if(known_sizes.bh != nbfz.bh) { known_sizes.bh = nbfz.bh; nbfz.c = true; }
+	if(nbfz.c) { 
+		jQuery('body').trigger('xtreme_zoomed');
+		jQuery('#main .ym-col1, #main .ym-col2, #main .ym-col3').syncHeight();
+	}	
+	nbfz = null;
+}
+(function($) {
+	$(document).ready(function(){
+
+		//mandatory framework settings
+		var searchtxt = "Search...";
+		$('#main .ym-col1, #main .ym-col2, #main .ym-col3').syncHeight();
+		$('#s').focus(function(){if($(this).val() == searchtxt){$(this).val('');}});
+		$('#s').blur(function(){if($(this).val() == ''){$(this).val(searchtxt);}});
+		$('#primarynav ul.sf-menu > li').first().addClass('first');
+		$('#secondarynav ul.sf-menu > li').first().addClass('first');
+		$('#primarynav ul.sf-menu > li').last().addClass('last');	
+		$('#secondarynav ul.sf-menu > li').last().addClass('last');			
+		setInterval('detect_zoom()', 100);
+
+		//automatic sync heights
+								$('#teaser .sync').syncHeight();
+								$('#footer .sync').syncHeight();
+
+
+		//automatic sync heights by zooming
+		$('body').bind('xtreme_zoomed', function() {
+									$('#teaser .sync').syncHeight();
+								$('#footer .sync').syncHeight();
+		});
+
+
+					//original fancy box support
+		if (xtreme_fancybox.data.settings.fancybox) {
+			$('a.fancybox').fancybox(xtreme_fancybox.data.settings.options);
+		}
+		
+		//advanced WordPress galleries
+		if(xtreme_fancybox.data.settings.gallery) {
+			$('.gallery').each(function(i, g) {
+				var rel=$(g).attr('id');
+				$('a', $(g)).each(function(j, a) {
+					if($(a).attr('href').match(/\.(jpg|gif|png|bmp|jpeg)(.*)?$/i)) {
+						$(a).addClass('xf-fancybox').attr('rel', rel);
+					}
+				});
+			});
+		}
+		
+		//image viewer support
+		$('a.xf-fancybox').fancybox(xtreme_fancybox.data.settings.options);
+
+	});
+})(jQuery);
+//]]>
+</script>
+<script>
+
+	//scroll animations
+	var $animation_elements = $('.animation-element');
+	var $window = $(window);
+
+	function check_if_in_view() {
+	  var window_height = $window.height();
+	  var window_top_position = $window.scrollTop();
+	  var window_bottom_position = (window_top_position + window_height);
+	 
+	  $.each($animation_elements, function() {
+	    var $element = $(this);
+	    var element_height = $element.outerHeight();
+	    var element_top_position = $element.offset().top;
+	    var element_bottom_position = (element_top_position + element_height);
+	 
+	    //check to see if this current container is within viewport
+	    if ((element_bottom_position >= window_top_position) && (element_top_position <= window_bottom_position)) {
+	      $element.addClass('in-view');
+	    } else {
+	      //$element.removeClass('in-view');
+	    }
+	  });
+	}
+
+	$window.on('scroll resize', check_if_in_view);
+	$window.trigger('scroll');
+
+	//counter
+	var play = true;
+	$(window).scroll(function() {
+		$('.counter').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+600 && play) {
+				$('#number-dev').animateNumber({ number: 100000 },1200);
+				$('#number-apps').animateNumber({ number: 10000 },1200);
+				$('#number-countries').animateNumber({ number: 180 },1200);
+				play = false;
+			}
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+.easy-tooltip {
+    border-bottom: 1px dotted #000000;
+    color: #707070 !important;
+    outline: none;
+    cursor: help;
+    text-decoration: none;
+    position: relative;
+}
+.easy-tooltip:hover {
+    text-decoration: none;
+    text-shadow: none;
+}
+.easy-tooltip span {
+    margin-left: -999em;
+    position: absolute;
+}
+.easy-tooltip:hover span {
+    box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: -6em;
+    top: -18em;
+    z-index: 99;
+    margin-left: 0;
+    width: 155px;
+	background: url(/wp-content/themes/wikitude-12-2012/images/tooltipp-arrow.png)
+}
+.easy-tooltip:hover img {
+    border: 0;
+    margin: -10px 0 0 -55px;
+    float: left;
+    position: absolute;
+}
+.easy-tooltip:hover em {
+    font-size: 1.2em;
+    font-weight: bold;
+    display: block;
+    padding: 0.2em 0 0.6em 0;
+}
+.easy-tooltip:hover .classic {
+    padding: 0.8em 1em;
+}
+.easy-tooltip:hover .custom {
+    padding: 0.5em 0.8em 0.8em 2em;
+}
+.easy-tooltip:hover .classic {
+    background: #fff;
+    border: 1px solid #fff;
+}
+.easy-tooltip:hover .critical {
+    background: #FFCCAA;
+    border: 1px solid #FF3334;
+}
+.easy-tooltip:hover .help {
+    background: #9FDAEE;
+    border: 1px solid #2BB0D7;
+}
+.easy-tooltip:hover .info {
+    background: #9FDAEE;
+    border: 1px solid #2BB0D7;
+}
+.easy-tooltip:hover .warning {
+    background: #FFFFAA;
+    border: 1px solid #FFAD33;
+}
+* html a:hover {
+    background: transparent;
+}

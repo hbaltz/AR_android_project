@@ -1,0 +1,149 @@
+.page-footer {
+    background:#f9f7f7;/*modified*/
+    padding: 30px 20px 20px 20px;
+    margin-top: 85px;
+}
+
+.page-footer .help-links .span2 {
+    float: left;
+    width: 120px;
+    margin-left: 20px;
+}
+
+.page-footer a{
+    color:#a3a3a3;
+}
+.page-footer a:hover{color:#a3a3a3 !important; text-decoration:underline;}/*modified*/
+
+.help-links {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.help-links ul {
+    margin: 0;
+    padding: 0;
+}
+
+.help-links li {
+    list-style-type: none;
+    margin: 0 0 10px 0;
+}
+
+.help-links h5 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1em
+}
+
+.footer-nav {
+    padding: 10px 0 0 0;
+    margin:0 0 20px 0;/*modified*/
+    font-size: 14px;
+}
+
+.footer-nav li {
+    padding-right: 20px !important;
+    margin-right: 20px
+}
+
+.page-footer .copyright p {
+    color: #a3a3a3;
+    font-size: 13px !important;
+    line-height: 1.5em;
+}
+.copyright p{
+    margin-top: 20px;
+}
+.page-footer .separator {
+    border: 0;
+    border-bottom:1px solid #cbcdc8;/*modified*/
+    margin: 10px 0;
+}
+
+.sign-up .controls {
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+}
+
+.social-media {
+    margin: 0;
+    padding: 0
+}
+
+.social-media li {
+    display: inline-block;
+    float: left;
+    margin: 0 0 0 5px;
+}
+
+.social-media li a {
+    display: block;
+    width:40px;/*modified*/
+    height:40px;/*modified*/
+    text-indent: -1000em;
+    overflow: hidden;
+    background: url(../img/social_media.png) no-repeat 0 0;
+    opacity: .4;
+}
+.social-media li.twitter a{background-position:-53px 0}/*modified*/
+.social-media li.youtube a{background-position:0 0}/*modified*/
+.social-media li.gplus a{background-position:-120px 0}
+
+.page-footer .span0{width:151px}
+.page-footer .span2 h5
+{
+    border-bottom:#cbcdc8 solid 1px;
+    padding-bottom:5px;
+}
+.page-footer .footer-left-block
+{
+    width:804px;
+}
+.footer-left-block .separator {
+    width: 953px;
+}
+.page-footer .footer-right-block ul
+{
+    list-style:none;
+    margin:10px 0;
+}
+
+.page-footer .footer-right-block .default-label
+{
+    vertical-align:top;
+}
+
+.page-footer .wrapper {
+    margin-left: 17px;
+}
+
+.list-inline.separated li {
+    border-right: 1px solid #a3a3a3 !important;
+}
+
+.list-inline.separated li:last-child {
+    border-right: 0 !important;
+}
+
+.list-inline li:first-child{
+    padding-left: 0;
+}
+
+.list-inline li {
+    list-style: none;
+    display: inline-block;
+    padding: 0 10px 0 0;
+    line-height: 1em
+}
+
+#tspVersionDisplay{
+    display: none;
+}
+
+#drupalVersionDisplay{
+    display: none;
+    margin-top: -12px;
+}

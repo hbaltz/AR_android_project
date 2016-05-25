@@ -1,0 +1,331 @@
+.navbar-nav{
+    list-style: none;
+}
+
+.navbar-nav.primary-nav > li > a {
+    float: none !important;
+    padding: 16px 20.5px 14px !important;
+    line-height: 15px !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    font-size: 18px !important;
+    font-weight: normal !important;
+    display: block;
+}
+
+.navbar-nav li.login-user .dropdown-toggle .caret {
+    border-bottom-color: #333;
+    border-top-color: #333;
+}
+
+.navbar .navbar-inner .navbar-nav>li>a:hover{background-color:#256c77 !important;text-decoration:none;}/*modified*/
+.navbar .navbar-inner .navbar-nav .active>a{text-decoration:none;background-color:#17606b;}/*modified*/
+.navbar .navbar-inner .navbar-nav .active>a:hover{text-decoration:none;background-color:#17606b;}
+
+.navbar .navbar-nav>li.login-user.open a.dropdown-toggle,.navbar .navbar-nav>li.login-user a.dropdown-toggle
+{
+    background: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-top: 5px;
+    padding: 4px 10px;
+    color: #333;
+}
+
+.navbar .navbar-nav>li.login-user a.dropdown-toggle:hover {
+    color: #333
+}
+
+.navbar .subnav-new .navbar-nav
+{
+    float:none;
+    width:970px;
+    margin:0 auto;
+
+}
+.navbar .subnav-new .navbar-nav > li > a
+{
+    padding: 15px 15px;
+    line-height: 11px;
+}
+
+.navigation-bar
+{
+    clear: both;
+
+}
+
+.subnav-new
+{
+    min-height:40px;
+    background:#f2f2f2;
+    width:100%;
+    position:inherit;
+    min-width:990px;
+    display: none;
+}
+.subnav-new .nav-pills > li > a
+{
+    color:#000 !important;
+    border-radius:0;
+    margin:0;
+}
+.nav-pills li:first-child{margin-left:17px;}
+.navbar .subnav-new .navbar-nav>li>a
+{
+    font-size:16px !important;
+    text-shadow: none !important;
+    display: block;
+}
+.navbar .subnav-new .navbar-nav>li>a:hover
+{
+    background:#e8e8e8;
+    color:#4A4A4A;
+    text-decoration:none;
+}
+.navbar .subnav-new .navbar-nav .active>a:hover{color:#000 !important;text-decoration:none !important;background-color:#d7d7d7 !important;}/*modified*/
+.navbar .subnav-new .navbar-nav .active>a{color:#000 !important;text-decoration:none !important;background-color:#d7d7d7 !important;}
+
+#header .login-btn-block .dropdown-toggle
+{
+    margin-top:0;
+    min-width:120px;
+}
+
+#header .navbar .login-btn-block .navbar-nav
+{
+    margin-right:0;
+}
+#header .navbar .login-btn-block .navbar-nav li.login-user{
+    min-width:120px;
+    display: block;
+    margin-top: 2px;
+}
+#header .navbar .login-btn-block .navbar-nav li.login-user .dropdown-toggle .arrow-ico{
+    background:transparent url(../img/user-arrow-down.png) no-repeat 0 0;
+    width:11px;
+    height:6px;
+    top: 50%;
+    position: absolute;
+    display:inline-block;
+    margin-left:7px;
+    margin-right:12px;
+}
+
+#header .navbar .login-btn-block .navbar-nav > li.login-user a.dropdown-toggle{
+    background:transparent !important;
+    border-radius:0px;
+    -webkit-border-radius:0px;
+    margin-top:-13px;
+    text-align: right;
+    margin-right: 8px;
+    padding:1px 10px;
+    color:#fff;
+    border:none;
+    text-shadow: none;
+    font-size: 18px;
+    padding: 16px 20.5px;
+    line-height: 15px;
+    display: block;
+}
+
+.login-user ul li{
+    width: 101%;
+    margin-left: -1px;
+}
+
+.headerLink, .headerLink:hover{
+    color:#fff !important;
+}
+
+#header .navbar .login-btn-block .navbar-nav > li.login-user.open .dropdown-menu
+{
+    width:162px !important;
+    border-radius:3px;
+    border: 1px solid #f1f1f1;
+    margin-right: 5px;
+    margin-top: 4px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+#header .navbar .login-btn-block .navbar-nav > li.login-user.open .dropdown-menu li a
+{
+    color:#515151;
+    background:transparent;
+    font-size:16px;
+    padding:5px 10px;
+    width: 94%;
+}
+
+.vuforia-header {
+    min-height: 168px;
+}
+
+.navBar{
+
+}
+
+.container,
+.navbar-fixed-top .container{width:970px}/*modified*/
+
+#header .navbar-inner {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    background-image: none;
+    background-color: #1c7582;
+    filter: none;
+    -ms-filter: none;
+    height: 129px;
+}
+
+.navbar .navbar-brand {
+    background:url(../img/logo.png) no-repeat 20px 10px;/*modified*/
+    color: #fff;
+    text-transform: lowercase;
+    position: relative;
+    margin: 24px 0 17px 0 !important;
+    padding: 0 !important;
+    font-size: 1.8em;
+    text-indent: -1000em;
+    width: 453px;/*modified*/
+    height: 42px;
+}
+
+.navbar .navbar-brand .logo {
+    background: url(../img/logo.png) no-repeat 0 0;
+    width: 85px;
+    height: 68px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display:none; /*Modified*/
+}
+
+.navbar .navbar-brand strong {
+    font-weight: bold;
+    font-size: 1.1em
+}
+
+.navbar-search {
+    width: 17%;
+    margin-right:.8em;/*Modified*/
+}
+/* FOCUSSDK-17274 - Global - change color of unfocused global search field for TMS UI */
+.navbar-search .search-query {
+    background-color:#5296a0;/*Modified*/
+    background-image:url(../img/search-ico.png);/*Modified*/
+    background-position:96% 6px;
+    background-repeat:no-repeat;
+    margin:3px 0 0 0;/*Modified*/
+    padding:5px 9px;/*Modified*/
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: none;
+    width:100%;/*Modified*/
+    border-radius:0;/*Modified*/
+    line-height:1.3em;
+    margin-left:10px;
+}
+
+.primary-nav a {
+    font-weight: bold
+}
+
+#header .dropdown-menu a {
+    font-weight: normal
+}
+
+#header .btn-login {
+    margin-right: 0
+}
+
+.navbar .login-user .dropdown-menu:after,.navbar .login-user .dropdown-menu:before
+{
+    border-color: transparent
+}
+
+.navbar-nav li.dropdown.open .caret,.navbar-nav li.dropdown.open.active .caret,.navbar-nav li.dropdown.open a:hover .caret
+{
+    border-top-color: #ddd;
+    border-bottom-color: #ddd;
+}
+
+.navbar-search .search-query:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #FFFFFF;
+    opacity:  1;
+}
+.navbar-search .search-query::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #FFFFFF;
+    opacity:  1;
+}
+.navbar-search .search-query:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #FFFFFF;
+}
+.navbar-search .search-query::-webkit-input-placeholder{color:#fff}
+
+@media (-webkit-min-device-pixel-ratio: 1.5), /*  Firefox16, Chrome, Safari, iOS, Android */
+(min--moz-device-pixel-ratio: 1.5),    /*  Older Firefox browsers (prior to Firefox16) */
+(-o-min-device-pixel-ratio: 1.5),    /*  Opera */
+(min-device-pixel-ratio: 1.5){
+    .navbar .navbar-brand {
+        background: url(../img/logo@2x.png) no-repeat 20px 10px;
+        background-size: 290px auto;
+    }
+}
+
+
+.userNameInHeader {
+    width: 180px;
+}
+
+#loginRegisterDiv a:hover {
+    color: #fff !important;
+}
+
+.subnav-new.admin.commonTab .adminSelect li{
+    display: none;
+}
+
+#loggedInLogoutDiv, #loginRegisterDiv{
+    display: none;
+}
+
+#drupalBeta {
+    display: none;
+}
+
+.navigation-bar .primary-nav li.adminMenu {
+    display: none;
+}
+
+.wrapper.non-sub-menu-page{
+    margin-top: -48px;
+}
+
+.login-btn-block
+{
+    margin-top:38px;
+}
+
+.login-btn-block .rb {
+    border-right: #fff solid 1px;
+    height: 19px;
+}
+
+.login-btn-block .btn-no-style {
+    font-size: 18px;
+    color: #fff;
+    padding: 3px 10px;
+    padding-left: 10px !important;
+}
+
+
+.login-btn-block a:last-child
+{
+    padding-right:0 !important;
+    display:inline-block;
+}
+.login-btn-block a:hover{text-decoration:none; color:#FFFFFF;}
+
