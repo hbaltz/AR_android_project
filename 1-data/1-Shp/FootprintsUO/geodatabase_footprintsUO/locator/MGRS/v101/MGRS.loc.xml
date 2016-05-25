@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="LocatorStyle.xslt"?>
+<locators xsi:noNamespaceSchemaLocation="LocatorStyle.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<locator>
+		<name>MGRS Coordinate Input Locator</name>
+		<desc>Locator style for ArcGIS Defense</desc>
+		<version>10</version>
+		<revision>$Revision: 19$</revision>
+		<revision_date>$Date: 10/1/2015 10:06:11 AM$</revision_date>
+		<inputs>
+			<default_input name="MGRS" length="100" grammar_ref="Location">
+				<caption xml:lang="en">MGRS Coordinate</caption>
+				<recognized_name>MGRS</recognized_name>
+			</default_input>
+		</inputs>
+		<grammar>
+			<section desc="Top level elements">
+				<def name="Location">
+					<alt ref="MGRSCoordinates"/>
+				</def>
+			</section>
+			<section desc="MGRSCoordinates">
+				<def name="MGRSCoordinates">
+					<alt ref="mgrs-utm"/>
+					<!--<alt ref="mgrs-utm-sans-utm-zone"/>  not allowed -->
+					<alt ref="mgrs-utm-sans-utm-zone-and-latband"/>
+					<alt ref="mgrs-utm-just-en-pair"/>
+					<alt ref="ups"/>
+					<alt ref="SpatialOperator"/>
+					<!--<alt ref="Coordinates" /> not used -->
+				</def>
+				<def name="mgrs-utm">
+					<alt>
+						<elt ref="utm-zone"/>
+						<elt ref="lat-band" pre_separator="optional"/>
+						<elt ref="id100k" pre_separator="optional"/>
+						<elt ref="e-n-pair" pre_separator="optional"/>
+						<result tag="MGRS">
+							<method ref="create_point_mgrs">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+								<parameter>
+									<component_value component="_3"/>
+								</parameter>
+								<parameter>
+									<component_value component="_4"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="mgrs-utm-sans-utm-zone">
+					<alt>
+						<elt ref="lat-band"/>
+						<elt ref="id100k" pre_separator="optional"/>
+						<elt ref="e-n-pair" pre_separator="optional"/>
+						<result tag="MGRS">
+							<method ref="create_point_mgrs">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+								<parameter>
+									<component_value component="_3"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="mgrs-utm-sans-utm-zone-and-latband">
+					<alt>
+						<elt ref="id100k" pre_separator="optional"/>
+						<elt ref="e-n-pair" pre_separator="optional"/>
+						<result tag="MGRS">
+							<method ref="create_point_mgrs">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="mgrs-utm-just-en-pair">
+					<alt>
+						<elt ref="e-n-pair" pre_separator="optional"/>
+						<result tag="MGRS">
+							<method ref="create_point_mgrs">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="ups">
+					<alt>
+						<elt ref="ups-semicircular-zone-and-hemisphere"/>
+						<elt ref="id100kups" pre_separator="optional"/>
+						<elt ref="e-n-pair" pre_separator="optional"/>
+						<result tag="MGRS">
+							<method ref="create_point_mgrs">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<value xml:space="preserve">_UPS_</value>
+								</parameter>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+								<parameter>
+									<component_value component="_3"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="ups-semicircular-zone-and-hemisphere">
+					<alt>`[abyzABYZ]`</alt>
+				</def>
+				<def name="e-n-pair">
+					<alt/>
+					<alt>
+						<elt ref="positive_integer"/>
+					</alt>
+					<alt>
+						<elt ref="positive_integer"/>
+						<elt ref="positive_integer"/>
+					</alt>
+				</def>
+				<def name="utm-zone">
+					<alt>`[0-9][0-9]`</alt>
+					<alt>`[0-9]`</alt>
+				</def>
+				<def name="lat-band">
+					<alt>`[cdefghjklmnpqrstuvwxCDEFGHJKLMNPQRSTUVWX]`</alt>
+				</def>
+				<def name="id100k">
+					<alt>`[abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ][abcdefghjklmnpqrstuvABCDEFGHJKLMNPQRSTUV]`</alt>
+				</def>
+				<def name="id100kups">
+					<alt>`[abcfghjklpqrstuxyzABCFGHJKLPQRSTUXYZ][abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ]`</alt>
+				</def>
+				<def name="positive_integer">
+					<alt>`[0-9]+`</alt>
+				</def>
+			</section>
+			<section desc="Spatial Operators">
+				<def name="SpatialOperator">
+					<alt ref="DirectedOffset"/>
+				</def>
+				<def name="DirectedOffset">
+					<alt>
+						<elt ref="positiveRealNumber" weight="0"/>
+						<elt ref="LinearUnits" weight="0"/>
+						<elt ref="Bearing" weight="0"/>
+						<elt ref="From" weight="0"/>
+						<elt ref="Location"/>
+						<result tag="SpatialOperator">
+							<method ref="directed_offset">
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+								<parameter>
+									<component_value component="_3"/>
+								</parameter>
+								<parameter>
+									<component_value component="_5"/>
+								</parameter>
+							</method>
+							<format>
+								<component_value component="Distance"/>
+								<component_value component="Units" pre_separator=" "/>
+								<value xml:space="preserve"> bearing </value>
+								<component_value component="Bearing"/>
+								<value xml:space="preserve"> from </value>
+								<component_value component="Match_addr" record="1"/>
+							</format>
+						</result>
+					</alt>
+				</def>
+				<def name="From">
+					<alt>from</alt>
+				</def>
+				<def name="Bearing">
+					<alt>
+						<elt ref="north"/>
+						<result type="float">0.</result>
+					</alt>
+					<alt>
+						<elt>nne</elt>
+						<result type="float">22.5</result>
+					</alt>
+					<alt>
+						<elt ref="northeast"/>
+						<result type="float">45.</result>
+					</alt>
+					<alt>
+						<elt>ene</elt>
+						<result type="float">67.5</result>
+					</alt>
+					<alt>
+						<elt ref="east"/>
+						<result type="float">90.</result>
+					</alt>
+					<alt>
+						<elt>ese</elt>
+						<result type="float">112.5</result>
+					</alt>
+					<alt>
+						<elt ref="southeast"/>
+						<result type="float">135.</result>
+					</alt>
+					<alt>
+						<elt>sse</elt>
+						<result type="float">157.5</result>
+					</alt>
+					<alt>
+						<elt ref="south"/>
+						<result type="float">180.</result>
+					</alt>
+					<alt>
+						<elt>ssw</elt>
+						<result type="float">202.5</result>
+					</alt>
+					<alt>
+						<elt ref="southwest"/>
+						<result type="float">225.</result>
+					</alt>
+					<alt>
+						<elt>wsw</elt>
+						<result type="float">247.5</result>
+					</alt>
+					<alt>
+						<elt ref="west"/>
+						<result type="float">270.</result>
+					</alt>
+					<alt>
+						<elt>wnw</elt>
+						<result type="float">292.5</result>
+					</alt>
+					<alt>
+						<elt ref="northwest"/>
+						<result type="float">315.</result>
+					</alt>
+					<alt>
+						<elt>nnw</elt>
+						<result type="float">337.5</result>
+					</alt>
+					<alt>
+						<elt>bearing</elt>
+						<elt ref="realNumber">
+						</elt>
+						<result>
+							<component_value component="_2"/>
+						</result>
+					</alt>
+				</def>
+			</section>
+			<section desc="Basic elements">
+				<def name="Separator">
+					<alt>,</alt>
+					<alt>;</alt>
+					<alt>|</alt>
+				</def>
+				<def name="OptSeparator">
+					<alt>
+						<elt ref="Separator" pre_separator="optional" post_separator="optional"/>
+					</alt>
+					<alt/>
+				</def>
+				<def name="realNumber">
+					<alt>
+						<elt ref="OptHyphen"/>
+						<elt ref="positiveRealNumber"/>
+					</alt>
+				</def>
+				<def name="positiveRealNumber">
+					<alt>
+						<elt ref="number"/>
+						<elt ref="OptDecimal"/>
+					</alt>
+				</def>
+				<def name="OptDecimal">
+					<alt>
+						<elt pre_separator="none">.</elt>
+						<elt ref="number" pre_separator="none"/>
+					</alt>
+					<alt/>
+				</def>
+				<def name="number">
+					<alt>`[0-9]+`</alt>
+				</def>
+				<def name="wordlist">
+					<alt ref="word"/>
+					<alt>
+						<elt ref="word"/>
+						<elt ref="wordlist"/>
+					</alt>
+				</def>
+				<def name="word">
+					<alt>`[^ \t,;#$%^&amp;*@!~|":]+`</alt>
+				</def>
+				<def name="Hyphen">
+					<alt>-</alt>
+				</def>
+				<def name="OptHyphen">
+					<alt>
+						<elt ref="Hyphen" pre_separator="optional" post_separator="optional"/>
+					</alt>
+					<alt>
+					</alt>
+				</def>
+			</section>
+			<section desc="Directions">
+				<def name="west">
+					<alt>w</alt>
+					<alt>west</alt>
+				</def>
+				<def name="east">
+					<alt>e</alt>
+					<alt>east</alt>
+				</def>
+				<def name="south">
+					<alt>s</alt>
+					<alt>south</alt>
+				</def>
+				<def name="north">
+					<alt>n</alt>
+					<alt>north</alt>
+				</def>
+				<def name="southeast">
+					<alt>se</alt>
+					<alt>southeast</alt>
+				</def>
+				<def name="southwest">
+					<alt>sw</alt>
+					<alt>southwest</alt>
+				</def>
+				<def name="northeast">
+					<alt>ne</alt>
+					<alt>northeast</alt>
+				</def>
+				<def name="northwest">
+					<alt>nw</alt>
+					<alt>northwest</alt>
+				</def>
+				<def name="northbound">
+					<alt>nb</alt>
+					<alt>northbound</alt>
+				</def>
+				<def name="southbound">
+					<alt>sb</alt>
+					<alt>southbound</alt>
+				</def>
+				<def name="eastbound">
+					<alt>eb</alt>
+					<alt>eastbound</alt>
+				</def>
+				<def name="westbound">
+					<alt>wb</alt>
+					<alt>westbound</alt>
+				</def>
+			</section>
+			<section desc="Linear Units">
+				<def name="LinearUnits">
+					<!-- parsed linear units return corresponding esriSystem.esriUnits values -->
+					<alt>
+						<elt ref="Inches"/>
+						<result type="Int">1</result>
+					</alt>
+					<alt>
+						<elt ref="Points"/>
+						<result type="Int">2</result>
+					</alt>
+					<alt>
+						<elt ref="Feet"/>
+						<result type="Int">3</result>
+					</alt>
+					<alt>
+						<elt ref="Yards"/>
+						<result type="Int">4</result>
+					</alt>
+					<alt>
+						<elt ref="Miles"/>
+						<result type="Int">5</result>
+					</alt>
+					<alt>
+						<elt ref="NauticalMiles"/>
+						<result type="Int">6</result>
+					</alt>
+					<alt>
+						<elt ref="Millimeters"/>
+						<result type="Int">7</result>
+					</alt>
+					<alt>
+						<elt ref="Centimeters"/>
+						<result type="Int">8</result>
+					</alt>
+					<alt>
+						<elt ref="Decimeters"/>
+						<result type="Int">12</result>
+					</alt>
+					<alt>
+						<elt ref="Meters"/>
+						<result type="Int">9</result>
+					</alt>
+					<alt>
+						<elt ref="Kilometers"/>
+						<result type="Int">10</result>
+					</alt>
+				</def>
+				<def name="Inches">
+					<alt>
+						<elt post_separator="required" pre_separator="optional">"</elt>
+					</alt>
+					<alt>In</alt>
+					<alt>Inch</alt>
+					<alt>Inches</alt>
+				</def>
+				<def name="Points">
+					<alt>Pt</alt>
+					<alt>Point</alt>
+					<alt>Points</alt>
+				</def>
+				<def name="Feet">
+					<alt>
+						<elt post_separator="required" pre_separator="optional">'</elt>
+					</alt>
+					<alt>Ft</alt>
+					<alt>Foot</alt>
+					<alt>Feet</alt>
+				</def>
+				<def name="Yards">
+					<alt>Yd</alt>
+					<alt>Yrd</alt>
+					<alt>Yrds</alt>
+					<alt>Yard</alt>
+					<alt>Yards</alt>
+				</def>
+				<def name="Miles">
+					<alt>mi</alt>
+					<alt>Mile</alt>
+					<alt>Miles</alt>
+				</def>
+				<def name="NauticalMiles">
+					<alt>nm</alt>
+					<alt>Nautical Mile</alt>
+					<alt>Nautical Miles</alt>
+				</def>
+				<def name="Millimeters">
+					<alt>mm</alt>
+					<alt>Millimeter</alt>
+					<alt>Millimeters</alt>
+				</def>
+				<def name="Centimeters">
+					<alt>cm</alt>
+					<alt>Centimeter</alt>
+					<alt>Centimeters</alt>
+				</def>
+				<def name="Decimeters">
+					<alt>dm</alt>
+					<alt>Decimeter</alt>
+					<alt>Decimeters</alt>
+				</def>
+				<def name="Meters">
+					<alt>m</alt>
+					<alt>Meter</alt>
+					<alt>Meters</alt>
+				</def>
+				<def name="Kilometers">
+					<alt>km</alt>
+					<alt>Kilometer</alt>
+					<alt>Kilometers</alt>
+				</def>
+			</section>
+			<section desc="Coordinates">
+				<def name="OptCoordsysID">
+					<alt>WGS_1984</alt>
+					<alt/>
+				</def>
+				<def name="CoordSeparator">
+					<alt>,</alt>
+					<alt>;</alt>
+					<alt>|</alt>
+					<alt/>
+				</def>
+				<def name="Coordinates">
+					<alt>
+						<elt ref="longitudePrefix"/>
+						<elt ref="positiveRealNumber" pre_separator="optional"/>
+						<elt ref="CoordSeparator"/>
+						<elt ref="latitudePrefix" pre_separator="optional"/>
+						<elt ref="positiveRealNumber" pre_separator="optional"/>
+						<elt ref="OptCoordsysID"/>
+						<result tag="Coordinates">
+							<method ref="create_point">
+								<init_properties>
+									<prop name="CoordinateSystem">WGS_1984</prop>
+								</init_properties>
+								<parameter>
+									<component_value component="_1"/>
+								</parameter>
+								<parameter>
+									<component_value component="_2"/>
+								</parameter>
+								<parameter>
+									<component_value component="_4"/>
+								</parameter>
+								<parameter>
+									<component_value component="_5"/>
+								</parameter>
+								<parameter>
+									<component_value component="_6"/>
+								</parameter>
+							</method>
+						</result>
+					</alt>
+				</def>
+				<def name="longitudePrefix">
+					<alt>w</alt>
+					<alt>e</alt>
+					<alt>-</alt>
+					<alt>+</alt>
+					<alt/>
+				</def>
+				<def name="latitudePrefix">
+					<alt>n</alt>
+					<alt>s</alt>
+					<alt>-</alt>
+					<alt>+</alt>
+					<alt/>
+				</def>
+			</section>
+		</grammar>
+		<plugins>
+			<plugin name="create_point_mgrs">
+				<builtin>CreatePointMGRS</builtin>
+			</plugin>
+			<plugin name="reverse_MGRS">
+				<desc>Reverse geocode location and return result as MGRS string</desc>
+				<builtin>ReverseMGRS</builtin>
+			</plugin>
+			<plugin name="directed_offset">
+				<desc>
+          Calculates location given bearing and location. <br/>
+          Parameters: <br/>
+					<span class="pluginParam">distance</span> (as double),
+          <br/>
+					<span class="pluginParam">units</span> (as esriUnits integer value),
+          <br/>
+					<span class="pluginParam">bearing</span> (decimal degrees angle, clockwise),
+          <br/>
+					<span class="pluginParam">location</span> (some location as IPropertySet)
+        </desc>
+				<builtin>DirectedOffset</builtin>
+			</plugin>
+			<plugin name="create_point">
+				<builtin>CreatePoint</builtin>
+			</plugin>
+		</plugins>
+		<properties>
+			<!-- in the future the props might be in here
+      <prop name="GZDand100kmIDOption" type="integer">2</prop>
+      <prop name="GZDDefaultValue" type="integer">0</prop>
+      <prop name="100kmIDDefaultValue" type="integer">0</prop>
+      -->
+			<prop name="SpellingSensitivity" type="float">10</prop>
+			<prop name="MatchIfScoresTie" type="Boolean">true</prop>
+			<prop name="WriteXYCoordFields" type="Boolean">true</prop>
+			<prop name="WriteDisplayExtentFields" type="Boolean">true</prop>
+		</properties>
+		<outputs>
+			<output component="Shape" type="geometry" spatial_ref_string="GEOGCS[&quot;GCS_WGS_1984&quot;,DATUM[&quot;D_WGS_1984&quot;,SPHEROID[&quot;WGS_1984&quot;,6378137.0,298.257223563]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.017453292519943295]]&quot;"/>
+			<output component="Status" candidate_mode="false" length="1"/>
+			<output component="Score" type="float" decimal_digits="2"/>
+			<output component="Match_addr" length="30"/>
+			<output name="X" component="X" type="float" selector="WriteXYCoordFields"/>
+			<output name="Y" component="Y" type="float" selector="WriteXYCoordFields"/>
+			<output name="XMin" component="Xmin" type="float" decimal_digits="6" selector="WriteDisplayExtentFields"/>
+			<output name="XMax" component="Xmax" type="float" decimal_digits="6" selector="WriteDisplayExtentFields"/>
+			<output name="YMin" component="Ymin" type="float" decimal_digits="6" selector="WriteDisplayExtentFields"/>
+			<output name="YMax" component="Ymax" type="float" decimal_digits="6" selector="WriteDisplayExtentFields"/>
+		</outputs>
+		<reverse_geocoding>
+			<reverse_geocoding_method name="Address" use_spatial_search="false">
+				<method ref="reverse_MGRS"/>
+				<outputs>
+					<output component="Shape" type="geometry"/>
+					<output component="MGRS" length="20"/>
+				</outputs>
+			</reverse_geocoding_method>
+		</reverse_geocoding>
+	</locator>
+</locators>
