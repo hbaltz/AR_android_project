@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="C:/Divers/android/S.U.B." />
+        <option name="modules">
+          <set>
+            <option value="C:/Divers/android/S.U.B" />
+            <option value="C:/Divers/android/S.U.B/app" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="C:/Divers/android/S.U.B" />
+            <option value="C:/Divers/android/S.U.B/app" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
