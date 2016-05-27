@@ -21,3 +21,8 @@ https://github.com/cplain/augmented-reality-tutorial
 
 ## AR example :
 https://github.com/lycha/augmented-reality-example
+
+## Distance point to point db :
+http://stackoverflow.com/questions/29645079/android-osmdroid-get-poins-of-interest-from-own-database
+
+https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/util/GeoPoint.java
