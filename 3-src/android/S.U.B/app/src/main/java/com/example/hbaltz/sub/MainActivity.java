@@ -94,14 +94,14 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
-        //if (isWifiOnly()) {
+/*
+        if (isWifiOnly()) {
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, new GpsListener());
-        /*} else {
+        } else {
             if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER))
                 locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, new GpsListener());
         }
-        */ 
+        */
 
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
