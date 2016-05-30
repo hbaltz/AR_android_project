@@ -1,15 +1,12 @@
 package com.example.hbaltz.sub;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.hardware.SensorEventListener;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,26 +16,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.esri.android.map.MapView;
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Polygon;
-import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.map.Feature;
-import com.esri.core.table.FeatureTable;
-import com.esri.core.tasks.na.RouteTask;
-import com.example.hbaltz.sub.Class.MyLocationListener;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
+    private double Lat, Long;
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
@@ -105,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LocationProvider high = locMgr.getProvider(locMgr.getBestProvider(MyLocationListener.createFineCriteria(), true));
-        locMgr.requestLocationUpdates(high.getName(), 0, 0f, new MyLocationListener());
+        LocationProvider high = locMgr.getProvider(locMgr.getBestProvider(createFineCriteria(), true));
+        locMgr.requestLocationUpdates(high.getName(), 0, 0f, new GpsListener());
 
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
@@ -114,7 +100,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    class GpsListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location location) {
+            Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
+            Lat = location.getLatitude();
+            Long = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {}
+
+        @Override
+        public void onProviderEnabled(String s) {}
+
+        @Override
+        public void onProviderDisabled(String s) {}
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which define fine criteria for the location provider
+     *
+     * @return
+     */
+    public static Criteria createFineCriteria() {
+        Criteria c = new Criteria();
+        c.setAccuracy(Criteria.ACCURACY_FINE);
+        c.setAltitudeRequired(false);
+        c.setBearingRequired(false);
+        c.setSpeedRequired(false);
+        c.setCostAllowed(true);
+        c.setPowerRequirement(Criteria.POWER_HIGH);
+        return c;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**

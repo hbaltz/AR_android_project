@@ -30,7 +30,6 @@ public class Point {
     public float getX() {
         return this.X;
     }
-
     public float getY() {
         return this.Y;
     }
@@ -42,7 +41,6 @@ public class Point {
     public void setX(float x) {
         this.X = x;
     }
-
     public void setY(float y) {
         this.Y = y;
     }
