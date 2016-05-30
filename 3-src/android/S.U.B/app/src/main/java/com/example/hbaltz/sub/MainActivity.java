@@ -11,6 +11,7 @@ import com.esri.android.map.MapView;
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Geometry;
+import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.SpatialReference;
@@ -45,10 +46,14 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Features: /////////////////////////////////////////////////
     private Feature[] features_footprints;
 
-    //////////////////////////////////// Features: /////////////////////////////////////////////////
+    //////////////////////////////////// Geometries: ///////////////////////////////////////////////
     private Geometry[] geom_footprints;
+    private Geometry all_geom_footprints;
 
-    //////////////////////////////////// Debug: /////////////////////////////////////////////////
+    //////////////////////////////////// Geometries: ///////////////////////////////////////////////
+    private GeometryEngine geomen;
+
+    //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
-
             // open a local geodatabase
             Geodatabase gdb = new Geodatabase(extern + networkPath);
 
             if(DEBUG){Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());}
 
+            //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(0);
 
             long nbr_lignes = footprints.getNumberOfFeatures();
@@ -122,15 +127,78 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            /*
-            //////////////////////////////////// Union des magasins : //////////////////////////////
-            mag_niveau0 = geomen.union(mag_niv0_geom, WGS_1984_WMAS);
-            */
+
+            //////////////////////////////////// Union of geometries: //////////////////////////////
+            all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
+
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which make the union of an array of geometries regardless of his size
+     * @param geoms: the array of geometries
+     * @param SpaRef: the spatial reference of these geometries
+     * @return union: a geometry resulting from the union
+     */
+    private Geometry unionGeoms(Geometry[] geoms, SpatialReference SpaRef){
+        // Initialize
+        Geometry union = null;
+        int len_geoms = geoms.length;
+
+        int len_lim = 500; // Limit length of the geometry array (limit for the union)
+
+        // If the array have a length below the limit we can do the union,
+        // else we have to split the array in several parts and do the union in several times
+        if (len_geoms < len_lim){
+            union = geomen.union(geoms, SpaRef);
+        } else {
+            // Initialize:
+            Geometry[] array_union = new Geometry[2]; // temporary array for the union
+            Geometry[] geomTemp = new Geometry[len_lim];
+            Geometry[] geomRem = new Geometry[len_geoms - len_lim]; // The remaining geometries
+
+            // We split geometries in two for the union:
+            int len_temp = geomTemp.length;
+            int len_rem = geomRem.length;
+            System.arraycopy(geoms, 0, geomTemp, 0, len_temp);
+            System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
+
+            if (DEBUG){Log.d("len_geom_temp","" + geomTemp.length);}
+            if (DEBUG){Log.d("len_geom_rem","" + geomRem.length);}
+
+            // We do the union of the array with a length below the limit
+            array_union[0] = geomen.union(geomTemp, SpaRef);
+
+            // While the length of the remaining geometries is not below the limit
+            // we split the array and we do several union to never exceed the limit
+            while(len_rem > 510){
+                // We split the array in two, we use geomTemp:
+                System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
+
+                // geomRem recover the remaining geometries:
+                geomRem = new Geometry[len_rem - len_lim];
+                len_rem = geomRem.length;
+                System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
+
+                // We do the union of the geometries we have stock in geomTemp
+                // and the union between the two geometries resulting from the unions
+                array_union[1] = geomen.union(geomTemp, SpaRef);
+                array_union[0] = geomen.union(array_union,SpaRef);
+            }
+
+            // We do the union of the remaining geometries
+            // and the union between the two geometries resulting from the unions
+            array_union[1] = geomen.union(geomRem, SpaRef);
+            union = geomen.union(array_union, SpaRef);
+        }
+
+        return union;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

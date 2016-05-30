@@ -52,7 +52,7 @@ public class Point {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public double distanceTo(Polygon polygon){
-        // TODO : Calculate distance point to polygon 
+        // TODO : Calculate distance point to polygon
 
         return 0;
     }
