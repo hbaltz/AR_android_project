@@ -1,10 +1,13 @@
 package com.example.hbaltz.sub;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.esri.android.map.MapView;
@@ -19,6 +22,9 @@ import com.esri.core.map.Feature;
 import com.esri.core.table.FeatureTable;
 import com.esri.core.tasks.na.RouteTask;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,17 +34,19 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    //private final String extern = Environment.getExternalStorageDirectory().getPath();
-    private final String extern = "/storage/sdcard1";
+    private final String extern = Environment.getExternalStorageDirectory().getPath();
+    //private final String extern = "/storage/sdcard1";
 
     // TODO : auto-detect the chDb
 
     // With Sd card :
-    private final String chDb = "/sub";
-/*
+    //private final String chDb = "/sub";
+
     // Without sd card :
-    private final String chTpk = "/Android/data/com.example.formation.androidprojet_v1/ArcGIS/";
-*/
+    private final String chDb = "/Download";
+
+    private Context context;
+
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
@@ -63,9 +71,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /////////////////////////////// Full screen: ///////////////////////////////////////////////
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        winParams.flags |= 0x80000000;
+        win.setAttributes(winParams);
+
         setContentView(R.layout.activity_main);
 
+        /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
+
     }
 
 
@@ -85,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("extern", extern);
 
         //String networkName = "GRAPH_Final_ND";
+
+
 
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
@@ -127,15 +146,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
             //////////////////////////////////// Union of geometries: //////////////////////////////
             all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
-
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
         }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
