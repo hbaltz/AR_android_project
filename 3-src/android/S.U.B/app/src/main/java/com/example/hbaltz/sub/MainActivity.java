@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             Geometry[] array_union = new Geometry[2]; // temporary array for the union
             Geometry[] geomTemp = new Geometry[len_lim];
             Geometry[] geomRem = new Geometry[len_geoms - len_lim]; // The remaining geometries
+            int k =1; // useful for the while loop
 
             // We split geometries in two for the union:
             int len_temp = geomTemp.length;
@@ -180,11 +181,12 @@ public class MainActivity extends AppCompatActivity {
             while(len_rem > 510){
                 // We split the array in two, we use geomTemp:
                 System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
+                k = k+1;
 
                 // geomRem recover the remaining geometries:
                 geomRem = new Geometry[len_rem - len_lim];
                 len_rem = geomRem.length;
-                System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
+                System.arraycopy(geoms, k*len_temp, geomRem, 0, len_rem);
 
                 // We do the union of the geometries we have stock in geomTemp
                 // and the union between the two geometries resulting from the unions
