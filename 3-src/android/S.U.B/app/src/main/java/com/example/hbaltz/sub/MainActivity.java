@@ -1,7 +1,12 @@
 package com.example.hbaltz.sub;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -47,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locMgr;
     private double Lat, Long;
 
+    ////////////////////////////////////// Compass: ////////////////////////////////////////////////
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
 
@@ -62,11 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -86,23 +91,51 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
         locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
-        LocationProvider high = locMgr.getProvider(locMgr.getBestProvider(createFineCriteria(), true));
-        locMgr.requestLocationUpdates(high.getName(), 0, 0f, new GpsListener());
+        //if (isWifiOnly()) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, new GpsListener());
+        /*} else {
+            if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, new GpsListener());
+        }
+        */ 
+
+
+        ////////////////////////////////////// Compass: ////////////////////////////////////////////
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
 
     }
 
+    @Override
+    protected void onResume() {
+        if (DEBUG){Log.d("onResume", "Ok");}
+        super.onResume();
+
+        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    protected void onStop() {
+        if (DEBUG) {Log.d("onStop", "Ok");}
+
+        mSensorManager.unregisterListener(mListener);
+        super.onStop();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Listener for the location
+     */
     class GpsListener implements LocationListener{
         @Override
         public void onLocationChanged(Location location) {
@@ -121,26 +154,28 @@ public class MainActivity extends AppCompatActivity {
         public void onProviderDisabled(String s) {}
     }
 
+    /**
+     * Listener for the compass
+     */
+    private final SensorEventListener mListener = new SensorEventListener() {
+        public void onSensorChanged(SensorEvent event) {
+
+            //Log.d("Comp", "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
+
+            // Redraw its canvas every time the compass reports a change
+            // TODO : check to see if it has moved more than a degree or something similar
+            /*if (mDrawView != null) {
+                mDrawView.setOffset(event.values[0]);
+                mDrawView.invalidate();
+            }
+            */
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    };
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which define fine criteria for the location provider
-     *
-     * @return
-     */
-    public static Criteria createFineCriteria() {
-        Criteria c = new Criteria();
-        c.setAccuracy(Criteria.ACCURACY_FINE);
-        c.setAltitudeRequired(false);
-        c.setBearingRequired(false);
-        c.setSpeedRequired(false);
-        c.setCostAllowed(true);
-        c.setPowerRequirement(Criteria.POWER_HIGH);
-        return c;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
