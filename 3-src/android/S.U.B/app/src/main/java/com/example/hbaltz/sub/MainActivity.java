@@ -1,8 +1,17 @@
 package com.example.hbaltz.sub;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.SensorEventListener;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +30,10 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.map.Feature;
 import com.esri.core.table.FeatureTable;
 import com.esri.core.tasks.na.RouteTask;
+import com.example.hbaltz.sub.Class.MyLocationListener;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     //private final String chDb = "/sub";
 
     // Without sd card :
-    private final String chDb = "/Download";
+    private final String chDb = "/Androi/data/com.example.hbaltz.sub/sub";
 
-    private Context context;
-
+    ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
+    private LocationManager locMgr;
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
@@ -63,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -80,11 +98,19 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        ////////////////////////////////////// GPS: ////////////////////////////////////////////////
+        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        LocationProvider high = locMgr.getProvider(locMgr.getBestProvider(MyLocationListener.createFineCriteria(), true));
+        locMgr.requestLocationUpdates(high.getName(), 0, 0f, new MyLocationListener());
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
 
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
@@ -104,13 +130,14 @@ public class MainActivity extends AppCompatActivity {
         //String networkName = "GRAPH_Final_ND";
 
 
-
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
             // open a local geodatabase
             Geodatabase gdb = new Geodatabase(extern + networkPath);
 
-            if(DEBUG){Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());}
+            if (DEBUG) {
+                Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
+            }
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(0);
@@ -126,22 +153,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            if(DEBUG){Log.d("ff", ""+features_footprints.length);}
+            if (DEBUG) {
+                Log.d("ff", "" + features_footprints.length);
+            }
 
 
             /////////////////////////////////// Recover  geometries: ///////////////////////////////
             // Initialize:
             int len0 = features_footprints.length - 1;
-            geom_footprints= new Geometry[len0+1];
+            geom_footprints = new Geometry[len0 + 1];
 
             Geometry acme = new Polygon(); // useful if no object in the db
             for (int k = 0; k < len0; k++) {
 
                 Feature Footprint = features_footprints[k];
                 // Recover geometries :
-                if(Footprint !=null){
+                if (Footprint != null) {
                     geom_footprints[k] = Footprint.getGeometry();
-                }else{
+                } else {
                     geom_footprints[k] = acme;
                 }
             }
@@ -160,11 +189,12 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Function which make the union of an array of geometries regardless of his size
-     * @param geoms: the array of geometries
+     *
+     * @param geoms:  the array of geometries
      * @param SpaRef: the spatial reference of these geometries
      * @return union: a geometry resulting from the union
      */
-    private Geometry unionGeoms(Geometry[] geoms, SpatialReference SpaRef){
+    private Geometry unionGeoms(Geometry[] geoms, SpatialReference SpaRef) {
         // Initialize
         Geometry union = null;
         int len_geoms = geoms.length;
@@ -173,14 +203,14 @@ public class MainActivity extends AppCompatActivity {
 
         // If the array have a length below the limit we can do the union,
         // else we have to split the array in several parts and do the union in several times
-        if (len_geoms < len_lim){
+        if (len_geoms < len_lim) {
             union = geomen.union(geoms, SpaRef);
         } else {
             // Initialize:
             Geometry[] array_union = new Geometry[2]; // temporary array for the union
             Geometry[] geomTemp = new Geometry[len_lim];
             Geometry[] geomRem = new Geometry[len_geoms - len_lim]; // The remaining geometries
-            int k =1; // useful for the while loop
+            int k = 1; // useful for the while loop
 
             // We split geometries in two for the union:
             int len_temp = geomTemp.length;
@@ -188,28 +218,32 @@ public class MainActivity extends AppCompatActivity {
             System.arraycopy(geoms, 0, geomTemp, 0, len_temp);
             System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
 
-            if (DEBUG){Log.d("len_geom_temp","" + geomTemp.length);}
-            if (DEBUG){Log.d("len_geom_rem","" + geomRem.length);}
+            if (DEBUG) {
+                Log.d("len_geom_temp", "" + geomTemp.length);
+            }
+            if (DEBUG) {
+                Log.d("len_geom_rem", "" + geomRem.length);
+            }
 
             // We do the union of the array with a length below the limit
             array_union[0] = geomen.union(geomTemp, SpaRef);
 
             // While the length of the remaining geometries is not below the limit
             // we split the array and we do several union to never exceed the limit
-            while(len_rem > 510){
+            while (len_rem > 510) {
                 // We split the array in two, we use geomTemp:
                 System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
-                k = k+1;
+                k = k + 1;
 
                 // geomRem recover the remaining geometries:
                 geomRem = new Geometry[len_rem - len_lim];
                 len_rem = geomRem.length;
-                System.arraycopy(geoms, k*len_temp, geomRem, 0, len_rem);
+                System.arraycopy(geoms, k * len_temp, geomRem, 0, len_rem);
 
                 // We do the union of the geometries we have stock in geomTemp
                 // and the union between the two geometries resulting from the unions
                 array_union[1] = geomen.union(geomTemp, SpaRef);
-                array_union[0] = geomen.union(array_union,SpaRef);
+                array_union[0] = geomen.union(array_union, SpaRef);
             }
 
             // We do the union of the remaining geometries
@@ -234,5 +268,45 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.hbaltz.sub/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.hbaltz.sub/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }
