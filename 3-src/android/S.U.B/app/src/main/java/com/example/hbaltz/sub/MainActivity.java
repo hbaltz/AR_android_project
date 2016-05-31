@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     //private final String chDb = "/sub";
 
     // Without sd card :
-    private final String chDb = "/Androi/data/com.example.hbaltz.sub/sub";
+    private final String chDb = "/Android/data/com.example.hbaltz.sub/sub";
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /////////////////////////////// Database: //////////////////////////////////////////////////
+        accessDb();
+
         /////////////////////////////// Full screen: ///////////////////////////////////////////////
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -94,22 +97,16 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-/*
-        if (isWifiOnly()) {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, new GpsListener());
-        } else {
-            if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, new GpsListener());
-        }
-        */
 
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
+        } else {
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
+        }
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-
-        /////////////////////////////// Database: //////////////////////////////////////////////////
-        accessDb();
 
     }
 
