@@ -7,15 +7,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,10 +23,16 @@ import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
+import com.esri.core.geometry.LinearUnit;
+import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.esri.core.geometry.Proximity2DResult;
 import com.esri.core.geometry.SpatialReference;
+import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private double Lat, Long;
+    private Point user = new Point(0,0);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
     private SensorManager mSensorManager;
@@ -66,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
     private Geometry[] geom_footprints;
     private Geometry all_geom_footprints;
 
-    //////////////////////////////////// Geometries: ///////////////////////////////////////////////
+    //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
+
+    //////////////////////////////////// Unit: /////////////////////////////////////////////////////
+    Unit meter = Unit.create(LinearUnit.Code.METER);
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Define which provider the application will use regarding which one is available
         if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
         } else {
@@ -136,19 +144,26 @@ public class MainActivity extends AppCompatActivity {
     class GpsListener implements LocationListener{
         @Override
         public void onLocationChanged(Location location) {
+            user.setXY(location.getLatitude(), location.getLongitude());
+
+            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude(), true);
             Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
-            Lat = location.getLatitude();
-            Long = location.getLongitude();
         }
 
         @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {}
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+            popToast("GPS status changed", true);
+        }
 
         @Override
-        public void onProviderEnabled(String s) {}
+        public void onProviderEnabled(String s) {
+            popToast("GPS enabled", true);
+        }
 
         @Override
-        public void onProviderDisabled(String s) {}
+        public void onProviderDisabled(String s) {
+            popToast("GPS disabled", true);
+        }
     }
 
     /**
@@ -184,10 +199,7 @@ public class MainActivity extends AppCompatActivity {
         //String locatorPath = chDb + "/MGRS.loc";
         String networkPath = chDb + "/footprintsuo.geodatabase";
 
-        Log.d("extern", extern);
-
-        //String networkName = "GRAPH_Final_ND";
-
+        if(DEBUG){Log.d("extern", extern);}
 
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
@@ -212,9 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            if (DEBUG) {
-                Log.d("ff", "" + features_footprints.length);
-            }
+            if (DEBUG) {Log.d("len_ff", "" + features_footprints.length);}
 
 
             /////////////////////////////////// Recover  geometries: ///////////////////////////////
@@ -237,10 +247,14 @@ public class MainActivity extends AppCompatActivity {
             //////////////////////////////////// Union of geometries: //////////////////////////////
             all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
 
+            Log.d("NN",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,10E7,meter));
+
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
         }
+
+
 
     }
 
@@ -277,19 +291,15 @@ public class MainActivity extends AppCompatActivity {
             System.arraycopy(geoms, 0, geomTemp, 0, len_temp);
             System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
 
-            if (DEBUG) {
-                Log.d("len_geom_temp", "" + geomTemp.length);
-            }
-            if (DEBUG) {
-                Log.d("len_geom_rem", "" + geomRem.length);
-            }
+            if (DEBUG) {Log.d("len_geom_temp", "" + geomTemp.length);}
+            if (DEBUG) {Log.d("len_geom_rem", "" + geomRem.length);}
 
             // We do the union of the array with a length below the limit
             array_union[0] = geomen.union(geomTemp, SpaRef);
 
             // While the length of the remaining geometries is not below the limit
             // we split the array and we do several union to never exceed the limit
-            while (len_rem > 510) {
+            while (len_rem > len_lim) {
                 // We split the array in two, we use geomTemp:
                 System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
                 k = k + 1;
@@ -312,6 +322,57 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return union;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which find the geometries below a distance of radius unit from the point
+     * @param point : The departure point
+     * @param geoms : The array of geometries
+     * @param spaRef : the spatial reference
+     * @param radius : The distance to consider a geometries like a NN (Nearest Neighbor)
+     * @param unit : The distance's unit
+     * @return an ArrayList of geometries which qre the nearest geometries to the point
+     */
+    private ArrayList<Geometry> nearestNeighbors(Point point, Geometry[] geoms, SpatialReference spaRef,
+                                      double radius, Unit unit){
+        int len_geoms = geoms.length;
+
+        Geometry buffer = geomen.buffer(point, spaRef, radius, unit);
+
+        int comp =0;
+        ArrayList<Geometry> NN = new ArrayList<>();
+
+        for (int i=0; i<len_geoms; i++){
+            if(geoms[i]!=null) {
+                if (geomen.intersects(buffer, geoms[i], spaRef)) {
+                    NN.add(geoms[i]);
+                }
+            }
+        }
+        return NN;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which calculate the distance between a point and all the geometries in an array
+     * @param point : The departure point
+     * @param geoms : The array of geometries
+     * @param spaRef : The spatial reference
+     * @return an array of double which are the distance between the point and the geometries
+     */
+    private double[] distancePointToGeoms(Point point, Geometry[] geoms, SpatialReference spaRef){
+        int len_geoms = geoms.length;
+
+        double[] distance = new double[len_geoms];
+
+        for (int i=0; i<len_geoms; i++){
+            distance[i] = geomen.distance(point, geoms[i], spaRef);
+        }
+
+        return distance;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
