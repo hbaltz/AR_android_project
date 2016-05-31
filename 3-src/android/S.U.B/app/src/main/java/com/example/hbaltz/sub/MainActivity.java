@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
     }
 
@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
         public void onLocationChanged(Location location) {
             user.setXY(location.getLatitude(), location.getLongitude());
 
-            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude(), true);
+            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
+                    + ", bearing : " + location.getBearing(), true);
             Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
         }
 
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private final SensorEventListener mListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
 
-            //Log.d("Comp", "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
+            //Log.d("Rotation Vector", "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
 
             // Redraw its canvas every time the compass reports a change
             // TODO : check to see if it has moved more than a degree or something similar
@@ -246,9 +247,13 @@ public class MainActivity extends AppCompatActivity {
 
             //////////////////////////////////// Union of geometries: //////////////////////////////
             all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
-           
-            Log.d("NN20",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,20,meter).size());
-            Log.d("NN200",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,200,meter).size());
+
+            ArrayList<Geometry> NN = nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,200,meter);
+            double[] distances = distancePointToGeoms(user, NN, WGS_1984_WMAS);
+
+            Log.d("NN200",""+NN.size());
+            Log.d("distances", ""+distances.length);
+            Log.d("distance1", ""+distances[1]);
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
@@ -359,20 +364,33 @@ public class MainActivity extends AppCompatActivity {
      * Function which calculate the distance between a point and all the geometries in an array
      *
      * @param point : The departure point
-     * @param geoms : The array of geometries
+     * @param geoms : The arrayList of geometries
      * @param spaRef : The spatial reference
      * @return an array of double which are the distance between the point and the geometries
      */
-    private double[] distancePointToGeoms(Point point, Geometry[] geoms, SpatialReference spaRef){
-        int len_geoms = geoms.length;
-
-        double[] distance = new double[len_geoms];
+    private double[] distancePointToGeoms(Point point, ArrayList<Geometry> geoms, SpatialReference spaRef){
+        int len_geoms = geoms.size();
+        double[] distances = new double[len_geoms];
 
         for (int i=0; i<len_geoms; i++){
-            distance[i] = geomen.distance(point, geoms[i], spaRef);
+            distances[i] = geomen.distance(point, geoms.get(i), spaRef);
         }
 
-        return distance;
+        return distances;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private double[] bearingPointToGeoms(Point point, ArrayList<Geometry> geoms, SpatialReference spaRef){
+        int len_geoms = geoms.size();
+        double[] bearings = new double[len_geoms];
+
+
+        for (int i=0; i<len_geoms; i++){
+            //bearings[i] = ;
+        }
+
+        return bearings;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
