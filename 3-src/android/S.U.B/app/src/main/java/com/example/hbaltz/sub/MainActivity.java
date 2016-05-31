@@ -378,21 +378,7 @@ public class MainActivity extends AppCompatActivity {
 
         return distances;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private double[] bearingPointToGeoms(Point point, ArrayList<Geometry> geoms, SpatialReference spaRef){
-        int len_geoms = geoms.size();
-        double[] bearings = new double[len_geoms];
-
-
-        for (int i=0; i<len_geoms; i++){
-            //bearings[i] = ;
-        }
-
-        return bearings;
-    }
-
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void popToast(final String message, final boolean show) {

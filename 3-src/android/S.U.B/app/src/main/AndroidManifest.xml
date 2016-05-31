@@ -14,10 +14,6 @@
     <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Compass -->
-    <uses-feature
-        android:name="android.hardware.sensor.compass"
-        android:required="false" />
 
     <application
         android:allowBackup="true"
