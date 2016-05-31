@@ -2502,7 +2502,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFU8t3IMm50raQ="
 									},
-									"name": "X",
+									"name": "Lat",
 									"visibility": "private",
 									"isStatic": false,
 									"isLeaf": false,
@@ -2520,7 +2520,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFU8t3IMm50raQ="
 									},
-									"name": "Y",
+									"name": "Long",
 									"visibility": "private",
 									"isStatic": false,
 									"isLeaf": false,
@@ -2839,7 +2839,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-X: Float",
+											"text": "-Lat: Float",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -2867,7 +2867,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-Y: Float",
+											"text": "-Long: Float",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										}
