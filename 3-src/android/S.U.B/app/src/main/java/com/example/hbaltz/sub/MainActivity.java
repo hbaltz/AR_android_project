@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point user = new Point(0,0);
+    private Point user = new Point(-8425348,5688505); // By default : 70 Laurier Street, Ottawa
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
     private SensorManager mSensorManager;
@@ -246,15 +246,14 @@ public class MainActivity extends AppCompatActivity {
 
             //////////////////////////////////// Union of geometries: //////////////////////////////
             all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
-
-            Log.d("NN",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,10E7,meter));
+           
+            Log.d("NN20",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,20,meter).size());
+            Log.d("NN200",""+nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,200,meter).size());
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
         }
-
-
 
     }
 
@@ -328,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Function which find the geometries below a distance of radius unit from the point
+     *
      * @param point : The departure point
      * @param geoms : The array of geometries
      * @param spaRef : the spatial reference
@@ -337,12 +337,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private ArrayList<Geometry> nearestNeighbors(Point point, Geometry[] geoms, SpatialReference spaRef,
                                       double radius, Unit unit){
+
+        ArrayList<Geometry> NN = new ArrayList<>();
         int len_geoms = geoms.length;
 
         Geometry buffer = geomen.buffer(point, spaRef, radius, unit);
-
-        int comp =0;
-        ArrayList<Geometry> NN = new ArrayList<>();
 
         for (int i=0; i<len_geoms; i++){
             if(geoms[i]!=null) {
@@ -358,6 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Function which calculate the distance between a point and all the geometries in an array
+     *
      * @param point : The departure point
      * @param geoms : The array of geometries
      * @param spaRef : The spatial reference
