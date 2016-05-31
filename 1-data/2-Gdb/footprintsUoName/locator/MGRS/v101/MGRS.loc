@@ -1,0 +1,21 @@
+
+LocFileUseUTF8 = True
+Category = Address
+Description = MGRS Coordinates
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;  Properties Required by ArcGIS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+CLSID = {DA70B7E3-10B2-42E3-BFF7-6C81355862BC}
+UICLSID = {08d9a1ae-baf1-470a-8787-721b6a34d5b0}
+SpellingSensitivity = 10
+MatchIfScoresTie = true
+WriteXYCoordFields = 1
+100kmIDDefaultValue = AA
+GZDDefaultValue = 31N
+GZDand100kmIDOption = 2
+LocatorWorkspaceString = ProgID = esriDataSourcesFile.ShapefileWorkspaceFactory; Path = C:\VR_android_project\1-data\2-Gdb_1\locator\MGRS\v101\
+SafeLocatorName = MGRS
+UseMultithreading = False
+WriteDisplayExtentFields = true

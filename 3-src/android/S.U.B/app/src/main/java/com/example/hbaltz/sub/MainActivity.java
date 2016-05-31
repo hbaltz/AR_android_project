@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
 
         return distances;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void popToast(final String message, final boolean show) {
