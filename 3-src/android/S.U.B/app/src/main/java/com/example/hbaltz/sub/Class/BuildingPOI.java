@@ -19,10 +19,10 @@ public class BuildingPOI {
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public BuildingPOI(String newName, String newDescription,
+    public BuildingPOI(String name, String description,
                         Point location) {
-        this.Name = newName;
-        this.Description = newDescription;
+        this.Name = name;
+        this.Description = description;
         this.Location = location;
     }
 
