@@ -1,5 +1,7 @@
 package com.example.hbaltz.sub.Class;
 
+import com.esri.core.geometry.Point;
+
 /**
  * Created by hbaltz on 6/1/2016.
  */
@@ -11,19 +13,23 @@ public class BuildingPOI {
 
     private String Name;
     private String Description;
-    private double Latitude;
-    private double Longitude;
+    private Point Location;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public BuildingPOI(String newName, String newDescription,
-                        double newLatitude, double newLongitude) {
+                        Point location) {
         this.Name = newName;
         this.Description = newDescription;
-        this.Latitude = newLatitude;
-        this.Longitude = newLongitude;
+        this.Location = location;
+    }
+
+    public BuildingPOI(){
+        this.Name = "";
+        this.Description = "";
+        this.Location = new Point();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,18 +44,13 @@ public class BuildingPOI {
         return this.Description;
     }
 
-    public double getLatitude() {
-        return this.Latitude;
-    }
-
-    public double getLongitude() {
-        return this.Longitude;
+    public Point getLocation() {
+        return this.Location;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// SETTERS: //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     public void setName(String name) {
         this.Name = name;
@@ -59,11 +60,7 @@ public class BuildingPOI {
         this.Description = description;
     }
 
-    public void setLatitude(double latitude) {
-        this.Latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.Longitude = longitude;
+    public void setLocation(Point location) {
+        this.Location = location;
     }
 }

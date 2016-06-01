@@ -32,3 +32,6 @@ http://www.mixare.org/
 
 ## Very interessing article on AR:
 https://www.netguru.co/blog/augmented-reality-mobile-android
+
+## Centroid:
+http://support.esri.com/technical-article/000009381

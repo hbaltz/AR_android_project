@@ -22,15 +22,13 @@ import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
-import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
-import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
-import com.example.hbaltz.sub.Class.Building;
+import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 
 import java.util.ArrayList;
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private Feature[] features_footprints;
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
-    private Building[] buildings;
+    private BuildingPOI[] buildings;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -159,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
     private final SensorEventListener mListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
 
-            //Log.d("Rotation Vector", "sensorChanged (" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + ")");
+            //Log.d("Rotation Vector", "sensorChanged (" + event.values[0] + ", " + event.values[1]
+            // + ", " + event.values[2] + ")");
 
             // Redraw its canvas every time the compass reports a change
             // TODO : check to see if it has moved more than a degree or something similar
@@ -182,9 +181,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void accessDb() {
         // Get the external directory
-
-        //String locatorPath = chDb + "/MGRS.loc";
-        String networkPath = chDb + "/footprintsuo.geodatabase";
+        String networkPath = chDb + "/poiuo.geodatabase";
 
         if(DEBUG){Log.d("extern", extern);}
 
@@ -193,9 +190,7 @@ public class MainActivity extends AppCompatActivity {
             // open a local geodatabase
             Geodatabase gdb = new Geodatabase(extern + networkPath);
 
-            if (DEBUG) {
-                Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
-            }
+            if (DEBUG) {Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());}
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(0);
@@ -213,22 +208,26 @@ public class MainActivity extends AppCompatActivity {
 
             if (DEBUG) {Log.d("len_ff", "" + features_footprints.length);}
 
-
             /////////////////////////////////// Recover buildings: /////////////////////////////////
             // Initialize:
             int len0 = features_footprints.length - 1;
-            buildings = new Building[len0 + 1];
+            buildings = new BuildingPOI[len0 + 1];
 
-            Geometry acme = new Polygon(); // useful if no object in the db
-            Building acBul = new Building();
+            BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
+
             for (int k = 0; k < len0; k++) {
 
                 Feature Footprint = features_footprints[k];
-                Building buildTemp = new Building();
+                BuildingPOI buildTemp = new BuildingPOI();
 
-                // Recover informations about buildings :
+                // Recover information about buildings :
                 if (Footprint != null) {
-                    buildTemp.setFootprint(Footprint.getGeometry());
+
+                    double lon = (double) Footprint.getAttributeValue("Longitude");
+                    double lat = (double) Footprint.getAttributeValue("Latitude");
+                    Point loc = new Point(lon,lat);
+
+                    buildTemp.setLocation(loc);
                     buildTemp.setName((String) Footprint.getAttributeValue("Name"));
                     buildTemp.setDescription((String) Footprint.getAttributeValue("Type"));
                 } else {
@@ -239,7 +238,9 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("buildings","" + buildings.length);
 
-            ArrayList<Building> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
+            //////////////////////////////////// Tests : ////////////////////////////////////////////
+
+            ArrayList<BuildingPOI> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
             Log.d("NN200",""+NN.size());
 
             double[] distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -262,7 +263,10 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
         locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 

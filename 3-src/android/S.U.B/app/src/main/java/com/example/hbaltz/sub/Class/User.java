@@ -57,12 +57,12 @@ public class User {
      * @param unit : The distance's unit
      * @return an ArrayList of buldings which qre the nearest geometries to the point
      */
-    public ArrayList<Building> nearestNeighbors(GeometryEngine geomen,
-                                                Building[] builds,
+    public ArrayList<BuildingPOI> nearestNeighbors(GeometryEngine geomen,
+                                                BuildingPOI[] builds,
                                                 SpatialReference spaRef,
                                                 double radius, Unit unit){
 
-        ArrayList<Building> NN = new ArrayList<>();
+        ArrayList<BuildingPOI> NN = new ArrayList<>();
         int len_builds = builds.length;
 
         Point loc = this.getLocation();
@@ -72,9 +72,9 @@ public class User {
 
         for (int i=0; i<len_builds; i++){
             if(builds[i]!=null) {
-                Geometry footprint = builds[i].getFootprint();
-                if (footprint != null) {
-                    if (geomen.intersects(buffer, footprint, spaRef)) {
+                Geometry locPOI = builds[i].getLocation();
+                if (locPOI != null) {
+                    if (geomen.intersects(buffer, locPOI, spaRef)) {
                         NN.add(builds[i]);
                     }
                 }
@@ -94,7 +94,7 @@ public class User {
      * @return an array of double which are the distance between the point and the buildings
      */
     public double[] distanceToBuilds(GeometryEngine geomen,
-                                          ArrayList<Building> builds,
+                                          ArrayList<BuildingPOI> builds,
                                           SpatialReference spaRef){
         int len_builds = builds.size();
         double[] distances = new double[len_builds];
@@ -102,7 +102,7 @@ public class User {
         Point loc = this.getLocation();
 
         for (int i=0; i<len_builds; i++){
-            distances[i] = geomen.distance(loc, builds.get(i).getFootprint(), spaRef);
+            distances[i] = geomen.distance(loc, builds.get(i).getLocation(), spaRef);
         }
 
         return distances;
