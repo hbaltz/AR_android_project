@@ -2,6 +2,7 @@ package com.example.hbaltz.sub;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -26,13 +27,13 @@ import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
-import com.esri.core.geometry.Proximity2DResult;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
+import com.example.hbaltz.sub.Class.Building;
+import com.example.hbaltz.sub.Class.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point user = new Point(-8425348,5688505); // By default : 70 Laurier Street, Ottawa
+    private Point locUser = new Point(-8425348,5688505); // By default : 70 Laurier Street, Ottawa
+    private User user = new User(locUser);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
     private SensorManager mSensorManager;
@@ -66,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Features: /////////////////////////////////////////////////
     private Feature[] features_footprints;
 
-    //////////////////////////////////// Geometries: ///////////////////////////////////////////////
-    private Geometry[] geom_footprints;
-    private Geometry all_geom_footprints;
+    //////////////////////////////////// Buildings: ///////////////////////////////////////////////
+    private Building[] buildings;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /////////////////////////////// Database: //////////////////////////////////////////////////
-        accessDb();
-
         /////////////////////////////// Full screen: ///////////////////////////////////////////////
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -98,24 +95,13 @@ public class MainActivity extends AppCompatActivity {
         win.setAttributes(winParams);
 
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        ////////////////////////////////////// GPS: ////////////////////////////////////////////////
-        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+        ////////////////////////////////////// Listeners: //////////////////////////////////////////
+        setupListeners();
 
-        // Define which provider the application will use regarding which one is available
-        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
-        } else {
-            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
-        }
-
-        ////////////////////////////////////// Compass: ////////////////////////////////////////////
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-
+        /////////////////////////////// Database: //////////////////////////////////////////////////
+        accessDb();
     }
 
     @Override
@@ -144,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     class GpsListener implements LocationListener{
         @Override
         public void onLocationChanged(Location location) {
-            user.setXY(location.getLatitude(), location.getLongitude());
+            user.setLocation(new Point(location.getLatitude(), location.getLongitude()));
 
             popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
                     + ", bearing : " + location.getBearing(), true);
@@ -228,30 +214,35 @@ public class MainActivity extends AppCompatActivity {
             if (DEBUG) {Log.d("len_ff", "" + features_footprints.length);}
 
 
-            /////////////////////////////////// Recover  geometries: ///////////////////////////////
+            /////////////////////////////////// Recover buildings: /////////////////////////////////
             // Initialize:
             int len0 = features_footprints.length - 1;
-            geom_footprints = new Geometry[len0 + 1];
+            buildings = new Building[len0 + 1];
 
             Geometry acme = new Polygon(); // useful if no object in the db
+            Building acBul = new Building();
             for (int k = 0; k < len0; k++) {
 
                 Feature Footprint = features_footprints[k];
-                // Recover geometries :
+                Building buildTemp = new Building();
+
+                // Recover informations about buildings :
                 if (Footprint != null) {
-                    geom_footprints[k] = Footprint.getGeometry();
+                    buildTemp.setFootprint(Footprint.getGeometry());
+                    buildTemp.setName((String) Footprint.getAttributeValue("Name"));
+                    buildTemp.setDescription((String) Footprint.getAttributeValue("Type"));
                 } else {
-                    geom_footprints[k] = acme;
+                    buildTemp = acBul;
                 }
+                buildings[k]=buildTemp;
             }
 
-            //////////////////////////////////// Union of geometries: //////////////////////////////
-            all_geom_footprints = unionGeoms(geom_footprints, WGS_1984_WMAS);
+            Log.d("buildings","" + buildings.length);
 
-            ArrayList<Geometry> NN = nearestNeighbors(user, geom_footprints,WGS_1984_WMAS,200,meter);
-            double[] distances = distancePointToGeoms(user, NN, WGS_1984_WMAS);
-
+            ArrayList<Building> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
             Log.d("NN200",""+NN.size());
+
+            double[] distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
             Log.d("distances", ""+distances.length);
             Log.d("distance1", ""+distances[1]);
 
@@ -261,122 +252,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which make the union of an array of geometries regardless of his size
-     *
-     * @param geoms:  the array of geometries
-     * @param SpaRef: the spatial reference of these geometries
-     * @return union: a geometry resulting from the union
+     * Function which setup the listeners
      */
-    private Geometry unionGeoms(Geometry[] geoms, SpatialReference SpaRef) {
-        // Initialize
-        Geometry union = null;
-        int len_geoms = geoms.length;
+    private void setupListeners(){
 
-        int len_lim = 500; // Limit length of the geometry array (limit for the union)
+        ////////////////////////////////////// GPS: ////////////////////////////////////////////////
+        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
 
-        // If the array have a length below the limit we can do the union,
-        // else we have to split the array in several parts and do the union in several times
-        if (len_geoms < len_lim) {
-            union = geomen.union(geoms, SpaRef);
+        // Define which provider the application will use regarding which one is available
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
         } else {
-            // Initialize:
-            Geometry[] array_union = new Geometry[2]; // temporary array for the union
-            Geometry[] geomTemp = new Geometry[len_lim];
-            Geometry[] geomRem = new Geometry[len_geoms - len_lim]; // The remaining geometries
-            int k = 1; // useful for the while loop
-
-            // We split geometries in two for the union:
-            int len_temp = geomTemp.length;
-            int len_rem = geomRem.length;
-            System.arraycopy(geoms, 0, geomTemp, 0, len_temp);
-            System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
-
-            if (DEBUG) {Log.d("len_geom_temp", "" + geomTemp.length);}
-            if (DEBUG) {Log.d("len_geom_rem", "" + geomRem.length);}
-
-            // We do the union of the array with a length below the limit
-            array_union[0] = geomen.union(geomTemp, SpaRef);
-
-            // While the length of the remaining geometries is not below the limit
-            // we split the array and we do several union to never exceed the limit
-            while (len_rem > len_lim) {
-                // We split the array in two, we use geomTemp:
-                System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
-                k = k + 1;
-
-                // geomRem recover the remaining geometries:
-                geomRem = new Geometry[len_rem - len_lim];
-                len_rem = geomRem.length;
-                System.arraycopy(geoms, k * len_temp, geomRem, 0, len_rem);
-
-                // We do the union of the geometries we have stock in geomTemp
-                // and the union between the two geometries resulting from the unions
-                array_union[1] = geomen.union(geomTemp, SpaRef);
-                array_union[0] = geomen.union(array_union, SpaRef);
-            }
-
-            // We do the union of the remaining geometries
-            // and the union between the two geometries resulting from the unions
-            array_union[1] = geomen.union(geomRem, SpaRef);
-            union = geomen.union(array_union, SpaRef);
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
         }
 
-        return union;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which find the geometries below a distance of radius unit from the point
-     *
-     * @param point : The departure point
-     * @param geoms : The array of geometries
-     * @param spaRef : the spatial reference
-     * @param radius : The distance to consider a geometries like a NN (Nearest Neighbor)
-     * @param unit : The distance's unit
-     * @return an ArrayList of geometries which qre the nearest geometries to the point
-     */
-    private ArrayList<Geometry> nearestNeighbors(Point point, Geometry[] geoms, SpatialReference spaRef,
-                                      double radius, Unit unit){
-
-        ArrayList<Geometry> NN = new ArrayList<>();
-        int len_geoms = geoms.length;
-
-        Geometry buffer = geomen.buffer(point, spaRef, radius, unit);
-
-        for (int i=0; i<len_geoms; i++){
-            if(geoms[i]!=null) {
-                if (geomen.intersects(buffer, geoms[i], spaRef)) {
-                    NN.add(geoms[i]);
-                }
-            }
-        }
-        return NN;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which calculate the distance between a point and all the geometries in an array
-     *
-     * @param point : The departure point
-     * @param geoms : The arrayList of geometries
-     * @param spaRef : The spatial reference
-     * @return an array of double which are the distance between the point and the geometries
-     */
-    private double[] distancePointToGeoms(Point point, ArrayList<Geometry> geoms, SpatialReference spaRef){
-        int len_geoms = geoms.size();
-        double[] distances = new double[len_geoms];
-
-        for (int i=0; i<len_geoms; i++){
-            distances[i] = geomen.distance(point, geoms.get(i), spaRef);
-        }
-
-        return distances;
+        ////////////////////////////////////// Compass: ////////////////////////////////////////////
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
