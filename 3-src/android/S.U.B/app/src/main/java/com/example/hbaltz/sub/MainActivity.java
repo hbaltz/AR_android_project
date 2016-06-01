@@ -30,6 +30,7 @@ import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
+import com.example.hbaltz.sub.Class.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
 
-    //////////////////////////////////// Features: /////////////////////////////////////////////////
-    private Feature[] features_footprints;
-
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
 
@@ -74,7 +72,11 @@ public class MainActivity extends AppCompatActivity {
     private GeometryEngine geomen;
 
     //////////////////////////////////// Unit: /////////////////////////////////////////////////////
-    Unit meter = Unit.create(LinearUnit.Code.METER);
+    private Unit meter = Unit.create(LinearUnit.Code.METER);
+
+    //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
+    private double azimuthReal = 200;
+    private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -158,12 +160,24 @@ public class MainActivity extends AppCompatActivity {
     private final SensorEventListener mListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
 
+            /*
+            float[] orientation = new float[3];
+            float[] rMat = new float[9];
+            SensorManager.getRotationMatrixFromVector(rMat, event.values);
+            azimuthReal = (int) ( Math.toDegrees( SensorManager.getOrientation( rMat, orientation )[0] ) + 360 ) % 360;
+
+            Log.d("azRe",""+azimuthReal);
+
+            updateView();
+            */
+
             //Log.d("Rotation Vector", "sensorChanged (" + event.values[0] + ", " + event.values[1]
             // + ", " + event.values[2] + ")");
 
             // Redraw its canvas every time the compass reports a change
             // TODO : check to see if it has moved more than a degree or something similar
-            /*if (mDrawView != null) {
+            /*
+            if (mDrawView != null) {
                 mDrawView.setOffset(event.values[0]);
                 mDrawView.invalidate();
             }
@@ -194,31 +208,33 @@ public class MainActivity extends AppCompatActivity {
             if (DEBUG) {Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());}
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
-            GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(0);
+            GeodatabaseFeatureTable pois = gdb.getGeodatabaseTables().get(0);
 
-            long nbr_lignes = footprints.getNumberOfFeatures();
+            long nbr_lignes = pois.getNumberOfFeatures();
             int nbr_int = (int) nbr_lignes;
-            features_footprints = new Feature[nbr_int];
+
+            Feature[] features_pois = new Feature[nbr_int];
+
             for (int l = 1; l <= nbr_lignes; l++) {
-                if (footprints.checkFeatureExists(l)) {
-                    features_footprints[l - 1] = footprints.getFeature(l);
+                if (pois.checkFeatureExists(l)) {
+                    features_pois[l - 1] = pois.getFeature(l);
                 } else {
-                    features_footprints[l - 1] = null;
+                    features_pois[l - 1] = null;
                 }
             }
 
-            if (DEBUG) {Log.d("len_ff", "" + features_footprints.length);}
+            if (DEBUG) {Log.d("len_ff", "" + features_pois.length);}
 
             /////////////////////////////////// Recover buildings: /////////////////////////////////
             // Initialize:
-            int len0 = features_footprints.length - 1;
+            int len0 = features_pois.length - 1;
             buildings = new BuildingPOI[len0 + 1];
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
 
             for (int k = 0; k < len0; k++) {
 
-                Feature Footprint = features_footprints[k];
+                Feature Footprint = features_pois[k];
                 BuildingPOI buildTemp = new BuildingPOI();
 
                 // Recover information about buildings :
@@ -239,17 +255,8 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("buildings","" + buildings.length);
 
-            //////////////////////////////////// Tests : ////////////////////////////////////////////
-
-            ArrayList<BuildingPOI> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
-            Log.d("NN200",""+NN.size());
-
-            ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-            Log.d("distances", ""+distances.size());
-            Log.d("distance1", ""+distances.get(1));
-
-            ArrayList<Double> azTheo = user.theoreticalAzimuthToPOIs(NN);
-            Log.d("azTeo", ""+azTheo);
+            //////////////////////////////////// View: /////////////////////////////////////////////
+            updateView();
 
 
         } catch (Exception e) {
@@ -257,6 +264,25 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which launch all the calculations to update the view
+     */
+    private void updateView(){
+        ArrayList<BuildingPOI> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
+        if(DEBUG){Log.d("NN200",""+NN.size());}
+
+        ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+        if(DEBUG){Log.d("distances", ""+distances);}
+
+        ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
+        if(DEBUG){Log.d("azTeo", ""+azTheos);}
+
+        ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos,azimuthReal,AZIMUTH_ACCURACY);
+        if(DEBUG){Log.d("visible", ""+visible);}
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -151,6 +151,13 @@ public class User {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Function which calculate the theoretical azimuth between the user/s location
+     * and every poi in the arrayList Pois
+     *
+     * @param Pois : the arrayList of poi
+     * @return an arrayList of the theoretical azimuths
+     */
     public ArrayList<Double> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois){
         int len_pois = Pois.size();
 
@@ -163,26 +170,4 @@ public class User {
 
         return theoAzs;
     }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-    private List<Double> calculateAzimuthAccuracy(double azimuth) {
-        double minAngle = azimuth - AZIMUTH_ACCURACY;
-        double maxAngle = azimuth + AZIMUTH_ACCURACY;
-        List<Double> minMax = new ArrayList<Double>();
-
-        if (minAngle < 0)
-            minAngle += 360;
-
-        if (maxAngle >= 360)
-            maxAngle -= 360;
-
-        minMax.clear();
-        minMax.add(minAngle);
-        minMax.add(maxAngle);
-
-        return minMax;
-    }
-    */
 }
