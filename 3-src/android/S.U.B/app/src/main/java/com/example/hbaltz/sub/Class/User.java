@@ -7,6 +7,7 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hbaltz on 6/1/2016.
@@ -93,18 +94,95 @@ public class User {
      * @param spaRef : The spatial reference
      * @return an array of double which are the distance between the point and the buildings
      */
-    public double[] distanceToBuilds(GeometryEngine geomen,
+    public ArrayList<Double> distanceToBuilds(GeometryEngine geomen,
                                           ArrayList<BuildingPOI> builds,
                                           SpatialReference spaRef){
         int len_builds = builds.size();
-        double[] distances = new double[len_builds];
+        ArrayList<Double> distances = new ArrayList<Double>();
 
         Point loc = this.getLocation();
 
         for (int i=0; i<len_builds; i++){
-            distances[i] = geomen.distance(loc, builds.get(i).getLocation(), spaRef);
+            distances.add(geomen.distance(loc, builds.get(i).getLocation(), spaRef));
         }
 
         return distances;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which calculate the theoretical azimuth between the user's location and a POI
+     *
+     * @param Poi : a poin of a building
+     * @return the theoretical azimuth
+     */
+    public double theoreticalAzimuthToPOI(BuildingPOI Poi) {
+        // Initialize
+        Point locUsr = this.getLocation();
+        Point locPoi = Poi.getLocation();
+
+        double dX = locPoi.getX() - locUsr.getX();
+        double dY = locPoi.getY() - locUsr.getY();
+
+        double phiAngle;
+        double tanPhi;
+        double azimuth;
+
+        tanPhi = Math.abs(dY / dX);
+        phiAngle = Math.atan(tanPhi);
+        phiAngle = Math.toDegrees(phiAngle);
+
+        // We calculate the azimuth :
+        azimuth = phiAngle;
+
+        if (dX > 0 && dY > 0) { // I quater
+            azimuth = phiAngle;
+        } else if (dX < 0 && dY > 0) { // II
+            azimuth = 180 - phiAngle;
+        } else if (dX < 0 && dY < 0) { // III
+            azimuth = 180 + phiAngle;
+        } else if (dX > 0 && dY < 0) { // IV
+            azimuth = 360 - phiAngle;
+        }
+
+        return azimuth;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<Double> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois){
+        int len_pois = Pois.size();
+
+        ArrayList<Double> theoAzs = new ArrayList<Double>();
+
+        for (int i=0; i<len_pois; i++){
+            double azimuth = this.theoreticalAzimuthToPOI(Pois.get(i));
+            theoAzs.add(azimuth);
+        }
+
+        return theoAzs;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+    private List<Double> calculateAzimuthAccuracy(double azimuth) {
+        double minAngle = azimuth - AZIMUTH_ACCURACY;
+        double maxAngle = azimuth + AZIMUTH_ACCURACY;
+        List<Double> minMax = new ArrayList<Double>();
+
+        if (minAngle < 0)
+            minAngle += 360;
+
+        if (maxAngle >= 360)
+            maxAngle -= 360;
+
+        minMax.clear();
+        minMax.add(minAngle);
+        minMax.add(maxAngle);
+
+        return minMax;
+    }
+    */
 }

@@ -32,6 +32,7 @@ import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -243,9 +244,13 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<BuildingPOI> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
             Log.d("NN200",""+NN.size());
 
-            double[] distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-            Log.d("distances", ""+distances.length);
-            Log.d("distance1", ""+distances[1]);
+            ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+            Log.d("distances", ""+distances.size());
+            Log.d("distance1", ""+distances.get(1));
+
+            ArrayList<Double> azTheo = user.theoreticalAzimuthToPOIs(NN);
+            Log.d("azTeo", ""+azTheo);
+
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
