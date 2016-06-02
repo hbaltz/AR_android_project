@@ -129,76 +129,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
+    //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Listener for the location
+     * Function which setup the listeners
      */
-    class GpsListener implements LocationListener{
-        @Override
-        public void onLocationChanged(Location location) {
-            user.setLocation(new Point(location.getLatitude(), location.getLongitude()));
+    private void setupListeners(){
 
-            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
-                    + ", bearing : " + location.getBearing(), true);
-            Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
+        ////////////////////////////////////// GPS: ////////////////////////////////////////////////
+        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
 
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-            popToast("GPS status changed", true);
+        // Define which provider the application will use regarding which one is available
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
+        } else {
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
         }
 
-        @Override
-        public void onProviderEnabled(String s) {
-            popToast("GPS enabled", true);
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-            popToast("GPS disabled", true);
-        }
+        ////////////////////////////////////// Compass: ////////////////////////////////////////////
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     }
 
-    /**
-     * Listener for the compass
-     */
-    private final SensorEventListener mListener = new SensorEventListener() {
-
-
-        float[] mRotationMatrix = new float[9];
-        float[] orientationVals = new float[3];
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-
-            if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-                // Convert the rotation-vector to a 4x4 matrix.
-                SensorManager.getRotationMatrixFromVector(mRotationMatrix,
-                        event.values);
-                SensorManager
-                        .remapCoordinateSystem(mRotationMatrix,
-                                SensorManager.AXIS_X, SensorManager.AXIS_Z,
-                                mRotationMatrix);
-                SensorManager.getOrientation(mRotationMatrix, orientationVals);
-
-                // Optionally convert the result from radians to degrees
-                orientationVals[0] = (float) Math.toDegrees(orientationVals[0]);
-                orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
-                orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
-
-                azimuthReal = (orientationVals[0]+360)%360;
-
-                updateView();
-            }
-        }
-
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-    };
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -303,6 +262,10 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Function which launch the calculations of the nearest neighbors
+     * and the distances between them and the user
+     */
     private void updateNN(){
         NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
         if(DEBUG){Log.d("NN200",""+NN.size());}
@@ -312,34 +275,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("distances", "" + distances);
             }
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which setup the listeners
-     */
-    private void setupListeners(){
-
-        ////////////////////////////////////// GPS: ////////////////////////////////////////////////
-        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        // Define which provider the application will use regarding which one is available
-        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
-        } else {
-            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
-        }
-
-        ////////////////////////////////////// Compass: ////////////////////////////////////////////
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -356,4 +291,73 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Listener for the location
+     */
+    class GpsListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location location) {
+            user.setLocation(new Point(location.getLatitude(), location.getLongitude()));
+
+            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
+                    + ", bearing : " + location.getBearing(), true);
+            Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+            popToast("GPS status changed", true);
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+            popToast("GPS enabled", true);
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+            popToast("GPS disabled", true);
+        }
+    }
+
+    /**
+     * Listener for the compass
+     */
+    private final SensorEventListener mListener = new SensorEventListener() {
+
+
+        float[] mRotationMatrix = new float[9];
+        float[] orientationVals = new float[3];
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+
+            if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                // Convert the rotation-vector to a 4x4 matrix.
+                SensorManager.getRotationMatrixFromVector(mRotationMatrix,
+                        event.values);
+                SensorManager
+                        .remapCoordinateSystem(mRotationMatrix,
+                                SensorManager.AXIS_X, SensorManager.AXIS_Z,
+                                mRotationMatrix); // Screen orientation Landscape
+                SensorManager.getOrientation(mRotationMatrix, orientationVals);
+
+                // Optionally convert the result from radians to degrees
+                orientationVals[0] = (float) Math.toDegrees(orientationVals[0]);
+                orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
+                orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
+
+                azimuthReal = (orientationVals[0]+360)%360;
+
+                updateView();
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    };
 }
