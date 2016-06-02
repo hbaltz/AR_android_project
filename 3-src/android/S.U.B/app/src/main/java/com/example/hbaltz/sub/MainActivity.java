@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
             if (DEBUG) {Log.d("visible", "" + visible);}
-            
+
             if (DrawView !=null) {
                 DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
                 DrawView.invalidate();
