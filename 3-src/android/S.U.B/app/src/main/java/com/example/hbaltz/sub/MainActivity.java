@@ -33,6 +33,7 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
+import com.example.hbaltz.sub.View.DrawSurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
     private  ArrayList<BuildingPOI> NN;
+    ArrayList<Double> distances;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -78,11 +80,12 @@ public class MainActivity extends AppCompatActivity {
     private Unit meter = Unit.create(LinearUnit.Code.METER);
 
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
-    private double azimuthReal = 200;
+    private double azimuthReal = 0;
     private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
 
-    /////////////////////////////////// View: //////////////////////////////////////////////////////
+    /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private ImageView pointerIcon;
+    private DrawSurfaceView DrawView;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -104,11 +107,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        ////////////////////////////////////// Listeners: //////////////////////////////////////////
+        ////////////////////////////////////// Views: //////////////////////////////////////////////
+        //DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+
+        /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
 
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
+
+        ////////////////////////////// Nearest Neighbors: //////////////////////////////////////////
         updateNN();
     }
 
@@ -133,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which setup the listeners
+     * Function which setups the listeners
      */
     private void setupListeners(){
 
@@ -234,20 +242,21 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which launch all the calculations to update the view
+     * Function which launches all the calculations to update the view
      */
     private void updateView(){
         if(NN!=null) {
             ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-            if (DEBUG) {
-                Log.d("azTeo", "" + azTheos);
-            }
+            if (DEBUG) {Log.d("azTeo", "" + azTheos);}
 
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {
-                Log.d("visible", "" + visible);
-            }
+            if (DEBUG) {Log.d("visible", "" + visible);}
 
+            if (DrawView !=null) {
+                DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
+                DrawView.invalidate();
+            }
+/*
             pointerIcon = (ImageView) findViewById(R.id.icon);
 
             Log.d("test..", "" + visible.get(0) + " : " + azimuthReal + " : " + azTheos.get(0));
@@ -257,20 +266,21 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 pointerIcon.setVisibility(View.INVISIBLE);
             }
+*/
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which launch the calculations of the nearest neighbors
+     * Function which launches the calculations of the nearest neighbors
      * and the distances between them and the user
      */
     private void updateNN(){
         NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
         if(DEBUG){Log.d("NN200",""+NN.size());}
         if(NN!=null) {
-            ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+            distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
             if (DEBUG) {
                 Log.d("distances", "" + distances);
             }
@@ -324,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
             popToast("GPS disabled", true);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Listener for the compass

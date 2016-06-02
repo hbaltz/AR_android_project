@@ -49,7 +49,7 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which find the buildings below a distance of radius unit from the point
+     * Function which finds the buildings below a distance of radius unit from the point
      *
      * @param geomen : A geometry engine (Esri)
      * @param builds : The array of buildings
@@ -87,7 +87,7 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which calculate the distance between a point and all the buildings in an array
+     * Function which calculates the distance between a point and all the buildings in an array
      *
      * @param geomen : A geometry engine (Esri)
      * @param builds : The arrayList of buildings
@@ -112,7 +112,7 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which calculate the theoretical azimuth between the user's location and a POI
+     * Function which calculates the theoretical azimuth between the user's location and a POI
      *
      * @param Poi : a poin of a building
      * @return the theoretical azimuth
@@ -152,7 +152,7 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which calculate the theoretical azimuth between the user/s location
+     * Function which calculates the theoretical azimuth between the user's location
      * and every poi in the arrayList Pois
      *
      * @param Pois : the arrayList of poi
