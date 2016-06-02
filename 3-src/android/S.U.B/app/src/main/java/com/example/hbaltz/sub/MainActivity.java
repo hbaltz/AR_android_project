@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
-        //DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -251,22 +251,11 @@ public class MainActivity extends AppCompatActivity {
 
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
             if (DEBUG) {Log.d("visible", "" + visible);}
-
+            
             if (DrawView !=null) {
                 DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
                 DrawView.invalidate();
             }
-/*
-            pointerIcon = (ImageView) findViewById(R.id.icon);
-
-            Log.d("test..", "" + visible.get(0) + " : " + azimuthReal + " : " + azTheos.get(0));
-
-            if (visible.get(0)) {
-                pointerIcon.setVisibility(View.VISIBLE);
-            } else {
-                pointerIcon.setVisibility(View.INVISIBLE);
-            }
-*/
         }
     }
 

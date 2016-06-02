@@ -79,14 +79,13 @@ public class DrawSurfaceView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
         if(POIs != null) {
             int len_pois = POIs.size();
             for(int i =0; i<len_pois; i++){
                 boolean isVisible = Visibles.get(i);
                 if(isVisible) {
-                    /*
+
                     // If the poi is visible we recover information about it :
                     BuildingPOI POI = POIs.get(i);
                     double dist = Distances.get(i);
@@ -97,10 +96,9 @@ public class DrawSurfaceView extends View {
 
                     xPos = Math.sin(Math.toRadians(angle)) * dist;
                     yPos = Math.sqrt(Math.pow(dist, 2) - Math.pow(xPos, 2));
-                    */
 
                     float xPosScreen, yPosScreen;
-                    /*
+
                     if (angle <= 45)
                         xPosScreen =(float) ((screenWidth / 2) + xPos);
 
@@ -109,8 +107,7 @@ public class DrawSurfaceView extends View {
 
                     else
                         xPosScreen =(float) (screenWidth*9); //somewhere off the screen
-                    */
-                    xPosScreen = (float)(screenWidth/2);
+
                     yPosScreen = (float)(screenHeight/2);
 
                     canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
@@ -119,6 +116,8 @@ public class DrawSurfaceView extends View {
                 }
             }
         }
+
+        super.onDraw(canvas);
 
     }
 
