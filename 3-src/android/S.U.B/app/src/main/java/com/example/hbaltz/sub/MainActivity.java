@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
     private SensorManager mSensorManager;
     private Sensor mSensor;
-    Sensor magnetometer;
-    Sensor accelerometer;
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
 
     /////////////////////////////////// View: //////////////////////////////////////////////////////
-    ImageView pointerIcon;
+    private ImageView pointerIcon;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -140,12 +138,13 @@ public class MainActivity extends AppCompatActivity {
     class GpsListener implements LocationListener{
         @Override
         public void onLocationChanged(Location location) {
-           // user.setLocation(new Point(location.getLatitude(), location.getLongitude()));
-           // updateNN();
+            Point loc = geomen.project(location.getLongitude(), location.getLatitude(), WGS_1984_WMAS);
+            user.setLocation(loc);
+            updateNN();
 
-            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
+            popToast("lat : " + loc.getX() + ", long : " + loc.getY()
                     + ", bearing : " + location.getBearing(), true);
-            Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
+            Log.d("loc", "lat : " + loc.getX() + ", long : " +loc.getY());
         }
 
         @Override
@@ -285,20 +284,26 @@ public class MainActivity extends AppCompatActivity {
      * Function which launch all the calculations to update the view
      */
     private void updateView(){
-        ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-        if(DEBUG){Log.d("azTeo", ""+azTheos);}
+        if(NN!=null) {
+            ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
+            if (DEBUG) {
+                Log.d("azTeo", "" + azTheos);
+            }
 
-        ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos,azimuthReal,AZIMUTH_ACCURACY);
-        if(DEBUG){Log.d("visible", ""+visible);}
+            ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
+            if (DEBUG) {
+                Log.d("visible", "" + visible);
+            }
 
-        pointerIcon = (ImageView) findViewById(R.id.icon);
+            pointerIcon = (ImageView) findViewById(R.id.icon);
 
-        Log.d("test..", "" +visible.get(0) + " : "+ azimuthReal + " : "+ azTheos.get(0));
+            Log.d("test..", "" + visible.get(0) + " : " + azimuthReal + " : " + azTheos.get(0));
 
-        if (visible.get(0)) {
-            pointerIcon.setVisibility(View.VISIBLE);
-        } else {
-            pointerIcon.setVisibility(View.INVISIBLE);
+            if (visible.get(0)) {
+                pointerIcon.setVisibility(View.VISIBLE);
+            } else {
+                pointerIcon.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -307,9 +312,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateNN(){
         NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
         if(DEBUG){Log.d("NN200",""+NN.size());}
-
-        ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-        if(DEBUG){Log.d("distances", ""+distances);}
+        if(NN!=null) {
+            ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+            if (DEBUG) {
+                Log.d("distances", "" + distances);
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -338,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
