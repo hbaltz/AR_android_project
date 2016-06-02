@@ -16,8 +16,10 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
+    private  ArrayList<BuildingPOI> NN;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
     private double azimuthReal = 200;
     private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
+
+    /////////////////////////////////// View: //////////////////////////////////////////////////////
+    private ImageView pointerIcon;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -103,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
+        updateNN();
     }
 
     @Override
@@ -158,30 +165,33 @@ public class MainActivity extends AppCompatActivity {
      * Listener for the compass
      */
     private final SensorEventListener mListener = new SensorEventListener() {
+
+
+        float[] mRotationMatrix = new float[9];
+        float[] orientationVals = new float[3];
+
+        @Override
         public void onSensorChanged(SensorEvent event) {
 
-            /*
-            float[] orientation = new float[3];
-            float[] rMat = new float[9];
-            SensorManager.getRotationMatrixFromVector(rMat, event.values);
-            azimuthReal = (int) ( Math.toDegrees( SensorManager.getOrientation( rMat, orientation )[0] ) + 360 ) % 360;
+            if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                // Convert the rotation-vector to a 4x4 matrix.
+                SensorManager.getRotationMatrixFromVector(mRotationMatrix,
+                        event.values);
+                SensorManager
+                        .remapCoordinateSystem(mRotationMatrix,
+                                SensorManager.AXIS_X, SensorManager.AXIS_Z,
+                                mRotationMatrix);
+                SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
-            Log.d("azRe",""+azimuthReal);
+                // Optionally convert the result from radians to degrees
+                orientationVals[0] = (float) Math.toDegrees(orientationVals[0]);
+                orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
+                orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
-            updateView();
-            */
+                azimuthReal = (orientationVals[0]+360)%360;
 
-            //Log.d("Rotation Vector", "sensorChanged (" + event.values[0] + ", " + event.values[1]
-            // + ", " + event.values[2] + ")");
-
-            // Redraw its canvas every time the compass reports a change
-            // TODO : check to see if it has moved more than a degree or something similar
-            /*
-            if (mDrawView != null) {
-                mDrawView.setOffset(event.values[0]);
-                mDrawView.invalidate();
+                updateView();
             }
-            */
         }
 
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
@@ -255,10 +265,6 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("buildings","" + buildings.length);
 
-            //////////////////////////////////// View: /////////////////////////////////////////////
-            updateView();
-
-
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
@@ -272,17 +278,40 @@ public class MainActivity extends AppCompatActivity {
      * Function which launch all the calculations to update the view
      */
     private void updateView(){
-        ArrayList<BuildingPOI> NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
+        if(NN!=null) {
+            ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
+            if (DEBUG) {
+                Log.d("azTeo", "" + azTheos);
+            }
+
+            ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
+            if (DEBUG) {
+                Log.d("visible", "" + visible);
+            }
+
+            pointerIcon = (ImageView) findViewById(R.id.icon);
+
+            Log.d("test..", "" + visible.get(0) + " : " + azimuthReal + " : " + azTheos.get(0));
+
+            if (visible.get(0)) {
+                pointerIcon.setVisibility(View.VISIBLE);
+            } else {
+                pointerIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void updateNN(){
+        NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
         if(DEBUG){Log.d("NN200",""+NN.size());}
-
-        ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-        if(DEBUG){Log.d("distances", ""+distances);}
-
-        ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-        if(DEBUG){Log.d("azTeo", ""+azTheos);}
-
-        ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos,azimuthReal,AZIMUTH_ACCURACY);
-        if(DEBUG){Log.d("visible", ""+visible);}
+        if(NN!=null) {
+            ArrayList<Double> distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+            if (DEBUG) {
+                Log.d("distances", "" + distances);
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
