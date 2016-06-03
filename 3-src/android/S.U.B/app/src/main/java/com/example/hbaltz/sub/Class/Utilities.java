@@ -10,7 +10,7 @@ import java.util.List;
 public final class Utilities {
 
     /**
-     * Function which calculate the minimal and maximum value of the azimuth
+     * Function which calculates the minimal and maximum value of the azimuth
      * around the azimuth's accuracy
      *
      * @param azimuthTheo: an azimuth
@@ -35,7 +35,7 @@ public final class Utilities {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which verify if the real azimuth if between minAngle and maxAngle of the theoretical azimuth
+     * Function which verifies if the real azimuth if between minAngle and maxAngle of the theoretical azimuth
      *
      * @param minAngle: minimal angle value for the azimuth
      * @param maxAngle: maximal angle value for the azimuth
@@ -56,7 +56,7 @@ public final class Utilities {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which verify if the real azimuths is between the limit of the theoretical azimuth
+     * Function which verifies if the real azimuths is between the limit of the theoretical azimuth
      *
      * @param azimuthTheos: the theoretical azimuths
      * @param azimuth_accuracy: the real azimuth's accuracy
@@ -72,7 +72,7 @@ public final class Utilities {
 
         for(int i=0; i<len_azimuths; i++){
             double azimuth = azimuthTheos.get(i);
-            List<Double> minMax = Utilities.azimuthAccuracy(azimuthTheos.get(i),azimuth_accuracy);
+            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
             double minAngle = minMax.get(0);
             double maxAngle = minMax.get(1);
 

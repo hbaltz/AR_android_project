@@ -10,6 +10,9 @@ https://github.com/Seantron/MoverioUnityPlugin
 ## VR sample google:
 https://github.com/googlevr/gvr-android-sdk.git
 
+## Introdution to AR:
+http://code.tutsplus.com/tutorials/augmented-reality-getting-started-on-android--mobile-4457
+
 ## Enable usb debbuging:
 http://forum.xda-developers.com/showthread.php?s=f39188c7bdce5b64a47bb814b03cf748&t=2748574&page=3
 
