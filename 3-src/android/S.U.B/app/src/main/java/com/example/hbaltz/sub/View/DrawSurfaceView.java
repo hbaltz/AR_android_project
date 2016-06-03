@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -49,11 +50,11 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
-        test = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-
         paint.setColor(Color.GREEN);
         paint.setTextSize(50);
         paint.setAntiAlias(true);
+        paint.setLinearText(true);
+        paint.setTextAlign(Paint.Align.CENTER);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +115,12 @@ public class DrawSurfaceView extends View {
                     float radius = (float) (2000/dist);
                     paint.setTextSize(radius);
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
-                    canvas.drawText(POI.getDescription(), xPosScreen-radius, yPosScreen-(radius+1), paint);
+
+                    drawSpacedText(canvas,POI.getDescription(),xPosScreen-(radius/2),yPosScreen-(2*radius), paint, radius/1.5f);
+/*
+                    String type = POI.getDescription();
+                    canvas.drawText(type , xPosScreen, yPosScreen-(radius+10), paint);
+                    */
 
                 }
             }
@@ -146,6 +152,32 @@ public class DrawSurfaceView extends View {
         this.azTheos = aztheos;
         this.azimuthReal = azimuthreal;
         this.Visibles = visibles;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which draws a text in the canvas with spacing between each letter.
+     * Basically what this method does is it split's the given text into individual letters
+     * and draws each letter independently using Canvas.drawText with a separation of
+     * {@code spacingX} between each letter.
+     *
+     * @param canvas the canvas where the text will be drawn
+     * @param text the text what will be drawn
+     * @param left the left position of the text
+     * @param top the top position of the text
+     * @param paint holds styling information for the text
+     * @param spacingPx the number of pixels between each letter that will be drawn
+     */
+    public static void drawSpacedText(Canvas canvas, String text, float left, float top, Paint paint, float spacingPx){
+
+        float currentLeft = left;
+
+        for (int i = 0; i < text.length(); i++) {
+            String c = text.charAt(i)+"";
+            canvas.drawText(c, currentLeft, top, paint);
+            currentLeft += spacingPx;
+        }
     }
 
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/black">
-    
+
     <com.example.hbaltz.sub.View.DrawSurfaceView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawSurfaceView"
