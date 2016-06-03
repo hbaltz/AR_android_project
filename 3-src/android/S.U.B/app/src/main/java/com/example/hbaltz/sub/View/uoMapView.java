@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.esri.android.map.MapView;
 import com.esri.android.map.TiledLayer;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
+import com.esri.android.map.event.OnStatusChangedListener;
+import com.esri.core.geometry.Point;
 
 /**
  * Created by hbaltz on 6/3/2016.
@@ -36,9 +39,8 @@ public class uoMapView extends MapView {
     public uoMapView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if(DEBUG){Log.d("Tpk",""+UoTileLayer);}
-        this.addLayer(UoTileLayer);
-
+        this.addLayer(UoTileLayer);  //when layer is initialized add to map
+        this.invalidate();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

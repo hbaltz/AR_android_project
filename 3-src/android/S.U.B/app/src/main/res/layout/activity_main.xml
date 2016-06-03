@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:background="@color/black">
 
     <com.example.hbaltz.sub.View.CameraView
@@ -17,12 +17,13 @@
         android:id="@+id/drawSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+<!--
     <com.example.hbaltz.sub.View.uoMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.example.hbaltz.sub.View.uoMapView>
+ -->
 
     <CheckBox
         android:layout_width="wrap_content"
