@@ -7,7 +7,6 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hbaltz on 6/1/2016.

@@ -2,17 +2,14 @@ package com.example.hbaltz.sub.View;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import com.example.hbaltz.sub.Class.BuildingPOI;
-import com.example.hbaltz.sub.R;
 
 import java.util.ArrayList;
 
@@ -117,7 +114,7 @@ public class DrawSurfaceView extends View {
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
                     drawSpacedText(canvas,POI.getDescription(),xPosScreen-(radius/2),yPosScreen-(2*radius), paint, radius/1.5f);
-/*
+                    /*
                     String type = POI.getDescription();
                     canvas.drawText(type , xPosScreen, yPosScreen-(radius+10), paint);
                     */
