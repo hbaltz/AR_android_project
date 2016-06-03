@@ -7,6 +7,11 @@
     android:orientation="vertical"
     android:background="@color/black">
 
+    <com.example.hbaltz.sub.View.CameraView
+        android:id="@+id/cameraview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
     <com.example.hbaltz.sub.View.DrawSurfaceView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawSurfaceView"
