@@ -112,7 +112,9 @@ public class DrawSurfaceView extends View {
 
                     //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
                     float radius = (float) (2000/dist);
+                    paint.setTextSize(radius);
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
+                    canvas.drawText(POI.getDescription(), xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
             }

@@ -301,11 +301,13 @@ public class MainActivity extends AppCompatActivity {
     class GpsListener implements LocationListener{
         @Override
         public void onLocationChanged(Location location) {
-            user.setLocation(new Point(location.getLatitude(), location.getLongitude()));
+            locUser = geomen.project(location.getLongitude(), location.getLatitude(), WGS_1984_WMAS);
+            user.setLocation(locUser);
+            updateNN();
 
-            popToast("lat : " + location.getLatitude() + ", long : " + location.getLongitude()
+            popToast("lat : " + locUser.getX() + ", long : " + locUser.getY()
                     + ", bearing : " + location.getBearing(), true);
-            Log.d("loc", "lat : " + location.getLatitude() + ", long : " + location.getLongitude());
+            Log.d("loc", "lat : " + locUser.getX() + ", long : " +locUser.getY());
         }
 
         @Override
