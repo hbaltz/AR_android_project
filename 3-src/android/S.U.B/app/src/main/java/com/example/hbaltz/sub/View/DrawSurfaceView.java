@@ -129,10 +129,12 @@ public class DrawSurfaceView extends View {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which sets the variables
+     * * Function which sets the variables
      *
      * @param pois: the arrayList of POI that we want to draw
      * @param distances: the arrayList of distances between POIs and te user
+     * @param aztheos: the arrayList of theoretical azimuths
+     * @param azimuthreal: the real azimuth (double)
      * @param visibles: the arrayList of boolena to know if the user see the POIs
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
