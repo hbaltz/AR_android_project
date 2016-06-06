@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">S.U.B.</string>
+    <string name="cam">Display the camera?</string>
 </resources>

@@ -36,7 +36,6 @@ public class DrawSurfaceView extends View {
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint(Color.GREEN);
-    Bitmap test;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -52,6 +51,7 @@ public class DrawSurfaceView extends View {
         paint.setAntiAlias(true);
         paint.setLinearText(true);
         paint.setTextAlign(Paint.Align.CENTER);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,7 +110,12 @@ public class DrawSurfaceView extends View {
 
                     //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
                     float radius = (float) (2000/dist);
+
+                    String descritpion = POI.getDescription();
+
+                    paint = initializedPaint(descritpion);
                     paint.setTextSize(radius);
+
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
                     drawSpacedText(canvas,POI.getDescription(),xPosScreen-(radius/2),yPosScreen-(2*radius), paint, radius/1.5f);
@@ -118,6 +123,8 @@ public class DrawSurfaceView extends View {
                     String type = POI.getDescription();
                     canvas.drawText(type , xPosScreen, yPosScreen-(radius+10), paint);
                     */
+
+                    canvas.drawText(descritpion, xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
             }
@@ -132,10 +139,12 @@ public class DrawSurfaceView extends View {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which sets the variables
+     * * Function which sets the variables
      *
      * @param pois: the arrayList of POI that we want to draw
      * @param distances: the arrayList of distances between POIs and te user
+     * @param aztheos: the arrayList of theoretical azimuths
+     * @param azimuthreal: the real azimuth (double)
      * @param visibles: the arrayList of boolena to know if the user see the POIs
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
@@ -153,6 +162,7 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     /**
      * Function which draws a text in the canvas with spacing between each letter.
      * Basically what this method does is it split's the given text into individual letters
@@ -166,17 +176,35 @@ public class DrawSurfaceView extends View {
      * @param paint holds styling information for the text
      * @param spacingPx the number of pixels between each letter that will be drawn
      */
-    public static void drawSpacedText(Canvas canvas, String text, float left, float top, Paint paint, float spacingPx){
+    public static void drawSpacedText(Canvas canvas, String text, float left, float top, Paint paint, float spacingPx) {
 
         float currentLeft = left;
 
         for (int i = 0; i < text.length(); i++) {
-            String c = text.charAt(i)+"";
+            String c = text.charAt(i) + "";
             canvas.drawText(c, currentLeft, top, paint);
             currentLeft += spacingPx;
         }
     }
 
+    public Paint initializedPaint( String description ){
+
+        Paint paint = new Paint();
+
+        paint.setAntiAlias(true);
+        paint.setTextSize(50);
 
 
+        if(description.equals("Extremely good") || description.equals("Good")) {
+            paint.setColor(Color.GREEN);
+        }else if(description.equals("Moderate")){
+            paint.setColor(Color.YELLOW);
+        }else if(description.equals("Extremely severe") || description.equals("Severe")) {
+            paint.setColor(Color.RED);
+        }else{
+            paint.setColor(Color.GRAY);
+        }
+
+        return paint;
+    }
 }

@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -30,6 +33,7 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
+import com.example.hbaltz.sub.View.CameraView;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 
 import java.util.ArrayList;
@@ -81,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
+    private CameraView cameraView;
+
+    //////////////////////////////////// Widgets: //////////////////////////////////////////////////
+    private CheckBox checkBoxCam;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -104,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        cameraView = (CameraView) findViewById(R.id.CameraView);
+        if(cameraView!=null) {cameraView.setVisibility(View.INVISIBLE);}
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -139,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
      * Function which setups the listeners
      */
     private void setupListeners(){
+
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
         locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -169,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void accessDb() {
         // Get the external directory
-        String networkPath = chDb + "/poiuo.geodatabase";
+        String networkPath = chDb + "/uo_campus.geodatabase";
 
         if(DEBUG){Log.d("extern", extern);}
 
@@ -213,13 +224,15 @@ public class MainActivity extends AppCompatActivity {
                 // Recover information about buildings :
                 if (Footprint != null) {
 
+                    // Location:
                     double lon = (double) Footprint.getAttributeValue("Longitude");
                     double lat = (double) Footprint.getAttributeValue("Latitude");
                     Point loc = new Point(lon,lat);
-
                     buildTemp.setLocation(loc);
-                    buildTemp.setName((String) Footprint.getAttributeValue("Name"));
-                    buildTemp.setDescription((String) Footprint.getAttributeValue("Type"));
+
+                    // Name et description:
+                    buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
+                    buildTemp.setDescription((String) Footprint.getAttributeValue("DETERATION"));
                 } else {
                     buildTemp = acBul;
                 }
@@ -289,6 +302,19 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Listener for the camera checkBox
+     */
+    class checkedCamListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if (((CheckBox) v).isChecked()) {cameraView.setVisibility(View.VISIBLE);}
+            else {cameraView.setVisibility(View.INVISIBLE);}
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
