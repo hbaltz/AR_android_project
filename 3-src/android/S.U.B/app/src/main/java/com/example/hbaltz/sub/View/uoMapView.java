@@ -1,16 +1,12 @@
 package com.example.hbaltz.sub.View;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.esri.android.map.MapView;
 import com.esri.android.map.TiledLayer;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
-import com.esri.android.map.event.OnStatusChangedListener;
-import com.esri.core.geometry.Point;
 
 /**
  * Created by hbaltz on 6/3/2016.
@@ -22,8 +18,9 @@ public class uoMapView extends MapView {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    private final String extern = Environment.getExternalStorageDirectory().getPath();
-    private final String chTpk = "/Android/data/com.example.hbaltz.sub/sub";
+
+    private final String extern = "/storage/sdcard1";
+    private final String chTpk = "/sub/";
     private final String tpkPath  = chTpk +"uO.tpk";
 
     //////////////////////////////////// Tiled Layer: //////////////////////////////////////////////

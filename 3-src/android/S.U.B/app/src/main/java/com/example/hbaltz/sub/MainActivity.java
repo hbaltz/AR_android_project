@@ -13,7 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +38,7 @@ import com.example.hbaltz.sub.View.DrawSurfaceView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// VARIABLES: ////////////////////////////////////////////////
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBoxCam;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -116,11 +116,17 @@ public class MainActivity extends AppCompatActivity {
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
 
-        /////////////////////////////// Database: //////////////////////////////////////////////////
-        accessDb();
 
-        ////////////////////////////// Nearest Neighbors: //////////////////////////////////////////
-        updateNN();
+        /////////////////////////////// Db and NN: /////////////////////////////////////////////////
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                /////////////////////////////// Database: //////////////////////////////////////////
+                accessDb();
+                ////////////////////////////// Nearest Neighbors: //////////////////////////////////
+                updateNN();
+            }
+        });
     }
 
     @Override
@@ -172,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Function which access to the db and collect all the information that we need
@@ -230,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Name et description:
                     buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
-                    buildTemp.setDescription((String) Footprint.getAttributeValue("DETERATION"));
+                    buildTemp.setDescription((String) Footprint.getAttributeValue("STRCTWALL"));
                 } else {
                     buildTemp = acBul;
                 }
@@ -313,6 +320,7 @@ public class MainActivity extends AppCompatActivity {
             else {cameraView.setVisibility(View.INVISIBLE);}
         }
     }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**

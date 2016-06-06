@@ -1,7 +1,6 @@
 package com.example.hbaltz.sub.View;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -170,12 +169,12 @@ public class DrawSurfaceView extends View {
         paint.setTextSize(50);
 
 
-        if(description.equals("Extremely good") || description.equals("Good")) {
-            paint.setColor(Color.GREEN);
-        }else if(description.equals("Moderate")){
+        if(description.equals("Bare frame")) {
+            paint.setColor(Color.MAGENTA);
+        }else if(description.equals("Lightly reinforced masonry walls")){
             paint.setColor(Color.YELLOW);
-        }else if(description.equals("Extremely severe") || description.equals("Severe")) {
-            paint.setColor(Color.RED);
+        }else if(description.equals("Heavily reinforced masonry walls")) {
+            paint.setColor(Color.GREEN);
         }else{
             paint.setColor(Color.GRAY);
         }
