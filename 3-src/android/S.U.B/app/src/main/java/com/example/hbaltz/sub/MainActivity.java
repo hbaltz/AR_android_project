@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
+    private final boolean DEBUG = true                                        ;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void accessDb() {
         // Get the external directory
-        String networkPath = chDb + "/poiuo.geodatabase";
+        String networkPath = chDb + "/uo_campus.geodatabase";
 
         if(DEBUG){Log.d("extern", extern);}
 
@@ -222,21 +223,24 @@ public class MainActivity extends AppCompatActivity {
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
 
+            BuildingPOI buildTemp = new BuildingPOI();
+
             for (int k = 0; k < len0; k++) {
 
                 Feature Footprint = features_pois[k];
-                BuildingPOI buildTemp = new BuildingPOI();
 
                 // Recover information about buildings :
                 if (Footprint != null) {
 
+                    // Location:
                     double lon = (double) Footprint.getAttributeValue("Longitude");
                     double lat = (double) Footprint.getAttributeValue("Latitude");
                     Point loc = new Point(lon,lat);
-
                     buildTemp.setLocation(loc);
-                    buildTemp.setName((String) Footprint.getAttributeValue("Name"));
-                    buildTemp.setDescription((String) Footprint.getAttributeValue("Type"));
+
+                    // Name et description:
+                    buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
+                    buildTemp.setDescription((String) Footprint.getAttributeValue("DETERATION"));
                 } else {
                     buildTemp = acBul;
                 }
