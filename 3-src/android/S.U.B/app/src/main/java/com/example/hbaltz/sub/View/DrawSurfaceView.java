@@ -118,12 +118,6 @@ public class DrawSurfaceView extends View {
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    drawSpacedText(canvas,POI.getDescription(),xPosScreen-(radius/2),yPosScreen-(2*radius), paint, radius/1.5f);
-                    /*
-                    String type = POI.getDescription();
-                    canvas.drawText(type , xPosScreen, yPosScreen-(radius+10), paint);
-                    */
-
                     canvas.drawText(descritpion, xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
@@ -162,31 +156,12 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
     /**
-     * Function which draws a text in the canvas with spacing between each letter.
-     * Basically what this method does is it split's the given text into individual letters
-     * and draws each letter independently using Canvas.drawText with a separation of
-     * {@code spacingX} between each letter.
+     * Functions which defines the color of the paint regarding the description
      *
-     * @param canvas the canvas where the text will be drawn
-     * @param text the text what will be drawn
-     * @param left the left position of the text
-     * @param top the top position of the text
-     * @param paint holds styling information for the text
-     * @param spacingPx the number of pixels between each letter that will be drawn
+     * @param description: the description of the POI
+     * @return a Paint with the color defined regarding the description
      */
-    public static void drawSpacedText(Canvas canvas, String text, float left, float top, Paint paint, float spacingPx) {
-
-        float currentLeft = left;
-
-        for (int i = 0; i < text.length(); i++) {
-            String c = text.charAt(i) + "";
-            canvas.drawText(c, currentLeft, top, paint);
-            currentLeft += spacingPx;
-        }
-    }
-
     public Paint initializedPaint( String description ){
 
         Paint paint = new Paint();
