@@ -38,7 +38,6 @@ public class DrawSurfaceView extends View {
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint(Color.GREEN);
-    Bitmap test;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -49,11 +48,7 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
-        test = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
 
-        paint.setColor(Color.GREEN);
-        paint.setTextSize(50);
-        paint.setAntiAlias(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,9 +107,14 @@ public class DrawSurfaceView extends View {
 
                     //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
                     float radius = (float) (2000/dist);
+
+                    String descritpion = POI.getDescription();
+
+                    paint = initializedPaint(descritpion);
                     paint.setTextSize(radius);
+
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
-                    canvas.drawText(POI.getDescription(), xPosScreen-radius, yPosScreen-(radius+1), paint);
+                    canvas.drawText(descritpion, xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
             }
@@ -148,6 +148,29 @@ public class DrawSurfaceView extends View {
         this.azTheos = aztheos;
         this.azimuthReal = azimuthreal;
         this.Visibles = visibles;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Paint initializedPaint( String description ){
+
+        Paint paint = new Paint();
+
+        paint.setAntiAlias(true);
+        paint.setTextSize(50);
+
+
+        if(description.equals("Extremely good") || description.equals("Good")) {
+            paint.setColor(Color.GREEN);
+        }else if(description.equals("Moderate")){
+            paint.setColor(Color.YELLOW);
+        }else if(description.equals("Extremely severe") || description.equals("Severe")) {
+            paint.setColor(Color.RED);
+        }else{
+            paint.setColor(Color.GRAY);
+        }
+
+        return paint;
     }
 
 

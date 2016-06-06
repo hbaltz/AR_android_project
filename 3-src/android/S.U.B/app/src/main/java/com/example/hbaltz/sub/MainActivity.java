@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBoxCam;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
-    private final boolean DEBUG = true                                        ;
+    private final boolean DEBUG = true;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -222,11 +222,10 @@ public class MainActivity extends AppCompatActivity {
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
 
-            BuildingPOI buildTemp = new BuildingPOI();
-
             for (int k = 0; k < len0; k++) {
 
                 Feature Footprint = features_pois[k];
+                BuildingPOI buildTemp = new BuildingPOI();
 
                 // Recover information about buildings :
                 if (Footprint != null) {

@@ -63,4 +63,5 @@ public class BuildingPOI {
     public void setLocation(Point location) {
         this.Location = location;
     }
+    
 }

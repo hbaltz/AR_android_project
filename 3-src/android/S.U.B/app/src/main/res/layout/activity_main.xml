@@ -25,6 +25,4 @@
         android:id="@+id/checkBoxCam"
         android:layout_gravity="left|bottom" />
 
-
-
 </FrameLayout>
