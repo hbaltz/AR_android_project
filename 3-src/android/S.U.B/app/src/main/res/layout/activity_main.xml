@@ -19,11 +19,11 @@
         android:layout_height="match_parent" />
 
     <fragment
-        android:layout_width="207dp"
-        android:layout_height="121dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:name="com.example.hbaltz.sub.Fragment.MapFragment"
         android:id="@+id/fragment"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="start|top" />
 
 </FrameLayout>
 
