@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -112,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.CameraView);
-        if(cameraView!=null) {cameraView.setVisibility(View.INVISIBLE);}
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
