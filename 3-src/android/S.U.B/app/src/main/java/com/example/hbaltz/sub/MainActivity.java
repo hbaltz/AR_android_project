@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.CameraView);
-        if(cameraView!=null) {cameraView.setVisibility(View.INVISIBLE);}
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
