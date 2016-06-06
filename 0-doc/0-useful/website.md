@@ -42,3 +42,6 @@ http://support.esri.com/technical-article/000009381
 ## Sample tango:
 https://github.com/googlesamples/tango-examples-java
 https://github.com/googlesamples/tango-examples-unity
+
+## Tango get stqted:
+https://developers.google.com/project-tango/hardware/tablet#get_started
