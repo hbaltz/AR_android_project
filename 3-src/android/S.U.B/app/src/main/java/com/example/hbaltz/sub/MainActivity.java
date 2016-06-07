@@ -1,6 +1,7 @@
 package com.example.hbaltz.sub;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -13,7 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -45,20 +46,12 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    //private final String extern = Environment.getExternalStorageDirectory().getPath();
     private final String extern = "/storage/sdcard1";
-
-    // TODO : auto-detect the chDb
-
-    // With Sd card :
     private final String chDb = "/sub";
-
-    // Without sd card :
-    //private final String chDb = "/Android/data/com.example.hbaltz.sub/sub";
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point locUser = new Point(-8425348,5688505); // By default : 70 Laurier Street, Ottawa
+    private Point locUser = new Point(-8425348, 5688505); // By default : 70 Laurier Street, Ottawa
     private User user = new User(locUser);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
@@ -70,7 +63,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
-    private  ArrayList<BuildingPOI> NN;
+    private ArrayList<BuildingPOI> NN;
     ArrayList<Double> distances;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
@@ -86,9 +79,6 @@ public class MainActivity extends FragmentActivity {
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
     private CameraView cameraView;
-
-    //////////////////////////////////// Widgets: //////////////////////////////////////////////////
-    private CheckBox checkBoxCam;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -116,22 +106,19 @@ public class MainActivity extends FragmentActivity {
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
 
+        /////////////////////////////// Database: //////////////////////////////////////////////////
+        accessDb();
+        ////////////////////////////// Nearest Neighbors: //////////////////////////////////////////
+        updateNN();
 
-        /////////////////////////////// Db and NN: /////////////////////////////////////////////////
-        runOnUiThread(new Runnable(){
-            @Override
-            public void run() {
-                /////////////////////////////// Database: //////////////////////////////////////////
-                accessDb();
-                ////////////////////////////// Nearest Neighbors: //////////////////////////////////
-                updateNN();
-            }
-        });
+
     }
 
     @Override
     protected void onResume() {
-        if (DEBUG){Log.d("onResume", "Ok");}
+        if (DEBUG) {
+            Log.d("onResume", "Ok");
+        }
         super.onResume();
 
         mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -139,7 +126,10 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onStop() {
-        if (DEBUG) {Log.d("onStop", "Ok");}
+        if (DEBUG) {
+            Log.d("onStop", "Ok");
+        }
+
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
@@ -152,7 +142,7 @@ public class MainActivity extends FragmentActivity {
     /**
      * Function which setups the listeners
      */
-    private void setupListeners(){
+    private void setupListeners() {
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
         locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -164,10 +154,11 @@ public class MainActivity extends FragmentActivity {
         }
 
         // Define which provider the application will use regarding which one is available
-        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,  new GpsListener());
-        } else {
+
+        if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
+        } else {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new GpsListener());
         }
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
@@ -187,14 +178,18 @@ public class MainActivity extends FragmentActivity {
         // Get the external directory
         String networkPath = chDb + "/uo_campus.geodatabase";
 
-        if(DEBUG){Log.d("extern", extern);}
+        if (DEBUG) {
+            Log.d("extern", extern);
+        }
 
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
             // open a local geodatabase
             Geodatabase gdb = new Geodatabase(extern + networkPath);
 
-            if (DEBUG) {Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());}
+            if (DEBUG) {
+                Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
+            }
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable pois = gdb.getGeodatabaseTables().get(0);
@@ -212,7 +207,9 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            if (DEBUG) {Log.d("len_ff", "" + features_pois.length);}
+            if (DEBUG) {
+                Log.d("len_ff", "" + features_pois.length);
+            }
 
             /////////////////////////////////// Recover buildings: /////////////////////////////////
             // Initialize:
@@ -232,7 +229,7 @@ public class MainActivity extends FragmentActivity {
                     // Location:
                     double lon = (double) Footprint.getAttributeValue("Longitude");
                     double lat = (double) Footprint.getAttributeValue("Latitude");
-                    Point loc = new Point(lon,lat);
+                    Point loc = new Point(lon, lat);
                     buildTemp.setLocation(loc);
 
                     // Name et description:
@@ -241,10 +238,10 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     buildTemp = acBul;
                 }
-                buildings[k]=buildTemp;
+                buildings[k] = buildTemp;
             }
 
-            Log.d("buildings","" + buildings.length);
+            Log.d("buildings", "" + buildings.length);
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
@@ -258,13 +255,16 @@ public class MainActivity extends FragmentActivity {
     /**
      * Function which launches all the calculations to update the view
      */
-    private void updateView(){
-        if(NN!=null) {
+    private void updateView() {
+        if (NN != null) {
             ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
+
             if(DEBUG) {Log.d("azTeo", "" + azTheos);}
 
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {Log.d("visible", "" + visible);}
+            if (DEBUG) {
+                Log.d("visible", "" + visible);
+            }
 
             if (DrawView != null) {
                 DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
@@ -279,10 +279,12 @@ public class MainActivity extends FragmentActivity {
      * Function which launches the calculations of the nearest neighbors
      * and the distances between them and the user
      */
-    private void updateNN(){
-        NN = user.nearestNeighbors(geomen, buildings,WGS_1984_WMAS,200,meter);
-        if(DEBUG){Log.d("NN200",""+NN.size());}
-        if(NN!=null) {
+    private void updateNN() {
+        NN = user.nearestNeighbors(geomen, buildings, WGS_1984_WMAS, 200, meter);
+        if (DEBUG) {
+            Log.d("NN200", "" + NN.size());
+        }
+        if (NN != null) {
             distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
             if (DEBUG) {
                 Log.d("distances", "" + distances);
@@ -312,12 +314,15 @@ public class MainActivity extends FragmentActivity {
     /**
      * Listener for the camera checkBox
      */
-    class checkedCamListener implements View.OnClickListener{
+    class checkedCamListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            if (((CheckBox) v).isChecked()) {cameraView.setVisibility(View.VISIBLE);}
-            else {cameraView.setVisibility(View.INVISIBLE);}
+            if (((CheckBox) v).isChecked()) {
+                cameraView.setVisibility(View.VISIBLE);
+            } else {
+                cameraView.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -326,7 +331,7 @@ public class MainActivity extends FragmentActivity {
     /**
      * Listener for the location
      */
-    class GpsListener implements LocationListener{
+    class GpsListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
             locUser = geomen.project(location.getLongitude(), location.getLatitude(), WGS_1984_WMAS);
@@ -335,7 +340,7 @@ public class MainActivity extends FragmentActivity {
 
             popToast("lat : " + locUser.getX() + ", long : " + locUser.getY()
                     + ", bearing : " + location.getBearing(), true);
-            Log.d("loc", "lat : " + locUser.getX() + ", long : " +locUser.getY());
+            Log.d("loc", "lat : " + locUser.getX() + ", long : " + locUser.getY());
         }
 
         @Override
@@ -383,12 +388,13 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
-                azimuthReal = (orientationVals[0]+360)%360;
+                azimuthReal = (orientationVals[0] + 360) % 360;
 
                 updateView();
             }
         }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
     };
 }
