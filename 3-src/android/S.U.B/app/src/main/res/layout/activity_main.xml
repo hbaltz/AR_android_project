@@ -10,7 +10,7 @@
     <com.example.hbaltz.sub.View.uoMapView
         android:layout_width="348dp"
         android:layout_height="165dp"
-        android:id="@+id/test"
+        android:id="@+id/uoMap"
         android:layout_gravity="start|bottom"/>
 
     <com.example.hbaltz.sub.View.CameraView

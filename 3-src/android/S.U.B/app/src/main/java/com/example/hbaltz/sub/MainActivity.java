@@ -36,6 +36,7 @@ import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
 import com.example.hbaltz.sub.View.CameraView;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
+import com.example.hbaltz.sub.View.uoMapView;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,7 @@ public class MainActivity extends FragmentActivity {
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
+    private uoMapView uoMap;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -101,12 +103,14 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
 
         /////////////////////////////// Database: //////////////////////////////////////////////////
         accessDb();
+
         ////////////////////////////// Nearest Neighbors: //////////////////////////////////////////
         updateNN();
 
@@ -279,14 +283,18 @@ public class MainActivity extends FragmentActivity {
      */
     private void updateNN() {
         NN = user.nearestNeighbors(geomen, buildings, WGS_1984_WMAS, 200, meter);
-        if (DEBUG) {
-            Log.d("NN200", "" + NN.size());
-        }
+
+        if (DEBUG) {Log.d("NN200", "" + NN.size());}
+
         if (NN != null) {
             distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-            if (DEBUG) {
-                Log.d("distances", "" + distances);
-            }
+
+            if (DEBUG) {Log.d("distances", "" + distances);}
+        }
+
+        if(uoMap != null) {
+            uoMap.setUser(user.getLocation());
+            uoMap.invalidate();
         }
     }
 
