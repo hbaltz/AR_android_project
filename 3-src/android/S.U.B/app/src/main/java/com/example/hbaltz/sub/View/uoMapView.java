@@ -23,7 +23,7 @@ public class uoMapView extends MapView {
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
     private final String extern = Environment.getExternalStorageDirectory().getPath();
-    private final String chTpk = "/Android/data/com.example.hbaltz.sub/sub";
+    private final String chTpk = "/Android/data/com.example.hbaltz.sub/sub/";
     private final String tpkPath  = chTpk +"uO.tpk";
 
     //////////////////////////////////// Tiled Layer: //////////////////////////////////////////////

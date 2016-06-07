@@ -25,4 +25,12 @@
         android:id="@+id/checkBoxCam"
         android:layout_gravity="left|bottom" />
 
+    <fragment
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:name="com.example.hbaltz.sub.Fragment.MapFragment"
+        android:id="@+id/fragment"
+        android:layout_gravity="start|top" />
+
+
 </FrameLayout>
