@@ -78,10 +78,6 @@ public class MainActivity extends FragmentActivity {
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
-    private CameraView cameraView;
-
-    //////////////////////////////////// Widgets: //////////////////////////////////////////////////
-    private CheckBox checkBoxCam;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -105,10 +101,6 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.CameraView);
-        if (cameraView != null) {
-            cameraView.setVisibility(View.INVISIBLE);
-        }
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -149,12 +141,6 @@ public class MainActivity extends FragmentActivity {
      * Function which setups the listeners
      */
     private void setupListeners() {
-
-        ////////////////////////////////////// Widgets: ////////////////////////////////////////////
-        checkBoxCam = (CheckBox) findViewById(R.id.checkBoxCam);
-        String camTxt = getResources().getString(R.string.cam);
-        checkBoxCam.setText(camTxt);
-        checkBoxCam.setOnClickListener(new checkedCamListener());
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
         locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -321,23 +307,6 @@ public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// LISTENERS : ///////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Listener for the camera checkBox
-     */
-    class checkedCamListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            if (((CheckBox) v).isChecked()) {
-                cameraView.setVisibility(View.VISIBLE);
-            } else {
-                cameraView.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
