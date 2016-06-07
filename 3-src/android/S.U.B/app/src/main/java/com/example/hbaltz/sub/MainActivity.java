@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -52,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point locUser = new Point(-8425348, 5688505); // By default : 70 Laurier Street, Ottawa
+    private Point locUser = new Point(-8425358, 5688505); // By default : 70 Laurier Street, Ottawa
     private User user = new User(locUser);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
@@ -118,9 +119,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onResume() {
-        if (DEBUG) {
-            Log.d("onResume", "Ok");
-        }
+        if (DEBUG) {Log.d("onResume", "Ok");}
         super.onResume();
 
         mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -128,10 +127,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onStop() {
-        if (DEBUG) {
-            Log.d("onStop", "Ok");
-        }
-
+        if (DEBUG) {Log.d("onStop", "Ok");}
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
@@ -147,20 +143,21 @@ public class MainActivity extends FragmentActivity {
     private void setupListeners() {
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
-        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+
+        // Define which provider the application will use regarding which one is available
+        locMgr = (LocationManager) MainActivity.this.getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
-        // Define which provider the application will use regarding which one is available
 
-        if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, new GpsListener());
         } else {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new GpsListener());
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, new GpsListener());
         }
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////

@@ -16,7 +16,6 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.map.Graphic;
 import com.esri.core.symbol.SimpleMarkerSymbol;
 import com.esri.core.symbol.Symbol;
-import com.example.hbaltz.sub.Class.BuildingPOI;
 
 /**
  * Created by hbaltz on 6/3/2016.
@@ -43,7 +42,7 @@ public class uoMapView extends MapView {
     private GeometryEngine geomen = new GeometryEngine();
 
     //////////////////////////////////// Location: /////////////////////////////////////////////////
-    private Point user = new Point();
+    private Point locUser = new Point();
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
@@ -58,6 +57,8 @@ public class uoMapView extends MapView {
         // we add the layers
         this.addLayer(UoTileLayer);
         this.addLayer(mGraphicsLayer);
+        this.zoomin(true);
+        this.zoomout(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +67,7 @@ public class uoMapView extends MapView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Graphic loc = new Graphic(user, symbol);
+        Graphic loc = new Graphic(locUser, symbol);
 
         mGraphicsLayer.addGraphic(loc);
 
@@ -87,8 +88,6 @@ public class uoMapView extends MapView {
     public void setUser(Point usr){
         SpatialReference mapRef = this.getSpatialReference();
 
-        Point projection = geomen.project(usr.getX(),usr.getY(),mapRef);
-
-        this.user = projection;
+        this.locUser = geomen.project(usr.getX(),usr.getY(),mapRef);
     }
 }
