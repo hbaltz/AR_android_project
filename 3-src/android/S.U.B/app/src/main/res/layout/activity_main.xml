@@ -7,12 +7,11 @@
     android:orientation="horizontal"
     android:background="@color/black">
 
-    <fragment
+    <com.example.hbaltz.sub.View.uoMapView
         android:layout_width="348dp"
         android:layout_height="165dp"
-        android:name="com.example.hbaltz.sub.Fragment.MapFragment"
-        android:id="@+id/fragment"
-        android:layout_gravity="start|bottom" />
+        android:id="@+id/test"
+        android:layout_gravity="start|bottom"/>
 
     <com.example.hbaltz.sub.View.CameraView
         android:id="@+id/CameraView"
