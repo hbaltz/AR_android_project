@@ -1,7 +1,6 @@
 package com.example.hbaltz.sub;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -13,19 +12,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.ImageView;
+
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -39,11 +31,8 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
-import com.example.hbaltz.sub.View.CameraView;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
+import com.example.hbaltz.sub.View.uoMapView;
 
 import java.util.ArrayList;
 
@@ -54,12 +43,12 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    private final String extern = Environment.getExternalStorageDirectory().getPath();
-    private final String chDb = "/Android/data/com.example.hbaltz.sub/sub";
+    private final String extern = "/storage/sdcard1";
+    private final String chDb = "/sub";
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point locUser = new Point(-8425348, 5688505); // By default : 70 Laurier Street, Ottawa
+    private Point locUser = new Point(-8425358, 5688505); // By default : 70 Laurier Street, Ottawa
     private User user = new User(locUser);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
@@ -85,16 +74,8 @@ public class MainActivity extends FragmentActivity {
     private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
-    private ImageView pointerIcon;
     private DrawSurfaceView DrawView;
-    private CameraView cameraView;
-
-    //////////////////////////////////// Widgets: //////////////////////////////////////////////////
-    private CheckBox checkBoxCam;
-
-    /////////////////////////////////// Google: ////////////////////////////////////////////////////
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
+    private uoMapView uoMap;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -118,10 +99,7 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        cameraView = (CameraView) findViewById(R.id.CameraView);
-        if (cameraView != null) {
-            cameraView.setVisibility(View.INVISIBLE);
-        }
+        uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -135,32 +113,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
     protected void onResume() {
-        if (DEBUG) {
-            Log.d("onResume", "Ok");
-        }
+        if (DEBUG) {Log.d("onResume", "Ok");}
         super.onResume();
 
-        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_GAME);
-        mGoogleApiClient.connect();
-
+        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     protected void onStop() {
-        if (DEBUG) {
-            Log.d("onStop", "Ok");
-        }
-
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
+        if (DEBUG) {Log.d("onStop", "Ok");}
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
@@ -175,45 +137,33 @@ public class MainActivity extends FragmentActivity {
      */
     private void setupListeners() {
 
-        ////////////////////////////////////// Widgets: ////////////////////////////////////////////
-        checkBoxCam = (CheckBox) findViewById(R.id.checkBoxCam);
-        String camTxt = getResources().getString(R.string.cam);
-        checkBoxCam.setText(camTxt);
-        checkBoxCam.setOnClickListener(new checkedCamListener());
-
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
-        locMgr = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+
+        locMgr = (LocationManager) MainActivity.this.getSystemService(LOCATION_SERVICE);
+
+        // Check the permission:
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
         // Define which provider the application will use regarding which one is available
-
-        if (locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GpsListener());
+        if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, new GpsListener());
         } else {
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new GpsListener());
+            locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, new GpsListener());
         }
-
-        /////////////////////////////////////// Google: ////////////////////////////////////////////
-        ////////////////////////////// Google services: ////////////////////////////////////////////
-        GoogleServices googleServices = new GoogleServices();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(googleServices)
-                .addOnConnectionFailedListener(googleServices)
-                .addApi(LocationServices.API)
-                .build();
-
-        mGoogleApiClient.connect();
 
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -242,6 +192,7 @@ public class MainActivity extends FragmentActivity {
             long nbr_lignes = pois.getNumberOfFeatures();
             int nbr_int = (int) nbr_lignes;
 
+            // We recover all the features in the gdb:
             Feature[] features_pois = new Feature[nbr_int];
 
             for (int l = 1; l <= nbr_lignes; l++) {
@@ -256,7 +207,7 @@ public class MainActivity extends FragmentActivity {
                 Log.d("len_ff", "" + features_pois.length);
             }
 
-            /////////////////////////////////// Recover buildings: /////////////////////////////////
+            /////////////////////////////////// Recover POIs: //////////////////////////////////////
             // Initialize:
             int len0 = features_pois.length - 1;
             buildings = new BuildingPOI[len0 + 1];
@@ -277,9 +228,9 @@ public class MainActivity extends FragmentActivity {
                     Point loc = new Point(lon, lat);
                     buildTemp.setLocation(loc);
 
-                    // Name et description:
+                    // Name and description:
                     buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
-                    buildTemp.setDescription((String) Footprint.getAttributeValue("DETERATION"));
+                    buildTemp.setDescription((String) Footprint.getAttributeValue("STRCTWALL"));
                 } else {
                     buildTemp = acBul;
                 }
@@ -299,22 +250,28 @@ public class MainActivity extends FragmentActivity {
 
     /**
      * Function which launches all the calculations to update the view
+     *
+     * @param updatedMapView: boolean: true => updated MapView (redraw)
      */
-    private void updateView() {
+    private void updateView(boolean updatedMapView) {
         if (NN != null) {
+            // We calculate the azimuth between all the NN and the user:
             ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-            if (DEBUG) {
-                Log.d("azTeo", "" + azTheos);
-            }
+            if(DEBUG) {Log.d("azTeo", "" + azTheos);}
 
+            // We check if the user sees the NN:
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {
-                Log.d("visible", "" + visible);
-            }
+            if (DEBUG) {Log.d("visible", "" + visible);}
 
+            // We update the display:
             if (DrawView != null) {
                 DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
                 DrawView.invalidate();
+            }
+
+            if(uoMap != null && updatedMapView) {
+                uoMap.setAzimut(azimuthReal);
+                uoMap.invalidate();
             }
         }
     }
@@ -326,20 +283,33 @@ public class MainActivity extends FragmentActivity {
      * and the distances between them and the user
      */
     private void updateNN() {
+        // We recover the NN of the user:
         NN = user.nearestNeighbors(geomen, buildings, WGS_1984_WMAS, 200, meter);
-        if (DEBUG) {
-            Log.d("NN200", "" + NN.size());
-        }
+
+        if (DEBUG) {Log.d("NN200", "" + NN.size());}
+
+        // We calculate the distance between all the NN and the user:
         if (NN != null) {
             distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
-            if (DEBUG) {
-                Log.d("distances", "" + distances);
-            }
+
+            if (DEBUG) {Log.d("distances", "" + distances);}
+        }
+
+        // We update the map:
+        if(uoMap != null) {
+            uoMap.setUser(user.getLocation());
+            uoMap.invalidate();
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Functions whichi displays a message on the device's screen, if show = true
+     *
+     * @param message: String the  displayed message
+     * @param show: Boolean true=> display
+     */
     private void popToast(final String message, final boolean show) {
         // Simple helper method for showing toast on the main thread
         if (!show)
@@ -358,29 +328,18 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Listener for the camera checkBox
-     */
-    class checkedCamListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            if (((CheckBox) v).isChecked()) {
-                cameraView.setVisibility(View.VISIBLE);
-            } else {
-                cameraView.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
      * Listener for the location
      */
     class GpsListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
+            // We project the latLong in  WGS_1984_WMAS:
             locUser = geomen.project(location.getLongitude(), location.getLatitude(), WGS_1984_WMAS);
+
+            // We set the location:
             user.setLocation(locUser);
+
+            // We update the NN:
             updateNN();
 
             popToast("lat : " + locUser.getX() + ", long : " + locUser.getY()
@@ -411,7 +370,6 @@ public class MainActivity extends FragmentActivity {
      */
     private final SensorEventListener mListener = new SensorEventListener() {
 
-
         float[] mRotationMatrix = new float[9];
         float[] orientationVals = new float[3];
 
@@ -426,6 +384,8 @@ public class MainActivity extends FragmentActivity {
                         .remapCoordinateSystem(mRotationMatrix,
                                 SensorManager.AXIS_X, SensorManager.AXIS_Z,
                                 mRotationMatrix); // Screen orientation Landscape
+
+                // We recover the orientation:
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
@@ -433,52 +393,20 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
+                // The azimut:
+                double oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
 
-                updateView();
+                // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
+                double difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
+                boolean updatedMapView = difAzRe > 1;
+
+                // Update te view:
+                updateView(updatedMapView);
             }
         }
 
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private class GoogleServices implements GoogleApiClient.ConnectionCallbacks,
-            GoogleApiClient.OnConnectionFailedListener {
-
-        @Override
-        public void onConnected(@Nullable Bundle bundle) {
-            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-
-            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (mLocation != null) {
-                double lat = mLocation.getLatitude();
-                double lng = mLocation.getLongitude();
-
-                String msg = "Lat: " + lat + ", lng : " + lng;
-
-                popToast(msg, true);
-                Log.d("Loc", msg);
-
-            } else {
-                popToast("Location not Detected", true);
-            }
-
-        }
-
-        @Override
-        public void onConnectionSuspended(int i) {
-            Log.i("Google", "Connection Suspended");
-            mGoogleApiClient.connect();
-        }
-
-        @Override
-        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            Log.i("Google", "Connection failed. Error: " + connectionResult.getErrorCode());
-        }
-    }
 }

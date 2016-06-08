@@ -7,7 +7,6 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hbaltz on 6/1/2016.
@@ -69,7 +68,6 @@ public class User {
         Point loc = this.getLocation();
 
         Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
-
 
         for (int i=0; i<len_builds; i++){
             if(builds[i]!=null) {

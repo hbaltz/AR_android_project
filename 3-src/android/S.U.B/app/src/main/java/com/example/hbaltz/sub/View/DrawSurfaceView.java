@@ -1,8 +1,6 @@
 package com.example.hbaltz.sub.View;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.hbaltz.sub.Class.BuildingPOI;
-import com.example.hbaltz.sub.R;
 
 import java.util.ArrayList;
 
@@ -48,6 +45,11 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
+        paint.setColor(Color.GREEN);
+        paint.setTextSize(50);
+        paint.setAntiAlias(true);
+        paint.setLinearText(true);
+        paint.setTextAlign(Paint.Align.CENTER);
 
     }
 
@@ -114,6 +116,7 @@ public class DrawSurfaceView extends View {
                     paint.setTextSize(radius);
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
+
                     canvas.drawText(descritpion, xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
@@ -152,6 +155,12 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Functions which defines the color of the paint regarding the description
+     *
+     * @param description: the description of the POI
+     * @return a Paint with the color defined regarding the description
+     */
     public Paint initializedPaint( String description ){
 
         Paint paint = new Paint();
@@ -160,19 +169,16 @@ public class DrawSurfaceView extends View {
         paint.setTextSize(50);
 
 
-        if(description.equals("Extremely good") || description.equals("Good")) {
-            paint.setColor(Color.GREEN);
-        }else if(description.equals("Moderate")){
+        if(description.equals("Bare frame")) {
+            paint.setColor(Color.MAGENTA);
+        }else if(description.equals("Lightly reinforced masonry walls")){
             paint.setColor(Color.YELLOW);
-        }else if(description.equals("Extremely severe") || description.equals("Severe")) {
-            paint.setColor(Color.RED);
+        }else if(description.equals("Heavily reinforced masonry walls")) {
+            paint.setColor(Color.GREEN);
         }else{
             paint.setColor(Color.GRAY);
         }
 
         return paint;
     }
-
-
-
 }
