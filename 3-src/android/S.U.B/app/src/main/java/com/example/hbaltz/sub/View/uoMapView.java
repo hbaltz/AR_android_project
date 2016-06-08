@@ -2,7 +2,6 @@ package com.example.hbaltz.sub.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
@@ -13,8 +12,6 @@ import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.core.geometry.Point;
 import com.esri.core.map.Graphic;
 import com.esri.core.symbol.PictureMarkerSymbol;
-import com.esri.core.symbol.SimpleMarkerSymbol;
-import com.esri.core.symbol.Symbol;
 import com.example.hbaltz.sub.R;
 
 /**
