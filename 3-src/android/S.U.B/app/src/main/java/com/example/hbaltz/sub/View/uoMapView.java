@@ -76,7 +76,6 @@ public class uoMapView extends MapView {
         // We center the map on the location User:
         this.centerAt(locUser, true);
 
-        // TODO change time to redraw
         // We change the orientation:
         float angle = (float) (-90+azimut);
         symbolImg.setAngle(angle);

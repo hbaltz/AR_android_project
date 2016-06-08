@@ -250,19 +250,18 @@ public class MainActivity extends FragmentActivity {
 
     /**
      * Function which launches all the calculations to update the view
+     *
+     * @param updatedMapView: boolean: true => updated MapView (redraw)
      */
-    private void updateView() {
+    private void updateView(boolean updatedMapView) {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
             ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-
             if(DEBUG) {Log.d("azTeo", "" + azTheos);}
 
             // We check if the user sees the NN:
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {
-                Log.d("visible", "" + visible);
-            }
+            if (DEBUG) {Log.d("visible", "" + visible);}
 
             // We update the display:
             if (DrawView != null) {
@@ -270,8 +269,7 @@ public class MainActivity extends FragmentActivity {
                 DrawView.invalidate();
             }
 
-            // TODO change time to redraw
-            if(uoMap != null) {
+            if(uoMap != null && updatedMapView) {
                 uoMap.setAzimut(azimuthReal);
                 uoMap.invalidate();
             }
@@ -396,9 +394,15 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
                 // The azimut:
+                double oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
 
-                updateView();
+                // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
+                double difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
+                boolean updatedMapView = difAzRe > 1;
+
+                // Update te view:
+                updateView(updatedMapView);
             }
         }
 
