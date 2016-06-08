@@ -1,7 +1,6 @@
 package com.example.hbaltz.sub;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -13,14 +12,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 
 import android.widget.Toast;
 
@@ -35,7 +31,6 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
-import com.example.hbaltz.sub.View.CameraView;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
 
@@ -144,8 +139,9 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
 
-        // Define which provider the application will use regarding which one is available
         locMgr = (LocationManager) MainActivity.this.getSystemService(LOCATION_SERVICE);
+
+        // Check the permission:
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -153,7 +149,7 @@ public class MainActivity extends FragmentActivity {
             return;
         }
 
-
+        // Define which provider the application will use regarding which one is available
         if (locMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, new GpsListener());
         } else {
@@ -231,7 +227,7 @@ public class MainActivity extends FragmentActivity {
                     Point loc = new Point(lon, lat);
                     buildTemp.setLocation(loc);
 
-                    // Name et description:
+                    // Name and description:
                     buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
                     buildTemp.setDescription((String) Footprint.getAttributeValue("STRCTWALL"));
                 } else {
