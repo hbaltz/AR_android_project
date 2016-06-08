@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.util.AttributeSet;
 
 import com.esri.android.map.GraphicsLayer;
@@ -27,9 +28,9 @@ public class uoMapView extends MapView {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    private final String extern = "/storage/sdcard1";
-    private final String chTpk = "/sub/";
-    private final String tpkPath = chTpk + "uO.tpk";
+    private final String extern = Environment.getExternalStorageDirectory().getPath();
+    private final String chTpk = "/Android/data/com.example.hbaltz.sub/sub/";
+    private final String tpkPath  = chTpk +"uO.tpk";
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = true;
     //////////////////////////////////// Graphic Layer: ////////////////////////////////////////////

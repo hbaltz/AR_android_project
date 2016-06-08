@@ -12,12 +12,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -31,8 +36,12 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
+import com.example.hbaltz.sub.View.CameraView;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
@@ -43,8 +52,8 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////// ArcGIS Elements : /////////////////////////////////////////
-    private final String extern = "/storage/sdcard1";
-    private final String chDb = "/sub";
+    private final String extern = Environment.getExternalStorageDirectory().getPath();
+    private final String chDb = "/Android/data/com.example.hbaltz.sub/sub";
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
@@ -76,6 +85,13 @@ public class MainActivity extends FragmentActivity {
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
     private uoMapView uoMap;
+    private CameraView cameraView;
+    //////////////////////////////////// Widgets: //////////////////////////////////////////////////
+    private CheckBox checkBoxCam;
+
+    /////////////////////////////////// Google: ////////////////////////////////////////////////////
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLocation;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -99,6 +115,10 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        cameraView = (CameraView) findViewById(R.id.CameraView);
+        if (cameraView != null) {
+            cameraView.setVisibility(View.INVISIBLE);
+            }
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
@@ -113,16 +133,27 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
     protected void onResume() {
         if (DEBUG) {Log.d("onResume", "Ok");}
         super.onResume();
 
         mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         if (DEBUG) {Log.d("onStop", "Ok");}
+
+        if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
+            }
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
@@ -136,15 +167,20 @@ public class MainActivity extends FragmentActivity {
      * Function which setups the listeners
      */
     private void setupListeners() {
+        ////////////////////////////////////// Widgets: ////////////////////////////////////////////
+        checkBoxCam = (CheckBox) findViewById(R.id.checkBoxCam);
+        String camTxt = getResources().getString(R.string.cam);
+        checkBoxCam.setText(camTxt);
+        checkBoxCam.setOnClickListener(new checkedCamListener());
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
 
         locMgr = (LocationManager) MainActivity.this.getSystemService(LOCATION_SERVICE);
 
         // Check the permission:
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -159,6 +195,16 @@ public class MainActivity extends FragmentActivity {
         ////////////////////////////////////// Compass: ////////////////////////////////////////////
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
+        ////////////////////////////// Google services: ////////////////////////////////////////////
+        GoogleServices googleServices = new GoogleServices();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                                .addConnectionCallbacks(googleServices)
+                                .addOnConnectionFailedListener(googleServices)
+                                .addApiIfAvailable(LocationServices.API)
+                                .build();
+
+        mGoogleApiClient.connect();
     }
 
 
@@ -328,6 +374,23 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Listener for the camera checkBox
+     */
+    class checkedCamListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (((CheckBox) v).isChecked()) {
+                    cameraView.setVisibility(View.VISIBLE);
+                } else {
+                    cameraView.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Listener for the location
      */
     class GpsListener implements LocationListener {
@@ -409,4 +472,40 @@ public class MainActivity extends FragmentActivity {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private class GoogleServices implements GoogleApiClient.ConnectionCallbacks,
+                GoogleApiClient.OnConnectionFailedListener {
+
+        @Override
+        public void onConnected(@Nullable Bundle bundle) {
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mLocation != null) {
+                double lat = mLocation.getLatitude();
+                double lng = mLocation.getLongitude();
+
+                    String msg = "Lat: " + lat + ", lng : " + lng;
+                    popToast(msg, true);
+                    Log.d("Loc", msg);
+            } else {
+                popToast("Location not Detected", true);
+            }
+        }
+
+        @Override
+        public void onConnectionSuspended(int i) {
+            Log.i("Google", "Connection Suspended");
+            mGoogleApiClient.connect();
+        }
+
+        @Override
+        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+            Log.i("Google", "Connection failed. Error: " + connectionResult.getErrorCode());
+        }
+    }
 }
