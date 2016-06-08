@@ -69,7 +69,6 @@ public class User {
 
         Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
 
-
         for (int i=0; i<len_builds; i++){
             if(builds[i]!=null) {
                 Geometry locPOI = builds[i].getLocation();

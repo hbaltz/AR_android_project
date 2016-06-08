@@ -37,6 +37,8 @@ public class uoMapView extends MapView {
     private PictureMarkerSymbol symbolImg;
     //////////////////////////////////// Location: /////////////////////////////////////////////////
     private Point locUser = new Point();
+    /////////////////////////////////// Orientation: ///////////////////////////////////////////////
+    private double azimut=-90;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -52,7 +54,6 @@ public class uoMapView extends MapView {
 
         Drawable logImg = getResources().getDrawable(R.drawable.ic_action_name);
         symbolImg = new PictureMarkerSymbol(logImg);
-        symbolImg.setAngle(-90);
 
         // We add the layers to the mapView:
         this.addLayer(UoTileLayer);
@@ -75,6 +76,11 @@ public class uoMapView extends MapView {
         // We center the map on the location User:
         this.centerAt(locUser, true);
 
+        // TODO change time to redraw
+        // We change the orientation:
+        float angle = (float) (-90+azimut);
+        symbolImg.setAngle(angle);
+
         // We add the point to the graphicLayer:
         Graphic loc = new Graphic(locUser, symbolImg);
         mGraphicsLayer.addGraphic(loc);
@@ -91,5 +97,11 @@ public class uoMapView extends MapView {
 
     public void setUser(Point usr) {
         this.locUser = usr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setAzimut(double az){
+        this.azimut = az;
     }
 }

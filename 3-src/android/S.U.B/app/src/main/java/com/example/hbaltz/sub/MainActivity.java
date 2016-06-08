@@ -192,6 +192,7 @@ public class MainActivity extends FragmentActivity {
             long nbr_lignes = pois.getNumberOfFeatures();
             int nbr_int = (int) nbr_lignes;
 
+            // We recover all the features in the gdb:
             Feature[] features_pois = new Feature[nbr_int];
 
             for (int l = 1; l <= nbr_lignes; l++) {
@@ -206,7 +207,7 @@ public class MainActivity extends FragmentActivity {
                 Log.d("len_ff", "" + features_pois.length);
             }
 
-            /////////////////////////////////// Recover buildings: /////////////////////////////////
+            /////////////////////////////////// Recover POIs: //////////////////////////////////////
             // Initialize:
             int len0 = features_pois.length - 1;
             buildings = new BuildingPOI[len0 + 1];
@@ -252,18 +253,27 @@ public class MainActivity extends FragmentActivity {
      */
     private void updateView() {
         if (NN != null) {
+            // We calculate the azimuth between all the NN and the user:
             ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
 
             if(DEBUG) {Log.d("azTeo", "" + azTheos);}
 
+            // We check if the user sees the NN:
             ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
             if (DEBUG) {
                 Log.d("visible", "" + visible);
             }
 
+            // We update the display:
             if (DrawView != null) {
                 DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
                 DrawView.invalidate();
+            }
+
+            // TODO change time to redraw
+            if(uoMap != null) {
+                uoMap.setAzimut(azimuthReal);
+                uoMap.invalidate();
             }
         }
     }
@@ -275,16 +285,19 @@ public class MainActivity extends FragmentActivity {
      * and the distances between them and the user
      */
     private void updateNN() {
+        // We recover the NN of the user:
         NN = user.nearestNeighbors(geomen, buildings, WGS_1984_WMAS, 200, meter);
 
         if (DEBUG) {Log.d("NN200", "" + NN.size());}
 
+        // We calculate the distance between all the NN and the user:
         if (NN != null) {
             distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
 
             if (DEBUG) {Log.d("distances", "" + distances);}
         }
 
+        // We update the map:
         if(uoMap != null) {
             uoMap.setUser(user.getLocation());
             uoMap.invalidate();
@@ -293,6 +306,12 @@ public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Functions whichi displays a message on the device's screen, if show = true
+     *
+     * @param message: String the  displayed message
+     * @param show: Boolean true=> display
+     */
     private void popToast(final String message, final boolean show) {
         // Simple helper method for showing toast on the main thread
         if (!show)
@@ -316,8 +335,13 @@ public class MainActivity extends FragmentActivity {
     class GpsListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
+            // We project the latLong in  WGS_1984_WMAS:
             locUser = geomen.project(location.getLongitude(), location.getLatitude(), WGS_1984_WMAS);
+
+            // We set the location:
             user.setLocation(locUser);
+
+            // We update the NN:
             updateNN();
 
             popToast("lat : " + locUser.getX() + ", long : " + locUser.getY()
@@ -348,7 +372,6 @@ public class MainActivity extends FragmentActivity {
      */
     private final SensorEventListener mListener = new SensorEventListener() {
 
-
         float[] mRotationMatrix = new float[9];
         float[] orientationVals = new float[3];
 
@@ -363,6 +386,8 @@ public class MainActivity extends FragmentActivity {
                         .remapCoordinateSystem(mRotationMatrix,
                                 SensorManager.AXIS_X, SensorManager.AXIS_Z,
                                 mRotationMatrix); // Screen orientation Landscape
+
+                // We recover the orientation:
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
@@ -370,6 +395,7 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
+                // The azimut:
                 azimuthReal = (orientationVals[0] + 360) % 360;
 
                 updateView();
