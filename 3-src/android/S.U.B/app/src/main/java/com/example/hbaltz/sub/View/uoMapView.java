@@ -67,9 +67,14 @@ public class uoMapView extends MapView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        mGraphicsLayer.removeAll();
+
         Graphic loc = new Graphic(locUser, symbol);
 
         mGraphicsLayer.addGraphic(loc);
+
+        this.centerAt(locUser,true);
+        this.getCallout().hide();
 
         super.onDraw(canvas);
     }
@@ -86,8 +91,6 @@ public class uoMapView extends MapView {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void setUser(Point usr){
-        SpatialReference mapRef = this.getSpatialReference();
-
-        this.locUser = geomen.project(usr.getX(),usr.getY(),mapRef);
+        this.locUser = usr;
     }
 }
