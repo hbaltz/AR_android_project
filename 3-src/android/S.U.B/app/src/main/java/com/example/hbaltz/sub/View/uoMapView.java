@@ -57,8 +57,6 @@ public class uoMapView extends MapView {
         // we add the layers
         this.addLayer(UoTileLayer);
         this.addLayer(mGraphicsLayer);
-        this.zoomin(true);
-        this.zoomout(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +65,11 @@ public class uoMapView extends MapView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        for(int i = 0; i < 3; i++){
+            zoomout(false);
+        }
+
         mGraphicsLayer.removeAll();
 
         Graphic loc = new Graphic(locUser, symbol);
@@ -74,6 +77,11 @@ public class uoMapView extends MapView {
         mGraphicsLayer.addGraphic(loc);
 
         this.centerAt(locUser,true);
+
+        for(int j = 0; j < 3; j++){
+            zoomin(false);
+        }
+
         this.getCallout().hide();
 
         super.onDraw(canvas);
