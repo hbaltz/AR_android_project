@@ -32,8 +32,8 @@ public class DrawSurfaceView extends View {
     private double azimuthReal;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
-    private Paint paint;
-    private Paint paintRect;
+    private Paint paint = new Paint();
+    private Paint paintRect = new Paint();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -44,10 +44,10 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
-        paintRect = new Paint(Color.GRAY);
+        paintRect.setColor(Color.LTGRAY);
         paintRect.setAntiAlias(true);
+        paintRect.setAlpha(190);
 
-        paint = new Paint();
         paint.setColor(Color.GREEN);
         paint.setTextSize(50);
         paint.setAntiAlias(true);
@@ -89,6 +89,7 @@ public class DrawSurfaceView extends View {
             float xPosScreen, yPosScreen;
             float radius;
             float w;
+            String strct, structure, deteration, type, address, notes;
 
             for(int i =0; i<len_pois; i++){
 
@@ -118,23 +119,22 @@ public class DrawSurfaceView extends View {
 
                     radius = (float) (2000/dist);
 
-                    String strct = POI.getStructure();
-
-                    String structure = "Structure : " + strct;
-                    String deteration = "Deteration : " + POI.getDeteration();
-                    String type = "Type : " + POI.getType();
-                    String address = "Address : " + POI.getAddress();
-                    String notes = "Notes : " +POI.getNotes();
+                    strct = POI.getStructure();
+                    structure = "Structure : " + strct;
+                    deteration = "Deteration : " + POI.getDeteration();
+                    type = "Type : " + POI.getType();
+                    address = "Address : " + POI.getAddress();
+                    notes = "Notes : " +POI.getNotes();
 
                     paint = initializedPaint(strct);
                     paint.setTextSize(radius);
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    w = 100f;
+                    w = radius*address.length()/2;
 
                     canvas.drawRect(xPosScreen-radius, yPosScreen-5*(radius+1) - radius,
-                            xPosScreen-radius + 2*w, yPosScreen-(radius+1), paintRect);
+                            xPosScreen-radius + w, yPosScreen-(radius+1), paintRect);
 
                     canvas.drawText(structure, xPosScreen-radius, yPosScreen-5*(radius+1), paint);
                     canvas.drawText(deteration, xPosScreen-radius, yPosScreen-4*(radius+1), paint);
