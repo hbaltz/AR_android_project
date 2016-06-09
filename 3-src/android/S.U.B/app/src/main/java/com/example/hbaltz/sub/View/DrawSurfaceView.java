@@ -110,15 +110,29 @@ public class DrawSurfaceView extends View {
                     //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
                     float radius = (float) (2000/dist);
 
-                    String structure = POI.getStructure();
+                    String strct = POI.getStructure();
 
-                    paint = initializedPaint(structure);
+                    String structure = "Structure : " + strct;
+                    String deteration = "Deteration : " + POI.getDeteration();
+                    String type = "Type : " + POI.getType();
+                    String address = "Address : " + POI.getAddress();
+                    String notes = "Notes : " +POI.getNotes();
+
+                    paint = initializedPaint(strct);
                     paint.setTextSize(radius);
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    canvas.drawText(structure, xPosScreen-radius, yPosScreen-(radius+1), paint);
+                    //float l = 50;
+                    //float h = 10;
 
+                    //canvas.drawRect(yPosScreen-l, xPosScreen+h, yPosScreen+l, xPosScreen+h, paint);
+
+                    canvas.drawText(structure, xPosScreen-radius, yPosScreen-5*(radius+1), paint);
+                    canvas.drawText(deteration, xPosScreen-radius, yPosScreen-4*(radius+1), paint);
+                    canvas.drawText(type, xPosScreen-radius, yPosScreen-3*(radius+1), paint);
+                    canvas.drawText(address, xPosScreen-radius, yPosScreen-2*(radius+1), paint);
+                    canvas.drawText(notes, xPosScreen-radius, yPosScreen-1*(radius+1), paint);
                 }
             }
         }
