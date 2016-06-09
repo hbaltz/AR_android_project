@@ -212,6 +212,7 @@ public class MainActivity extends FragmentActivity {
             buildings = new BuildingPOI[len0 + 1];
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
+            double lon, lat;
 
             for (int k = 0; k < len0; k++) {
 
@@ -222,8 +223,8 @@ public class MainActivity extends FragmentActivity {
                 if (Footprint != null) {
 
                     // Location:
-                    double lon = (double) Footprint.getAttributeValue("Longitude");
-                    double lat = (double) Footprint.getAttributeValue("Latitude");
+                    lon = (double) Footprint.getAttributeValue("Longitude");
+                    lat = (double) Footprint.getAttributeValue("Latitude");
                     Point loc = new Point(lon, lat);
                     buildTemp.setLocation(loc);
 
@@ -374,8 +375,12 @@ public class MainActivity extends FragmentActivity {
      */
     private final SensorEventListener mListener = new SensorEventListener() {
 
+        // Initialized
         float[] mRotationMatrix = new float[9];
         float[] orientationVals = new float[3];
+        double oldAzimuthReal;
+        double difAzRe;
+        boolean updatedMapView;
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -398,12 +403,12 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
                 // The azimut:
-                double oldAzimuthReal = azimuthReal;
+                oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
 
                 // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
-                double difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
-                boolean updatedMapView = difAzRe > 1;
+                difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
+                updatedMapView = difAzRe > 1;
 
                 // Update te view:
                 updateView(updatedMapView);
