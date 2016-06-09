@@ -7,6 +7,8 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by hbaltz on 6/1/2016.
@@ -107,6 +109,9 @@ public class User {
             buildTemp.setDistance(geomen.distance(loc, builds.get(i).getLocation(), spaRef));
             buildsDist.add(buildTemp);
         }
+
+        // Sort (useful when we draw)
+        Collections.sort(buildsDist);
 
         return buildsDist;
     }
