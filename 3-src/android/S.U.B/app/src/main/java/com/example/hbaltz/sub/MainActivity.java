@@ -230,7 +230,12 @@ public class MainActivity extends FragmentActivity {
 
                     // Name and description:
                     buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
-                    buildTemp.setDescription((String) Footprint.getAttributeValue("STRCTWALL"));
+                    buildTemp.setStructure((String) Footprint.getAttributeValue("STRCTWALL"));
+                    buildTemp.setDeteration((String) Footprint.getAttributeValue("DETERATION"));
+                    buildTemp.setType((String) Footprint.getAttributeValue("OCCUPCLASS"));
+                    buildTemp.setAddress((String) Footprint.getAttributeValue("ADDRESS"));
+                    buildTemp.setNotes((String) Footprint.getAttributeValue("NOTES"));
+
                 } else {
                     buildTemp = acBul;
                 }

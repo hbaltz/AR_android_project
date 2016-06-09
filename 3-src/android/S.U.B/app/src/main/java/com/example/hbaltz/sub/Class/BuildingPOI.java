@@ -12,23 +12,35 @@ public class BuildingPOI {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private String Name;
-    private String Description;
+    private String Structure;
+    private String Deteration;
+    private String Type;
+    private String Address;
+    private String Notes;
     private Point Location;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public BuildingPOI(String name, String description,
-                        Point location) {
+    public BuildingPOI(String name, String structure, String deteration, String type,
+                       String address, String notes, Point location) {
         this.Name = name;
-        this.Description = description;
+        this.Structure = structure;
+        this.Deteration = deteration;
+        this.Type = type;
+        this.Address = address;
+        this.Notes = notes;
         this.Location = location;
     }
 
     public BuildingPOI(){
         this.Name = "";
-        this.Description = "";
+        this.Structure = "";
+        this.Deteration = "";
+        this.Type = "";
+        this.Address = "";
+        this.Notes = "";
         this.Location = new Point();
     }
 
@@ -40,8 +52,24 @@ public class BuildingPOI {
         return this.Name;
     }
 
-    public String getDescription() {
-        return this.Description;
+    public String getStructure() {
+        return this.Structure;
+    }
+
+    public String getDeteration() {
+        return this.Deteration;
+    }
+
+    public String getType() {
+        return this.Type;
+    }
+
+    public String getAddress() {
+        return this.Address;
+    }
+
+    public String getNotes() {
+        return this.Notes;
     }
 
     public Point getLocation() {
@@ -56,8 +84,24 @@ public class BuildingPOI {
         this.Name = name;
     }
 
-    public void setDescription(String description) {
-        this.Description = description;
+    public void setStructure(String structure) {
+        this.Structure = structure;
+    }
+
+    public void setDeteration(String deteration) {
+        this.Deteration = deteration;
+    }
+
+    public void setType(String type) {
+        this.Type = type;
+    }
+
+    public void setAddress(String address) {
+        this.Address = address;
+    }
+
+    public void setNotes(String notes) {
+        this.Notes = notes;
     }
 
     public void setLocation(Point location) {

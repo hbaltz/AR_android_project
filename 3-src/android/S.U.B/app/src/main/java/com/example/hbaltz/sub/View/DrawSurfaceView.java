@@ -110,14 +110,14 @@ public class DrawSurfaceView extends View {
                     //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
                     float radius = (float) (2000/dist);
 
-                    String descritpion = POI.getDescription();
+                    String structure = POI.getStructure();
 
-                    paint = initializedPaint(descritpion);
+                    paint = initializedPaint(structure);
                     paint.setTextSize(radius);
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    canvas.drawText(descritpion, xPosScreen-radius, yPosScreen-(radius+1), paint);
+                    canvas.drawText(structure, xPosScreen-radius, yPosScreen-(radius+1), paint);
 
                 }
             }
@@ -178,6 +178,8 @@ public class DrawSurfaceView extends View {
         }else{
             paint.setColor(Color.GRAY);
         }
+
+        paint.setAlpha(175);
 
         return paint;
     }
