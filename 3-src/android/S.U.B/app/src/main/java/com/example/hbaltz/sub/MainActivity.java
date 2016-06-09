@@ -61,7 +61,6 @@ public class MainActivity extends FragmentActivity {
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
     private ArrayList<BuildingPOI> NN;
-    ArrayList<Double> distances;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -261,16 +260,16 @@ public class MainActivity extends FragmentActivity {
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
-            ArrayList<Double> azTheos = user.theoreticalAzimuthToPOIs(NN);
-            if(DEBUG) {Log.d("azTeo", "" + azTheos);}
+            NN = user.theoreticalAzimuthToPOIs(NN);
+            if(DEBUG) {Log.d("azTeo", "" + NN);}
 
             // We check if the user sees the NN:
-            ArrayList<Boolean> visible = Utilities.isAzimuthsVisible(azTheos, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {Log.d("visible", "" + visible);}
+            NN = Utilities.isAzimuthsVisible(NN, azimuthReal, AZIMUTH_ACCURACY);
+            if (DEBUG) {Log.d("visible", "" + NN);}
 
             // We update the display:
             if (DrawView != null) {
-                DrawView.setVariables(NN, distances, azTheos, azimuthReal, visible);
+                DrawView.setVariables(NN, azimuthReal);
                 DrawView.invalidate();
             }
 
@@ -295,9 +294,9 @@ public class MainActivity extends FragmentActivity {
 
         // We calculate the distance between all the NN and the user:
         if (NN != null) {
-            distances = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
+            NN = user.distanceToBuilds(geomen, NN, WGS_1984_WMAS);
 
-            if (DEBUG) {Log.d("distances", "" + distances);}
+            if (DEBUG) {Log.d("distances", "" + NN);}
         }
 
         // We update the map:

@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.esri.core.geometry.Point;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 
 import java.util.ArrayList;
@@ -26,15 +27,13 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////// POIs: ///////////////////////////////////////////////////
     private ArrayList<BuildingPOI> POIs = null;
-    private ArrayList<Double> Distances = null;
-    private ArrayList<Boolean> Visibles = null;
-    private ArrayList<Double> azTheos = null;
 
     ////////////////////////////////////// Azimuth: ////////////////////////////////////////////////
     private double azimuthReal;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
-    private Paint paint = new Paint(Color.GREEN);
+    private Paint paint;
+    private Paint paintRect;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -45,6 +44,10 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
+        paintRect = new Paint(Color.GRAY);
+        paintRect.setAntiAlias(true);
+
+        paint = new Paint();
         paint.setColor(Color.GREEN);
         paint.setTextSize(50);
         paint.setAntiAlias(true);
@@ -79,22 +82,28 @@ public class DrawSurfaceView extends View {
 
         if(POIs != null) {
             int len_pois = POIs.size();
+
+            // Initialize:
+            boolean isVisible;
+            double dist, azTheo, angle, xPos, yPos;
+            float xPosScreen, yPosScreen;
+            float radius;
+            float w;
+
             for(int i =0; i<len_pois; i++){
-                boolean isVisible = Visibles.get(i);
+
+                BuildingPOI POI = POIs.get(i);
+                isVisible = POI.isVisible();
+
                 if(isVisible) {
 
                     // If the poi is visible we recover information about it :
-                    BuildingPOI POI = POIs.get(i);
-                    double dist = Distances.get(i);
-                    double azTheo = azTheos.get(i);
-
-                    double angle = azTheo - azimuthReal;
-                    double xPos, yPos;
+                    dist = POI.getDistance();
+                    azTheo = POI.getAzimut();
+                    angle = azTheo - azimuthReal;
 
                     xPos = Math.sin(Math.toRadians(angle)) * dist;
                     yPos = Math.sqrt(Math.pow(dist, 2) - Math.pow(xPos, 2));
-
-                    float xPosScreen, yPosScreen;
 
                     if (angle <= 45)
                         xPosScreen =(float) ((screenWidth / 2) + xPos);
@@ -107,8 +116,7 @@ public class DrawSurfaceView extends View {
 
                     yPosScreen = (float)(screenHeight/2);
 
-                    //canvas.drawBitmap(test,xPosScreen,yPosScreen,paint);
-                    float radius = (float) (2000/dist);
+                    radius = (float) (2000/dist);
 
                     String strct = POI.getStructure();
 
@@ -123,10 +131,10 @@ public class DrawSurfaceView extends View {
 
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    //float l = 50;
-                    //float h = 10;
+                    w = 100f;
 
-                    //canvas.drawRect(yPosScreen-l, xPosScreen+h, yPosScreen+l, xPosScreen+h, paint);
+                    canvas.drawRect(xPosScreen-radius, yPosScreen-5*(radius+1) - radius,
+                            xPosScreen-radius + 2*w, yPosScreen-(radius+1), paintRect);
 
                     canvas.drawText(structure, xPosScreen-radius, yPosScreen-5*(radius+1), paint);
                     canvas.drawText(deteration, xPosScreen-radius, yPosScreen-4*(radius+1), paint);
@@ -149,22 +157,13 @@ public class DrawSurfaceView extends View {
      * * Function which sets the variables
      *
      * @param pois: the arrayList of POI that we want to draw
-     * @param distances: the arrayList of distances between POIs and te user
-     * @param aztheos: the arrayList of theoretical azimuths
      * @param azimuthreal: the real azimuth (double)
-     * @param visibles: the arrayList of boolena to know if the user see the POIs
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
-                             ArrayList<Double> distances,
-                             ArrayList<Double> aztheos,
-                             double azimuthreal,
-                             ArrayList<Boolean> visibles){
+                             double azimuthreal){
 
         this.POIs = pois;
-        this.Distances = distances;
-        this.azTheos = aztheos;
         this.azimuthReal = azimuthreal;
-        this.Visibles = visibles;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

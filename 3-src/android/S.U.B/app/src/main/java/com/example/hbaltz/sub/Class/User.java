@@ -90,21 +90,25 @@ public class User {
      * @param geomen : A geometry engine (Esri)
      * @param builds : The arrayList of buildings
      * @param spaRef : The spatial reference
-     * @return an array of double which are the distance between the point and the buildings
+     * @return the builds with distance
      */
-    public ArrayList<Double> distanceToBuilds(GeometryEngine geomen,
+    public ArrayList<BuildingPOI> distanceToBuilds(GeometryEngine geomen,
                                           ArrayList<BuildingPOI> builds,
                                           SpatialReference spaRef){
         int len_builds = builds.size();
-        ArrayList<Double> distances = new ArrayList<Double>();
+        ArrayList<BuildingPOI> buildsDist = new ArrayList<>();
 
         Point loc = this.getLocation();
 
+        BuildingPOI buildTemp;
+
         for (int i=0; i<len_builds; i++){
-            distances.add(geomen.distance(loc, builds.get(i).getLocation(), spaRef));
+            buildTemp = builds.get(i);
+            buildTemp.setDistance(geomen.distance(loc, builds.get(i).getLocation(), spaRef));
+            buildsDist.add(buildTemp);
         }
 
-        return distances;
+        return buildsDist;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,18 +158,23 @@ public class User {
      * and every poi in the arrayList Pois
      *
      * @param Pois : the arrayList of poi
-     * @return an arrayList of the theoretical azimuths
+     * @return the pois with the theoretical azimuths
      */
-    public ArrayList<Double> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois){
+    public ArrayList<BuildingPOI> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois){
         int len_pois = Pois.size();
 
-        ArrayList<Double> theoAzs = new ArrayList<Double>();
+        ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
+
+        BuildingPOI poiTemp;
+        double azimuth;
 
         for (int i=0; i<len_pois; i++){
-            double azimuth = this.theoreticalAzimuthToPOI(Pois.get(i));
-            theoAzs.add(azimuth);
+            poiTemp = Pois.get(i);
+            azimuth = this.theoreticalAzimuthToPOI(Pois.get(i));
+            poiTemp.setAzimut(azimuth);
+            poisAzs.add(poiTemp);
         }
 
-        return theoAzs;
+        return poisAzs;
     }
 }

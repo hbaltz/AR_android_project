@@ -20,7 +20,7 @@ public final class Utilities {
     public static List<Double> azimuthAccuracy(double azimuthTheo, double azimuth_accuracy) {
         double minAngle = azimuthTheo - azimuth_accuracy;
         double maxAngle = azimuthTheo + azimuth_accuracy;
-        List<Double> minMax = new ArrayList<Double>();
+        List<Double> minMax = new ArrayList<>();
 
         if (minAngle < 0) {minAngle += 360;}
         if (maxAngle >= 360){maxAngle -= 360;}
@@ -58,28 +58,38 @@ public final class Utilities {
     /**
      * Function which verifies if the real azimuths is between the limit of the theoretical azimuth
      *
-     * @param azimuthTheos: the theoretical azimuths
+     * @param pois: the list of pois
      * @param azimuth_accuracy: the real azimuth's accuracy
-     * @return an ArrayList of boolean
+     * @return the POIS with completed field visible which is a boolean
      * (true if the theoretical azimuth if between minAngle and maxAngle, false else)
      */
-    public static ArrayList<Boolean> isAzimuthsVisible(ArrayList<Double> azimuthTheos,
+    public static ArrayList<BuildingPOI> isAzimuthsVisible(ArrayList<BuildingPOI> pois,
                                                        double azimuthRe,
                                                        double azimuth_accuracy){
 
-        ArrayList<Boolean> visible = new ArrayList<Boolean>();
-        int len_azimuths = azimuthTheos.size();
+        ArrayList<BuildingPOI> poiVisible = new ArrayList<>();
+        int len_azimuths = pois.size();
+
+        // Initialize
+        BuildingPOI poiTemp;
+        double azimuth, minAngle, maxAngle;
+        boolean isVisible;
 
         for(int i=0; i<len_azimuths; i++){
-            double azimuth = azimuthTheos.get(i);
-            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
-            double minAngle = minMax.get(0);
-            double maxAngle = minMax.get(1);
+            poiTemp = pois.get(i);
+            azimuth = poiTemp.getAzimut();
 
-            boolean isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
-            visible.add(isVisible);
+            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
+
+            minAngle = minMax.get(0);
+            maxAngle = minMax.get(1);
+
+            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
+            poiTemp.setVisible(isVisible);
+
+            poiVisible.add(poiTemp);
         }
 
-        return  visible;
+        return  poiVisible;
     }
 }

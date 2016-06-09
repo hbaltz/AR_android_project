@@ -18,6 +18,9 @@ public class BuildingPOI {
     private String Address;
     private String Notes;
     private Point Location;
+    private double distance;
+    private double azimut;
+    private boolean visible;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -76,6 +79,18 @@ public class BuildingPOI {
         return this.Location;
     }
 
+    public double getDistance() {
+        return this.distance;
+    }
+
+    public double getAzimut() {
+        return this.azimut;
+    }
+
+    public boolean isVisible() {
+        return this.visible;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// SETTERS: //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,5 +122,16 @@ public class BuildingPOI {
     public void setLocation(Point location) {
         this.Location = location;
     }
-    
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public void setAzimut(double azimut) {
+        this.azimut = azimut;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 }
