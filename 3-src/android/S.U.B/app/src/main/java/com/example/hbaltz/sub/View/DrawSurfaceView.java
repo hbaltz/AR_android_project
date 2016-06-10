@@ -232,7 +232,7 @@ public class DrawSurfaceView extends View {
      * Functions which draws the information in the ArrayList on the canvas enclosed in a rectangle
      *
      * @param c: the canvas
-     * @param information: arrayLis of string that we want to draw
+     * @param information: arrayList of string that we want to draw
      * @param x: the initial x-location
      * @param y: the initial y-location
      * @param r: the size of the text
