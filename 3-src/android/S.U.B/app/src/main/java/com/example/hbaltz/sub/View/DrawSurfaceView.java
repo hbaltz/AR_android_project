@@ -90,6 +90,7 @@ public class DrawSurfaceView extends View {
             float w;
             String strct, structure, deteration, type, address, notes;
             ArrayList<Integer> sizeStrings;
+            ArrayList<String> information;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
@@ -124,23 +125,29 @@ public class DrawSurfaceView extends View {
                     /////////////////////////////////// Recover info: //////////////////////////////
 
                     sizeStrings = new ArrayList<Integer>(); // Useful for the size of the rectangle
+                    information = new ArrayList<String>();
 
                     // We recover the informations about the Poi that we want to display
                     strct = POI.getStructure();
 
                     structure = "Structure : " + strct;
+                    information.add(structure);
                     sizeStrings.add(structure.length());
 
                     deteration = "Deteration : " + POI.getDeteration();
+                    information.add(deteration);
                     sizeStrings.add(deteration.length());
 
                     type = "Type : " + POI.getType();
+                    information.add(type);
                     sizeStrings.add(type.length());
 
                     address = "Address : " + POI.getAddress();
+                    information.add(address);
                     sizeStrings.add(address.length());
 
                     notes = "Notes : " +POI.getNotes();
+                    information.add(notes);
                     sizeStrings.add(notes.length());
 
                     // We initialize the paint regarding the structure field:
@@ -155,17 +162,8 @@ public class DrawSurfaceView extends View {
                     // We define the size of the rectangle:
                     w = radius*Collections.max(sizeStrings)/2;
 
-                    // We draw the rectangle:
-                    canvas.drawRect(xPosScreen-radius, yPosScreen-5*(radius+1) - radius,
-                            xPosScreen-radius + w, yPosScreen-(radius+1), paintRect);
-
-                    // We the texts:
-                    // TODO create a function
-                    canvas.drawText(structure, xPosScreen-radius, yPosScreen-5*(radius+1), paint);
-                    canvas.drawText(deteration, xPosScreen-radius, yPosScreen-4*(radius+1), paint);
-                    canvas.drawText(type, xPosScreen-radius, yPosScreen-3*(radius+1), paint);
-                    canvas.drawText(address, xPosScreen-radius, yPosScreen-2*(radius+1), paint);
-                    canvas.drawText(notes, xPosScreen-radius, yPosScreen-1*(radius+1), paint);
+                    // We draw the rectangle and the texts:
+                    drawInformation(canvas,information,xPosScreen,yPosScreen,radius,w,paint,paintRect);
                 }
             }
         }
@@ -207,19 +205,54 @@ public class DrawSurfaceView extends View {
         paint.setTextSize(50);
 
         // We set the color regarding the structure information:
-        if(description.equals("Bare frame")) {
-            paint.setColor(Color.MAGENTA);
-        }else if(description.equals("Lightly reinforced masonry walls")){
-            paint.setColor(Color.YELLOW);
-        }else if(description.equals("Heavily reinforced masonry walls")) {
-            paint.setColor(Color.GREEN);
-        }else{
-            paint.setColor(Color.GRAY);
+        switch (description) {
+            case "Bare frame":
+                paint.setColor(Color.MAGENTA);
+                break;
+            case "Lightly reinforced masonry walls":
+                paint.setColor(Color.YELLOW);
+                break;
+            case "Heavily reinforced masonry walls":
+                paint.setColor(Color.GREEN);
+                break;
+            default:
+                paint.setColor(Color.GRAY);
+                break;
         }
 
         // We set the opacity:
         paint.setAlpha(175);
 
         return paint;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Functions which draws the information in the ArrayList on the canvas enclosed in a rectangle
+     *
+     * @param c: the canvas
+     * @param information: arrayLis of string that we want to draw
+     * @param x: the initial x-location
+     * @param y: the initial y-location
+     * @param r: the size of the text
+     * @param w: the weigth of the rectangle
+     * @param paint: the paint
+     * @param paintRect: the paint of the rectangle
+     */
+    public void drawInformation(Canvas c, ArrayList<String> information,
+                                float x, float y, float r, float w, Paint paint, Paint paintRect){
+        int sizeInfo = information.size();
+
+        // We draw the rectangle
+        c.drawRect(x-r, y-sizeInfo*(r+1) - r, x + r + w, y-(r+1), paintRect);
+
+        String infoTemp;
+
+        // We draw the texts:
+        for(int k=0; k < sizeInfo; k++){
+            infoTemp = information.get(sizeInfo-k-1); // To draw in the first in the ArrayLIst the higher
+            c.drawText(infoTemp, x-r, y-(k+1)*(r+1), paint);
+        }
     }
 }
