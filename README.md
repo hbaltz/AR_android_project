@@ -1,7 +1,9 @@
 # Project : Augmented reality - Earthquake
 
 Supervisor: **Dr. Michael SAWADA**
+
 Referent teacher: **Mr Hervé Quinquenel**
+
 Student: **Hugo BALTZ**
 
 ## Subject :
