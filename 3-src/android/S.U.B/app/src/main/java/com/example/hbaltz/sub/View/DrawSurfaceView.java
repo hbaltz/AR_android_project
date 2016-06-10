@@ -45,7 +45,7 @@ public class DrawSurfaceView extends View {
         super(context, set);
 
         // We initialize the paint for the rectangles:
-        paintRect.setColor(Color.LTGRAY);
+        paintRect.setColor(Color.GRAY);
         paintRect.setAntiAlias(true);
         paintRect.setAlpha(190);
 
