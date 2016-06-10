@@ -12,6 +12,6 @@ Prompt Evaluation of Seismic Risk project and involve creating an augmented real
 
 ![SUB logo](0-doc/1-created/logo/sub.png/?raw=true "SUB logo")
 
-S.U.B. for See Unstable Buildings is an Android application which displays in augmented reality information about the buildings around the user, in particular the structure of the buildings, their deteration and their shape.
+S.U.B. for See Unstable Buildings is an Android application which displays in augmented reality information about the buildings around the user, in particular the structure of the buildings, their deterations and their shapes.
 
 S.U.B. is a decision support tool.
