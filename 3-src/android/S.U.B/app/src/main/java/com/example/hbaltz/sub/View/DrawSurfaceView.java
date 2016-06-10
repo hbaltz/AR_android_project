@@ -8,10 +8,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.esri.core.geometry.Point;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by hbaltz on 6/2/2016.
@@ -44,10 +44,12 @@ public class DrawSurfaceView extends View {
     public DrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
+        // We initialize the paint for the rectangles:
         paintRect.setColor(Color.LTGRAY);
         paintRect.setAntiAlias(true);
         paintRect.setAlpha(190);
 
+        // We initialize the paint for the POIs:
         paint.setColor(Color.GREEN);
         paint.setTextSize(50);
         paint.setAntiAlias(true);
@@ -71,28 +73,26 @@ public class DrawSurfaceView extends View {
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d("onSizeChanged", "in here w=" + w + " h=" + h);
         screenWidth = (double) w;
         screenHeight = (double) h;
-
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-
         if(POIs != null) {
             int len_pois = POIs.size();
 
             // Initialize:
             boolean isVisible;
-            double dist, azTheo, angle, xPos, yPos;
+            double dist, azTheo, angle, xPos;
             float xPosScreen, yPosScreen;
             float radius;
             float w;
             String strct, structure, deteration, type, address, notes;
+            ArrayList<Integer> sizeStrings;
 
             for(int i =0; i<len_pois; i++){
-
+                // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
                 isVisible = POI.isVisible();
 
@@ -103,39 +103,64 @@ public class DrawSurfaceView extends View {
                     azTheo = POI.getAzimut();
                     angle = azTheo - azimuthReal;
 
+                    /////////////////////////////////// Calculate location: ////////////////////////
+
+                    // We calculate where the point have to be draw
                     xPos = Math.sin(Math.toRadians(angle)) * dist;
-                    yPos = Math.sqrt(Math.pow(dist, 2) - Math.pow(xPos, 2));
 
                     if (angle <= 45)
                         xPosScreen =(float) ((screenWidth / 2) + xPos);
-
                     else if (angle >= 315)
                         xPosScreen =(float) ((screenWidth / 2) - ((screenWidth*4) - xPos));
-
                     else
                         xPosScreen =(float) (screenWidth*9); //somewhere off the screen
 
+                    // We draw in the middle of the Y-axis
                     yPosScreen = (float)(screenHeight/2);
 
+                    // We calculate the radius of the circle and of the text regarding the distance
                     radius = (float) (2000/dist);
 
-                    strct = POI.getStructure();
-                    structure = "Structure : " + strct;
-                    deteration = "Deteration : " + POI.getDeteration();
-                    type = "Type : " + POI.getType();
-                    address = "Address : " + POI.getAddress();
-                    notes = "Notes : " +POI.getNotes();
+                    /////////////////////////////////// Recover info: //////////////////////////////
 
+                    sizeStrings = new ArrayList<Integer>(); // Useful for the size of the rectangle
+
+                    // We recover the informations about the Poi that we want to display
+                    strct = POI.getStructure();
+
+                    structure = "Structure : " + strct;
+                    sizeStrings.add(structure.length());
+
+                    deteration = "Deteration : " + POI.getDeteration();
+                    sizeStrings.add(deteration.length());
+
+                    type = "Type : " + POI.getType();
+                    sizeStrings.add(type.length());
+
+                    address = "Address : " + POI.getAddress();
+                    sizeStrings.add(address.length());
+
+                    notes = "Notes : " +POI.getNotes();
+                    sizeStrings.add(notes.length());
+
+                    // We initialize the paint regarding the structure field:
                     paint = initializedPaint(strct);
                     paint.setTextSize(radius);
 
+                    /////////////////////////////////// Draw: //////////////////////////////////////
+
+                    // We draw the circle:
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    w = radius*address.length()/2;
+                    // We define the size of the rectangle:
+                    w = radius*Collections.max(sizeStrings)/2;
 
+                    // We draw the rectangle:
                     canvas.drawRect(xPosScreen-radius, yPosScreen-5*(radius+1) - radius,
                             xPosScreen-radius + w, yPosScreen-(radius+1), paintRect);
 
+                    // We the texts:
+                    // TODO create a function
                     canvas.drawText(structure, xPosScreen-radius, yPosScreen-5*(radius+1), paint);
                     canvas.drawText(deteration, xPosScreen-radius, yPosScreen-4*(radius+1), paint);
                     canvas.drawText(type, xPosScreen-radius, yPosScreen-3*(radius+1), paint);
@@ -181,7 +206,7 @@ public class DrawSurfaceView extends View {
         paint.setAntiAlias(true);
         paint.setTextSize(50);
 
-
+        // We set the color regarding the structure information:
         if(description.equals("Bare frame")) {
             paint.setColor(Color.MAGENTA);
         }else if(description.equals("Lightly reinforced masonry walls")){
@@ -192,6 +217,7 @@ public class DrawSurfaceView extends View {
             paint.setColor(Color.GRAY);
         }
 
+        // We set the opacity:
         paint.setAlpha(175);
 
         return paint;
