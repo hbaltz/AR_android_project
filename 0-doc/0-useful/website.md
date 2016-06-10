@@ -55,6 +55,9 @@ https://github.com/googlesamples/tango-examples-unity
 ## Tango get started:
 https://developers.google.com/project-tango/hardware/tablet#get_started
 
+## Community:
+https://plus.google.com/communities/114537896428695886568
+
 # Underground:
 
 ## Display underground info:
