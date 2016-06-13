@@ -347,8 +347,7 @@ public class MainActivity extends FragmentActivity {
             // We update the NN:
             updateNN();
 
-            popToast("lat : " + locUser.getX() + ", long : " + locUser.getY()
-                    + ", bearing : " + location.getBearing(), true);
+            popToast("lat : " + locUser.getX() + ", long : " + locUser.getY(), true);
             Log.d("loc", "lat : " + locUser.getX() + ", long : " + locUser.getY());
         }
 
