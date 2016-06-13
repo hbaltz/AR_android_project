@@ -35,6 +35,9 @@ https://www.netguru.co/blog/augmented-reality-mobile-android
 ## Introduction to the AR:
 http://fr.slideshare.net/zilk/making-augmented-reality-applications-with-android-ndk-28065038
 
+## SDK cop:
+http://socialcompare.com/en/comparison/augmented-reality-sdks
+
 
 # Help:
 
@@ -81,6 +84,12 @@ http://augview.blogspot.ca/?view=classic
 
 ## Tuto openGL + Android:
 http://www.codeproject.com/Articles/269727/Fountain-OpenGL-Application-walkthrough
+
+## Display pipeline:
+https://strawlab.org/2011/11/05/augmented-reality-with-OpenGL
+
+## Artoolkit (OpenSource SDK):
+http://artoolkit.org/documentation/doku.php?id=4_Android:android_examples
 
 # Various:
 
