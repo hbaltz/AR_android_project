@@ -22,9 +22,11 @@ import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
+import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
+import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
@@ -60,6 +62,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
+    private Polygon[] PoiFootprints;
     private ArrayList<BuildingPOI> NN;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
@@ -213,28 +216,32 @@ public class MainActivity extends FragmentActivity {
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
             double lon, lat;
+            Point loc;
+
+            Feature POI;
+            BuildingPOI buildTemp;
 
             for (int k = 0; k < len0; k++) {
 
-                Feature Footprint = features_pois[k];
-                BuildingPOI buildTemp = new BuildingPOI();
+                POI = features_pois[k];
+                buildTemp = new BuildingPOI();
 
                 // Recover information about buildings :
-                if (Footprint != null) {
+                if (POI != null) {
 
                     // Location:
-                    lon = (double) Footprint.getAttributeValue("Longitude");
-                    lat = (double) Footprint.getAttributeValue("Latitude");
-                    Point loc = new Point(lon, lat);
+                    lon = (double) POI.getAttributeValue("Longitude");
+                    lat = (double) POI.getAttributeValue("Latitude");
+                    loc = new Point(lon, lat);
                     buildTemp.setLocation(loc);
 
                     // Name and description:
-                    buildTemp.setName((String) Footprint.getAttributeValue("BUILDNAME"));
-                    buildTemp.setStructure((String) Footprint.getAttributeValue("STRCTWALL"));
-                    buildTemp.setDeteration((String) Footprint.getAttributeValue("DETERATION"));
-                    buildTemp.setType((String) Footprint.getAttributeValue("OCCUPCLASS"));
-                    buildTemp.setAddress((String) Footprint.getAttributeValue("ADDRESS"));
-                    buildTemp.setNotes((String) Footprint.getAttributeValue("NOTES"));
+                    buildTemp.setName((String) POI.getAttributeValue("BUILDNAME"));
+                    buildTemp.setStructure((String) POI.getAttributeValue("STRCTWALL"));
+                    buildTemp.setDeteration((String) POI.getAttributeValue("DETERATION"));
+                    buildTemp.setType((String) POI.getAttributeValue("OCCUPCLASS"));
+                    buildTemp.setAddress((String) POI.getAttributeValue("ADDRESS"));
+                    buildTemp.setNotes((String) POI.getAttributeValue("NOTES"));
 
                 } else {
                     buildTemp = acBul;
@@ -243,6 +250,47 @@ public class MainActivity extends FragmentActivity {
             }
 
             Log.d("buildings", "" + buildings.length);
+
+            //////////////////////////////////// Recover features from  db: ////////////////////////
+            GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(1);
+
+            long nbr_lig_ft = footprints.getNumberOfFeatures();
+            int nbr_int_ft = (int) nbr_lig_ft;
+
+            // We recover all the features in the gdb:
+            Feature[] features_footprints = new Feature[nbr_int_ft];
+
+            for (int r = 1; r <= nbr_lig_ft; r++) {
+                if (pois.checkFeatureExists(r)) {
+                    features_footprints[r - 1] = footprints.getFeature(r);
+                } else {
+                    features_footprints[r - 1] = null;
+                }
+            }
+
+            /////////////////////////////////// Recover Footprints: ////////////////////////////////
+            // Initialize:
+            int len1 = features_footprints.length - 1;
+            PoiFootprints = new Polygon[len1 + 1];
+
+            Polygon acPoly = new Polygon(); // useful if no object in the db
+
+            Feature Footprint;
+
+            for (int k = 0; k < len1; k++) {
+
+                Footprint = features_footprints[k];
+
+                // Recover information about buildings :
+                if (Footprint != null) {
+                    PoiFootprints[k] = (Polygon) Footprint.getGeometry();
+                } else {
+                    PoiFootprints[k] = acPoly;
+                }
+
+            }
+
+            Log.d("PoiFootprints", "" + PoiFootprints.length);
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
