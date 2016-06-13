@@ -7,6 +7,14 @@
     android:orientation="horizontal"
     android:background="@color/black">
 
+    <!--
+    
+    <com.example.hbaltz.sub.View.GeoGLSurfaceView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    -->
+
     <com.example.hbaltz.sub.View.uoMapView
         android:layout_width="348dp"
         android:layout_height="165dp"

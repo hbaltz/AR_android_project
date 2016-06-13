@@ -274,7 +274,6 @@ public class MainActivity extends FragmentActivity {
             PoiFootprints = new Polygon[len1 + 1];
 
             Polygon acPoly = new Polygon(); // useful if no object in the db
-
             Feature Footprint;
 
             for (int k = 0; k < len1; k++) {
