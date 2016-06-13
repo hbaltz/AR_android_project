@@ -79,6 +79,9 @@ http://communities.bentley.com/other/old_site_member_blogs/bentley_employees/b/s
 ## AugView:
 http://augview.blogspot.ca/?view=classic
 
+## Tuto openGL + Android:
+http://www.codeproject.com/Articles/269727/Fountain-OpenGL-Application-walkthrough
+
 # Various:
 
 ## Website specialized in new technologies:
