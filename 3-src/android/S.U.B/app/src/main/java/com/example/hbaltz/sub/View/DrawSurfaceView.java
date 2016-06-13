@@ -88,7 +88,7 @@ public class DrawSurfaceView extends View {
             float xPosScreen, yPosScreen;
             float radius;
             float w;
-            String strct, structure, deteration, type, address, notes;
+            String strct, structure, deteration, type, address, notes, distanc;
             ArrayList<Integer> sizeStrings;
             ArrayList<String> information;
 
@@ -149,6 +149,10 @@ public class DrawSurfaceView extends View {
                     notes = "Notes : " +POI.getNotes();
                     information.add(notes);
                     sizeStrings.add(notes.length());
+
+                    distanc = "Distance : " + ((int)(dist)) + " m";
+                    information.add(distanc);
+                    sizeStrings.add(distanc.length());
 
                     // We initialize the paint regarding the structure field:
                     paint = initializedPaint(strct);
