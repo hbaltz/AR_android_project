@@ -9,7 +9,7 @@ http://www.goprogramming.space/unity-and-android-studio-integration/
 ## Moverio Unity Plugin:
 https://github.com/Seantron/MoverioUnityPlugin
 
-# Augmeted reality  
+# Augmented reality  
 
 ## VR sample google:
 https://github.com/googlevr/gvr-android-sdk.git
@@ -32,6 +32,9 @@ http://www.mixare.org/
 ## Very interessing article on AR:
 https://www.netguru.co/blog/augmented-reality-mobile-android
 
+## Introduction to the AR:
+http://fr.slideshare.net/zilk/making-augmented-reality-applications-with-android-ndk-28065038
+
 
 # Help:
 
@@ -45,6 +48,9 @@ https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/
 
 ## Centroid:
 http://support.esri.com/technical-article/000009381
+
+## Unity AR tuto:
+https://www.youtube.com/watch?v=pv0u8ClfGi4
 
 # Tango:
 
