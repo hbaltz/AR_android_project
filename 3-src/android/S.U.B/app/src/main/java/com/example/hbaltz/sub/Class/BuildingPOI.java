@@ -1,7 +1,10 @@
 package com.example.hbaltz.sub.Class;
 
+import com.esri.core.geometry.Geometry;
+import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.esri.core.geometry.SpatialReference;
 
 import java.util.Comparator;
 
@@ -178,5 +181,25 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     @Override
     public int compareTo(BuildingPOI another) {
         return this.getDistance() > another.getDistance()? -1 : 1;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setPoly( GeometryEngine geomen,
+                                  Polygon[] footprints,
+                                 SpatialReference spaRef){
+
+        Polygon footprintPOI = new Polygon();
+
+        for (Polygon footprint1 : footprints) {
+            if(footprint1!=null) {
+                if (geomen.intersects(this.location, footprint1, spaRef)) {
+                    footprintPOI = footprint1;
+                    break;
+                }
+            }
+        }
+
+        this.footprint = footprintPOI;
     }
 }

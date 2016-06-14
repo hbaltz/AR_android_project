@@ -3,6 +3,7 @@ package com.example.hbaltz.sub.Class;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
+import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
@@ -60,23 +61,23 @@ public class User {
      * @return an ArrayList of buldings which qre the nearest geometries to the point
      */
     public ArrayList<BuildingPOI> nearestNeighbors(GeometryEngine geomen,
-                                                BuildingPOI[] builds,
+                                                BuildingPOI[] builds, Polygon[] footprints,
                                                 SpatialReference spaRef,
                                                 double radius, Unit unit){
 
         ArrayList<BuildingPOI> NN = new ArrayList<>();
-        int len_builds = builds.length;
 
         Point loc = this.getLocation();
 
         Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
 
-        for (int i=0; i<len_builds; i++){
-            if(builds[i]!=null) {
-                Geometry locPOI = builds[i].getLocation();
+        for (BuildingPOI build : builds) {
+            if (build != null) {
+                Geometry locPOI = build.getLocation();
                 if (locPOI != null) {
                     if (geomen.intersects(buffer, locPOI, spaRef)) {
-                        NN.add(builds[i]);
+                        build.setPoly(geomen,footprints,spaRef);
+                        NN.add(build);
                     }
                 }
             }

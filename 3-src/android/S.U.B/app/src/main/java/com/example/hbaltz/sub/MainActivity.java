@@ -335,9 +335,12 @@ public class MainActivity extends FragmentActivity {
      * Function which launches the calculations of the nearest neighbors
      * and the distances between them and the user
      */
+
+    // TODO nearestFootprints
+
     private void updateNN() {
         // We recover the NN of the user:
-        NN = user.nearestNeighbors(geomen, buildings, WGS_1984_WMAS, 200, meter);
+        NN = user.nearestNeighbors(geomen, buildings, PoiFootprints, WGS_1984_WMAS, 200, meter);
 
         if (DEBUG) {Log.d("NN200", "" + NN.size());}
 
