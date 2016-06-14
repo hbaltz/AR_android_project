@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
-import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
@@ -30,7 +29,6 @@ import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
-import com.example.hbaltz.sub.Class.BuildingFootprint;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
@@ -63,7 +61,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
-    private BuildingFootprint[] PoiFootprints;
+    private Polygon[] PoiFootprints;
     private ArrayList<BuildingPOI> NN;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
@@ -275,12 +273,10 @@ public class MainActivity extends FragmentActivity {
             /////////////////////////////////// Recover Footprints: ////////////////////////////////
             // Initialize:
             int len1 = features_footprints.length - 1;
-            PoiFootprints = new BuildingFootprint[len1 + 1];
+            PoiFootprints = new Polygon[len1 + 1];
 
-            BuildingFootprint acFoot = new BuildingFootprint(); // useful if no object in the db
+            Polygon acFoot = new Polygon(); // useful if no object in the db
             Feature Footprint;
-
-            BuildingFootprint fooTemp = new BuildingFootprint();
 
             for (int k = 0; k < len1; k++) {
 
@@ -288,12 +284,10 @@ public class MainActivity extends FragmentActivity {
 
                 // Recover information about buildings :
                 if (Footprint != null) {
-                    fooTemp.setFootprint((Polygon) Footprint.getGeometry());
+                    PoiFootprints[k]=(Polygon) Footprint.getGeometry();
                 } else {
-                    fooTemp = acFoot;
+                    PoiFootprints[k] = acFoot;
                 }
-
-                PoiFootprints[k]=fooTemp;
             }
 
             Log.d("PoiFootprints", "" + PoiFootprints.length);

@@ -1,6 +1,7 @@
 package com.example.hbaltz.sub.Class;
 
 import com.esri.core.geometry.Point;
+import com.esri.core.geometry.Polygon;
 
 import java.util.Comparator;
 
@@ -23,6 +24,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     private String verticalIrregularity;
     private String planIrregularity;
     private Point location;
+    private Polygon footprint;
     private double distance;
     private double azimut;
     private boolean visible;
@@ -93,6 +95,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         return this.location;
     }
 
+    public Polygon getFootprint() {
+        return this.footprint;
+    }
+
     public double getDistance() {
         return this.distance;
     }
@@ -147,6 +153,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    public void setFootprint(Polygon footprint) {
+        this.footprint = footprint;
     }
 
     public void setDistance(double distance) {
