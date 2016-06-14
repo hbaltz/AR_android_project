@@ -52,4 +52,19 @@ public final class Utilities {
         }
         return false;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Recovers the length of string in an array list.
+     *
+     * @param list: an ArrayList of strings
+     * @return: an ArrayList of lengths
+     */
+    public static ArrayList<Integer> lengths(ArrayList<String> list) {
+        ArrayList<Integer> lengthList = new ArrayList<Integer>();
+        for (String s : list)
+            lengthList.add(s.length());
+        return lengthList;
+    }
 }

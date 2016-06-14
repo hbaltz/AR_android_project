@@ -52,7 +52,8 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which finds the buildings below a distance of radius unit from the point
+     * Function which finds the POIs below a distance of radius unit from the point
+     * and calculates the distances between the user and the POIs
      *
      * @param geomen : A geometry engine (Esri)
      * @param builds : The array of buildings
@@ -62,7 +63,7 @@ public class User {
      * @return an ArrayList of buldings which qre the nearest geometries to the point
      */
     public ArrayList<BuildingPOI> nearestNeighbors(GeometryEngine geomen,
-                                                BuildingPOI[] builds, Polygon[] footprints,
+                                                BuildingPOI[] builds, ArrayList<Polygon> footprints,
                                                 SpatialReference spaRef,
                                                 double radius, Unit unit){
 
@@ -168,5 +169,39 @@ public class User {
         }
 
         return poisAzs;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which finds the footprints below a distance of radius unit from the point
+     *
+     * @param geomen : A geometry engine (Esri)
+     * @param footprints : The array of footprints
+     * @param spaRef : the spatial reference
+     * @param radius : The distance to consider a geometries like a NN (Nearest Neighbor)
+     * @param unit : The distance's unit
+     * @return an ArrayList of buldings which qre the nearest geometries to the point
+     */
+    public ArrayList<Polygon> nearestFootprints(GeometryEngine geomen,
+                                                   Polygon[] footprints,
+                                                   SpatialReference spaRef,
+                                                   double radius, Unit unit){
+
+        ArrayList<Polygon> NF = new ArrayList<>();
+
+        Point loc = this.getLocation();
+
+        Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
+
+        for (Polygon footprint : footprints) {
+            if (footprint != null) {
+                if (geomen.intersects(buffer, footprint, spaRef)) {
+                    NF.add(footprint);
+                }
+            }
+        }
+
+        return NF;
     }
 }

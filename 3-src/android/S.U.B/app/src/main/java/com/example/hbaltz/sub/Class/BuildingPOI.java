@@ -1,12 +1,11 @@
 package com.example.hbaltz.sub.Class;
 
-import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 
 /**
  * Created by hbaltz on 6/1/2016.
@@ -17,6 +16,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     //////////////////////////////////// FIELDS: ///////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //////////////////////////////////// Information: //////////////////////////////////////////////
     private String structure;
     private String occupancyClass;
     private String address;
@@ -26,8 +26,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     private String numberOfStories;
     private String verticalIrregularity;
     private String planIrregularity;
+    //////////////////////////////////// Geometry: /////////////////////////////////////////////////
     private Point location;
     private Polygon footprint;
+    //////////////////////////////////// Relative to the user: /////////////////////////////////////
     private double distance;
     private double azimut;
     private boolean visible;
@@ -48,10 +50,16 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     public BuildingPOI(){
         this.structure = "";
         this.occupancyClass = "";
-        this.buildingType="";
         this.address = "";
         this.notes = "";
+        this.buildingType = "";
+        this.constructionYear = "";
+        this.numberOfStories = "";
+        this.verticalIrregularity = "";
+        this.planIrregularity = "";
+
         this.location = new Point();
+        this.footprint = new Polygon();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,8 +193,15 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Sets the footprint
+     *
+     * @param geomen: geometry engine
+     * @param footprints: ArrayList<Polygon>
+     * @param spaRef: spatial reference
+     */
     public void setPoly( GeometryEngine geomen,
-                                  Polygon[] footprints,
+                         ArrayList<Polygon> footprints,
                                  SpatialReference spaRef){
 
         Polygon footprintPOI = new Polygon();
@@ -201,5 +216,24 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         }
 
         this.footprint = footprintPOI;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<String> recoverInformation(){
+        ArrayList<String> information = new ArrayList<>();
+
+        information.add("Structure wall: " + this.structure);
+        information.add("Building type: " + this.buildingType);
+        information.add("Occupancy class: " + this.occupancyClass);
+        information.add("Construction year: " + this.constructionYear);
+        information.add("Number of stories: " + this.numberOfStories);
+        information.add("Vertical irregularity: " + this.verticalIrregularity);
+        information.add("Plan irregularity: " + this.planIrregularity);
+        information.add("Address: " + this.address);
+        information.add("Notes: " +this.notes);
+        information.add("Distance : " + ((int)(this.distance)) + " m");
+
+        return information;
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.hbaltz.sub.Class.BuildingPOI;
+import com.example.hbaltz.sub.Class.Utilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,8 +89,7 @@ public class DrawSurfaceView extends View {
             float xPosScreen, yPosScreen;
             float radius;
             float w;
-            String strct, structure, occupancyClass, buildingType, constructionYear;
-            String numberOfStories, verticalIrregularity, planIrregularity, address, notes, distanc;
+            String strct;
             ArrayList<Integer> sizeStrings;
             ArrayList<String> information;
 
@@ -106,7 +106,6 @@ public class DrawSurfaceView extends View {
                     angDeg = azTheo - azimuthReal;
 
                     /////////////////////////////////// Calculate location: ////////////////////////
-
                     // We calculate where the point have to be draw
                     angRad = Math.toRadians(angDeg);
                     xPos = Math.sin(angRad) * dist;
@@ -126,59 +125,16 @@ public class DrawSurfaceView extends View {
                     radius = (float) (2000/dist);
 
                     /////////////////////////////////// Recover info: //////////////////////////////
-
-                    sizeStrings = new ArrayList<Integer>(); // Useful for the size of the rectangle
-                    information = new ArrayList<String>();
-
-                    // We recover the informations about the Poi that we want to display
+                    // We recover the information about the Poi that we want to display
                     strct = POI.getStructure();
-
-                    structure = "Structure wall: " + strct;
-                    information.add(structure);
-                    sizeStrings.add(structure.length());
-
-                    buildingType = "Building type: " + POI.getBuildingType();
-                    information.add(buildingType);
-                    sizeStrings.add(buildingType.length());
-
-                    occupancyClass = "Occupancy class: " + POI.getOccupancyClass();
-                    information.add(occupancyClass);
-                    sizeStrings.add(occupancyClass.length());
-
-                    constructionYear = "Construction year: " + POI.getConstructionYear();
-                    information.add(constructionYear);
-                    sizeStrings.add(constructionYear.length());
-
-                    numberOfStories = "Number of stories: " + POI.getNumberOfStories();
-                    information.add(numberOfStories);
-                    sizeStrings.add(numberOfStories.length());
-
-                    verticalIrregularity = "Vertical irregularity: " + POI.getVerticalIrregularity();
-                    information.add(verticalIrregularity);
-                    sizeStrings.add(verticalIrregularity.length());
-
-                    planIrregularity = "Plan irregularity: " + POI.getPlanIrregularity();
-                    information.add(planIrregularity);
-                    sizeStrings.add(planIrregularity.length());
-
-                    address = "Address: " + POI.getAddress();
-                    information.add(address);
-                    sizeStrings.add(address.length());
-
-                    notes = "Notes: " +POI.getNotes();
-                    information.add(notes);
-                    sizeStrings.add(notes.length());
-
-                    distanc = "Distance : " + ((int)(dist)) + " m";
-                    information.add(distanc);
-                    sizeStrings.add(distanc.length());
+                    information = POI.recoverInformation();
+                    sizeStrings = Utilities.lengths(information); // Useful for the size of the rectangle
 
                     // We initialize the paint regarding the structure field:
                     paint = initializedPaint(strct);
                     paint.setTextSize(radius);
 
                     /////////////////////////////////// Draw: //////////////////////////////////////
-
                     // We draw the circle:
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 

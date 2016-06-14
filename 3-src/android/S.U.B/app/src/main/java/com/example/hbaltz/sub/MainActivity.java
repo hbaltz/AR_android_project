@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onStop() {
-        if (DEBUG) {Log.d("onStop", "Ok");}
+        if (DEBUG) Log.d("onStop", "Ok");
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
@@ -174,18 +174,14 @@ public class MainActivity extends FragmentActivity {
         // Get the external directory
         String networkPath = chDb + "/uo_campus.geodatabase";
 
-        if (DEBUG) {
-            Log.d("extern", extern);
-        }
+        if (DEBUG) Log.d("extern", extern);
 
         try {
             //////////////////////////////////// Open  db: /////////////////////////////////////////
             // open a local geodatabase
             Geodatabase gdb = new Geodatabase(extern + networkPath);
 
-            if (DEBUG) {
-                Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
-            }
+            if (DEBUG) Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable pois = gdb.getGeodatabaseTables().get(0);
@@ -204,9 +200,8 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            if (DEBUG) {
-                Log.d("len_ff", "" + features_pois.length);
-            }
+            if (DEBUG) Log.d("len_ff", "" + features_pois.length);
+
 
             /////////////////////////////////// Recover POIs: //////////////////////////////////////
             // Initialize:
@@ -251,7 +246,7 @@ public class MainActivity extends FragmentActivity {
                 buildings[k] = buildTemp;
             }
 
-            Log.d("buildings", "" + buildings.length);
+            if (DEBUG) Log.d("buildings", "" + buildings.length);
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable footprints = gdb.getGeodatabaseTables().get(1);
@@ -310,7 +305,7 @@ public class MainActivity extends FragmentActivity {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
             NN = user.theoreticalAzimuthToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY);
-            if(DEBUG) {Log.d("azTeo", "" + NN);}
+            if(DEBUG) Log.d("azTeo", "" + NN);
 
             // We update the display:
             if (DrawView != null) {
@@ -331,13 +326,14 @@ public class MainActivity extends FragmentActivity {
      * Function which launches the calculations of the nearest neighbors
      * and the distances between them and the user
      */
-
-    // TODO nearestFootprints
-
     private void updateNN() {
+        // We recover the NF:
+        ArrayList<Polygon> NF =  user.nearestFootprints(geomen, PoiFootprints, WGS_1984_WMAS, 250, meter);
+        if (DEBUG) Log.d("NF250", "" + NF.size());
+
         // We recover the NN of the user:
-        NN = user.nearestNeighbors(geomen, buildings, PoiFootprints, WGS_1984_WMAS, 200, meter);
-        if (DEBUG) {Log.d("NN200", "" + NN.size());}
+        NN = user.nearestNeighbors(geomen, buildings, NF, WGS_1984_WMAS, 200, meter);
+        if (DEBUG) Log.d("NN200", "" + NN.size());
 
         // We update the map:
         if(uoMap != null) {
@@ -453,7 +449,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
 }
