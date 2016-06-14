@@ -4,6 +4,7 @@ import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.SpatialReference;
+import com.esri.core.map.Feature;
 
 import java.util.ArrayList;
 
@@ -220,6 +221,30 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Sets the information of the gdb in the class
+     *
+     * @param POI: the feature recovered from the gdb
+     */
+    public void setInformation(Feature POI){
+        this.structure = ((String) POI.getAttributeValue("STRCTWALL"));
+        this.buildingType = ((String) POI.getAttributeValue("BUILDTYPE"));
+        this.occupancyClass = ((String) POI.getAttributeValue("OCCUPCLASS"));
+        this.constructionYear = ((String) POI.getAttributeValue("CONSTYEAR"));
+        this.numberOfStories = ((String) POI.getAttributeValue("NUMSTORIES"));
+        this.verticalIrregularity = ((String) POI.getAttributeValue("VERTIRREG"));
+        this.planIrregularity = ((String) POI.getAttributeValue("PLANIRREG"));
+        this.address = ((String) POI.getAttributeValue("ADDRESS"));
+        this.notes = ((String) POI.getAttributeValue("NOTES"));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Recovers the information about the POI in a arrayList
+     *
+     * @return an ArrayList of String
+     */
     public ArrayList<String> recoverInformation(){
         ArrayList<String> information = new ArrayList<>();
 

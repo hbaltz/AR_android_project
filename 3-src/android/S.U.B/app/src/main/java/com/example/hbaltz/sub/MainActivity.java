@@ -230,15 +230,7 @@ public class MainActivity extends FragmentActivity {
                     buildTemp.setLocation(loc);
 
                     // Information:
-                    buildTemp.setStructure((String) POI.getAttributeValue("STRCTWALL"));
-                    buildTemp.setBuildingType((String) POI.getAttributeValue("BUILDTYPE"));
-                    buildTemp.setOccupancyClass((String) POI.getAttributeValue("OCCUPCLASS"));
-                    buildTemp.setConstructionYear((String) POI.getAttributeValue("CONSTYEAR"));
-                    buildTemp.setNumberOfStories((String) POI.getAttributeValue("NUMSTORIES"));
-                    buildTemp.setVerticalIrregularity((String) POI.getAttributeValue("VERTIRREG"));
-                    buildTemp.setPlanIrregularity((String) POI.getAttributeValue("PLANIRREG"));
-                    buildTemp.setAddress((String) POI.getAttributeValue("ADDRESS"));
-                    buildTemp.setNotes((String) POI.getAttributeValue("NOTES"));
+                    buildTemp.setInformation(POI);
 
                 } else {
                     buildTemp = acBul;
