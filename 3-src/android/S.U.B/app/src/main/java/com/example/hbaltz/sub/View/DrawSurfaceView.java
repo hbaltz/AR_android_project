@@ -84,7 +84,7 @@ public class DrawSurfaceView extends View {
 
             // Initialize:
             boolean isVisible;
-            double dist, azTheo, angle, xPos;
+            double dist, azTheo, angDeg, angRad, xPos, yPos;
             float xPosScreen, yPosScreen;
             float radius;
             float w;
@@ -103,22 +103,24 @@ public class DrawSurfaceView extends View {
                     // If the poi is visible we recover information about it :
                     dist = POI.getDistance();
                     azTheo = POI.getAzimut();
-                    angle = azTheo - azimuthReal;
+                    angDeg = azTheo - azimuthReal;
 
                     /////////////////////////////////// Calculate location: ////////////////////////
 
                     // We calculate where the point have to be draw
-                    xPos = Math.sin(Math.toRadians(angle)) * dist;
+                    angRad = Math.toRadians(angDeg);
+                    xPos = Math.sin(angRad) * dist;
+                    yPos = Math.cos(angRad) * dist;
 
-                    if (angle <= 45)
+                    if (angDeg <= 45)
                         xPosScreen =(float) ((screenWidth / 2) + xPos);
-                    else if (angle >= 315)
+                    else if (angDeg >= 315)
                         xPosScreen =(float) ((screenWidth / 2) - ((screenWidth*4) - xPos));
                     else
                         xPosScreen =(float) (screenWidth*9); //somewhere off the screen
 
                     // We draw in the middle of the Y-axis
-                    yPosScreen = (float)(screenHeight/2);
+                    yPosScreen = (float)(screenHeight/2)  ;
 
                     // We calculate the radius of the circle and of the text regarding the distance
                     radius = (float) (2000/dist);
