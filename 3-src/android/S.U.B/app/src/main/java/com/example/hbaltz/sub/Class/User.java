@@ -94,7 +94,7 @@ public class User {
      * @param spaRef : The spatial reference
      * @return the builds with distance
      */
-    public ArrayList<BuildingPOI> distanceToBuilds(GeometryEngine geomen,
+    public ArrayList<BuildingPOI> distanceToPOIs(GeometryEngine geomen,
                                           ArrayList<BuildingPOI> builds,
                                           SpatialReference spaRef){
         int len_builds = builds.size();
