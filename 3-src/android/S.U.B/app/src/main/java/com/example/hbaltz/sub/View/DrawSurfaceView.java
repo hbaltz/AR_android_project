@@ -88,7 +88,8 @@ public class DrawSurfaceView extends View {
             float xPosScreen, yPosScreen;
             float radius;
             float w;
-            String strct, structure, deteration, type, address, notes, distanc;
+            String strct, structure, occupancyClass, buildingType, constructionYear;
+            String numberOfStories, verticalIrregularity, planIrregularity, address, notes, distanc;
             ArrayList<Integer> sizeStrings;
             ArrayList<String> information;
 
@@ -130,23 +131,39 @@ public class DrawSurfaceView extends View {
                     // We recover the informations about the Poi that we want to display
                     strct = POI.getStructure();
 
-                    structure = "Structure : " + strct;
+                    structure = "Structure wall: " + strct;
                     information.add(structure);
                     sizeStrings.add(structure.length());
 
-                    deteration = "Deteration : " + POI.getDeteration();
-                    information.add(deteration);
-                    sizeStrings.add(deteration.length());
+                    buildingType = "Building type: " + POI.getBuildingType();
+                    information.add(buildingType);
+                    sizeStrings.add(buildingType.length());
 
-                    type = "Type : " + POI.getType();
-                    information.add(type);
-                    sizeStrings.add(type.length());
+                    occupancyClass = "Occupancy class: " + POI.getOccupancyClass();
+                    information.add(occupancyClass);
+                    sizeStrings.add(occupancyClass.length());
 
-                    address = "Address : " + POI.getAddress();
+                    constructionYear = "Construction year: " + POI.getConstructionYear();
+                    information.add(constructionYear);
+                    sizeStrings.add(constructionYear.length());
+
+                    numberOfStories = "Number of stories: " + POI.getNumberOfStories();
+                    information.add(numberOfStories);
+                    sizeStrings.add(numberOfStories.length());
+
+                    verticalIrregularity = "Vertical irregularity: " + POI.getVerticalIrregularity();
+                    information.add(verticalIrregularity);
+                    sizeStrings.add(verticalIrregularity.length());
+
+                    planIrregularity = "Plan irregularity: " + POI.getPlanIrregularity();
+                    information.add(planIrregularity);
+                    sizeStrings.add(planIrregularity.length());
+
+                    address = "Address: " + POI.getAddress();
                     information.add(address);
                     sizeStrings.add(address.length());
 
-                    notes = "Notes : " +POI.getNotes();
+                    notes = "Notes: " +POI.getNotes();
                     information.add(notes);
                     sizeStrings.add(notes.length());
 
