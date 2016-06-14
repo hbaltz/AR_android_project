@@ -67,4 +67,28 @@ public final class Utilities {
             lengthList.add(s.length());
         return lengthList;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculates the position on the screen of a point with an angle ang and a distance dist
+     * between it and the user.
+     *
+     * @param ang: the angle between the point and the user in radian
+     * @param dist: the distance between the point and the user in meters
+     * @param W: the screen's width
+     * @param H: the screen's height
+     * @return the point's position on the screen
+     */
+    public static List<Float> screnPosition(double ang, double dist, double W, double H){
+        List<Float> pos = new ArrayList<>();
+
+        double xPos = Math.sin(ang) * dist;
+        double yPos = Math.cos(ang) * dist;
+
+        pos.add( (float)((W/2) + (xPos*256/yPos)));
+        pos.add( (float)((H/2) + yPos) );
+
+        return pos;
+    }
 }

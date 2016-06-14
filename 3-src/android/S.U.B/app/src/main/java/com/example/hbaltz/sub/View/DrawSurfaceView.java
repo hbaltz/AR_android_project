@@ -13,6 +13,7 @@ import com.example.hbaltz.sub.Class.Utilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by hbaltz on 6/2/2016.
@@ -78,6 +79,8 @@ public class DrawSurfaceView extends View {
         screenHeight = (double) h;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onDraw(Canvas canvas) {
         if(POIs != null) {
@@ -85,7 +88,8 @@ public class DrawSurfaceView extends View {
 
             // Initialize:
             boolean isVisible;
-            double dist, azTheo, angDeg, angRad, xPos, yPos;
+            double dist, azTheo, angRad;
+            List<Float> posScreen;
             float xPosScreen, yPosScreen;
             float radius;
             float w;
@@ -103,23 +107,16 @@ public class DrawSurfaceView extends View {
                     // If the poi is visible we recover information about it :
                     dist = POI.getDistance();
                     azTheo = POI.getAzimut();
-                    angDeg = azTheo - azimuthReal;
+                    angRad = Math.toRadians(azTheo - azimuthReal);
 
                     /////////////////////////////////// Calculate location: ////////////////////////
                     // We calculate where the point have to be draw
-                    angRad = Math.toRadians(angDeg);
-                    xPos = Math.sin(angRad) * dist;
-                    yPos = Math.cos(angRad) * dist;
+                    posScreen = Utilities.screnPosition(angRad,dist,screenWidth,screenHeight);
 
-                    if (angDeg <= 45)
-                        xPosScreen =(float) ((screenWidth / 2) + xPos);
-                    else if (angDeg >= 315)
-                        xPosScreen =(float) ((screenWidth / 2) - ((screenWidth*4) - xPos));
-                    else
-                        xPosScreen =(float) (screenWidth*9); //somewhere off the screen
+                    xPosScreen = posScreen.get(0);
 
-                    // We draw in the middle of the Y-axis
-                    yPosScreen = (float)(screenHeight/2)  ;
+                    // We draw in the middle of the y-axis
+                    yPosScreen = (float)((screenHeight / 2));
 
                     // We calculate the radius of the circle and of the text regarding the distance
                     radius = (float) (2000/dist);

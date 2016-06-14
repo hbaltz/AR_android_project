@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -33,6 +34,7 @@ import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
+import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
 
 import java.util.ArrayList;
@@ -77,6 +79,7 @@ public class MainActivity extends FragmentActivity {
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
     private uoMapView uoMap;
+    private GeoDrawSurfaceView GeoDrawView;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -100,6 +103,8 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        DrawView.setVisibility(View.INVISIBLE);
+        GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
@@ -303,6 +308,12 @@ public class MainActivity extends FragmentActivity {
             if (DrawView != null) {
                 DrawView.setVariables(NN, azimuthReal);
                 DrawView.invalidate();
+            }
+
+            // We update the display:
+            if (GeoDrawView != null) {
+                GeoDrawView.setVariables(NN, azimuthReal, user, WGS_1984_WMAS);
+                GeoDrawView.invalidate();
             }
 
             if(uoMap != null && updatedMapView) {
