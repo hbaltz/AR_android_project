@@ -10,6 +10,7 @@ import com.esri.core.geometry.Unit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by hbaltz on 6/1/2016.
@@ -76,45 +77,18 @@ public class User {
                 Geometry locPOI = build.getLocation();
                 if (locPOI != null) {
                     if (geomen.intersects(buffer, locPOI, spaRef)) {
+                        build.setDistance(geomen.distance(loc, build.getLocation(), spaRef));
                         build.setPoly(geomen,footprints,spaRef);
                         NN.add(build);
                     }
                 }
             }
         }
-        return NN;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which calculates the distance between a point and all the buildings in an array
-     *
-     * @param geomen : A geometry engine (Esri)
-     * @param builds : The arrayList of buildings
-     * @param spaRef : The spatial reference
-     * @return the builds with distance
-     */
-    public ArrayList<BuildingPOI> distanceToPOIs(GeometryEngine geomen,
-                                          ArrayList<BuildingPOI> builds,
-                                          SpatialReference spaRef){
-        int len_builds = builds.size();
-        ArrayList<BuildingPOI> buildsDist = new ArrayList<>();
-
-        Point loc = this.getLocation();
-
-        BuildingPOI buildTemp;
-
-        for (int i=0; i<len_builds; i++){
-            buildTemp = builds.get(i);
-            buildTemp.setDistance(geomen.distance(loc, builds.get(i).getLocation(), spaRef));
-            buildsDist.add(buildTemp);
-        }
 
         // Sort (useful when we draw)
-        Collections.sort(buildsDist);
+        Collections.sort(NN);
 
-        return buildsDist;
+        return NN;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,23 +135,35 @@ public class User {
 
     /**
      * Function which calculates the theoretical azimuth between the user's location
-     * and every poi in the arrayList Pois
+     * and every poi in the arrayList Pois and if the poi is visible by the user
      *
      * @param Pois : the arrayList of poi
      * @return the pois with the theoretical azimuths
      */
-    public ArrayList<BuildingPOI> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois){
+    public ArrayList<BuildingPOI> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois,
+                                                           double azimuthRe,
+                                                           double azimuth_accuracy){
         int len_pois = Pois.size();
 
         ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
 
         BuildingPOI poiTemp;
-        double azimuth;
+        double azimuth, minAngle, maxAngle;
+        boolean isVisible;
 
         for (int i=0; i<len_pois; i++){
             poiTemp = Pois.get(i);
             azimuth = this.theoreticalAzimuthToPOI(Pois.get(i));
             poiTemp.setAzimut(azimuth);
+
+            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
+
+            minAngle = minMax.get(0);
+            maxAngle = minMax.get(1);
+
+            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
+            poiTemp.setVisible(isVisible);
+
             poisAzs.add(poiTemp);
         }
 

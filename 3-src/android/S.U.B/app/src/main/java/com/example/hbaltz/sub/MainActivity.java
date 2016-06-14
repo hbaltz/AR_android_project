@@ -309,12 +309,8 @@ public class MainActivity extends FragmentActivity {
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
-            NN = user.theoreticalAzimuthToPOIs(NN);
+            NN = user.theoreticalAzimuthToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY);
             if(DEBUG) {Log.d("azTeo", "" + NN);}
-
-            // We check if the user sees the NN:
-            NN = Utilities.isAzimuthsVisible(NN, azimuthReal, AZIMUTH_ACCURACY);
-            if (DEBUG) {Log.d("visible", "" + NN);}
 
             // We update the display:
             if (DrawView != null) {
@@ -341,15 +337,7 @@ public class MainActivity extends FragmentActivity {
     private void updateNN() {
         // We recover the NN of the user:
         NN = user.nearestNeighbors(geomen, buildings, PoiFootprints, WGS_1984_WMAS, 200, meter);
-
         if (DEBUG) {Log.d("NN200", "" + NN.size());}
-
-        // We calculate the distance between all the NN and the user:
-        if (NN != null) {
-            NN = user.distanceToPOIs(geomen, NN, WGS_1984_WMAS);
-
-            if (DEBUG) {Log.d("distances", "" + NN);}
-        }
 
         // We update the map:
         if(uoMap != null) {

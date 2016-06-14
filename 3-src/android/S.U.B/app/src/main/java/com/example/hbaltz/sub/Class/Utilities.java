@@ -52,44 +52,4 @@ public final class Utilities {
         }
         return false;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which verifies if the real azimuths is between the limit of the theoretical azimuth
-     *
-     * @param pois: the list of pois
-     * @param azimuth_accuracy: the real azimuth's accuracy
-     * @return the POIS with completed field visible which is a boolean
-     * (true if the theoretical azimuth if between minAngle and maxAngle, false else)
-     */
-    public static ArrayList<BuildingPOI> isAzimuthsVisible(ArrayList<BuildingPOI> pois,
-                                                       double azimuthRe,
-                                                       double azimuth_accuracy){
-
-        ArrayList<BuildingPOI> poiVisible = new ArrayList<>();
-        int len_azimuths = pois.size();
-
-        // Initialize
-        BuildingPOI poiTemp;
-        double azimuth, minAngle, maxAngle;
-        boolean isVisible;
-
-        for(int i=0; i<len_azimuths; i++){
-            poiTemp = pois.get(i);
-            azimuth = poiTemp.getAzimut();
-
-            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
-
-            minAngle = minMax.get(0);
-            maxAngle = minMax.get(1);
-
-            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
-            poiTemp.setVisible(isVisible);
-
-            poiVisible.add(poiTemp);
-        }
-
-        return  poiVisible;
-    }
 }
