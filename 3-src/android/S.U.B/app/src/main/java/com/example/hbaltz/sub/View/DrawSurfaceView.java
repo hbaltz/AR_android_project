@@ -30,8 +30,8 @@ public class DrawSurfaceView extends View {
     ////////////////////////////////////// POIs: ///////////////////////////////////////////////////
     private ArrayList<BuildingPOI> POIs = null;
 
-    ////////////////////////////////////// Azimuth: ////////////////////////////////////////////////
-    private double azimuthReal;
+    ////////////////////////////////////// Angles: /////////////////////////////////////////////////
+    private double azimuthReal, pitchReal;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint();
@@ -111,7 +111,7 @@ public class DrawSurfaceView extends View {
 
                     /////////////////////////////////// Calculate location: ////////////////////////
                     // We calculate where the point have to be draw
-                    posScreen = Utilities.screnPosition(angRad,dist,screenWidth,screenHeight);
+                    posScreen = Utilities.screnPosition(angRad, angRad,dist,screenWidth,screenHeight); // TODO change after successful too
 
                     xPosScreen = posScreen.get(0);
 
@@ -159,10 +159,12 @@ public class DrawSurfaceView extends View {
      * @param azimuthreal: the real azimuth (double)
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
-                             double azimuthreal){
+                             double azimuthreal,
+                             double pitchreal){
 
         this.POIs = pois;
         this.azimuthReal = azimuthreal;
+        this.pitchReal = pitchreal;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
