@@ -38,6 +38,11 @@ http://fr.slideshare.net/zilk/making-augmented-reality-applications-with-android
 ## SDK cop:
 http://socialcompare.com/en/comparison/augmented-reality-sdks
 
+## Document angle:
+https://www.researchgate.net/publication/260767044_WorldPlus_An_Augmented_Reality_Application_with_Georeferenced_content_for_smartphones_-_the_Android_example
+
+## Calculate angle:
+http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
 
 # Help:
 
