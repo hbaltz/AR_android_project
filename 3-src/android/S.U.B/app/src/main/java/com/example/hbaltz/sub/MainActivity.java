@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity {
     private Unit meter = Unit.create(LinearUnit.Code.METER);
 
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
-    private double azimuthReal = 0;
+    private double azimuthReal = 0, pitchReal=0;
     private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -306,13 +306,13 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (DrawView != null) {
-                DrawView.setVariables(NN, azimuthReal);
+                DrawView.setVariables(NN, azimuthReal, pitchReal);
                 DrawView.invalidate();
             }
 
             // We update the display:
             if (GeoDrawView != null) {
-                GeoDrawView.setVariables(NN, azimuthReal, user, WGS_1984_WMAS);
+                GeoDrawView.setVariables(NN, azimuthReal, pitchReal, user, WGS_1984_WMAS);
                 GeoDrawView.invalidate();
             }
 
@@ -439,9 +439,12 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
+                Log.d("Pitcht - roll?","1: " + orientationVals[1] + ", 2: "+ orientationVals[2]);
+
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
+                pitchReal = (orientationVals[1]);
 
                 // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
                 difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
