@@ -204,4 +204,31 @@ public class User {
 
         return NF;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which calculates the theoretical pitch between the user's location and a POI
+     *
+     * @param Poi : a poin of a building
+     * @return the theoretical pitch
+     */
+    public double theoreticalPitchToPOI(BuildingPOI Poi) {
+        // Initialize
+        Point locUsr = this.getLocation();
+        Point locPoi = Poi.getLocation();
+
+        double dist = Poi.getDistance();
+        double h = Math.abs(locUsr.getZ() - locPoi.getZ());
+        if(h==0) h = 1.8;
+
+        double hyp = Math.sqrt((dist*dist) + (h*h));
+
+        double pitch;
+
+        pitch = Math.acos(dist/hyp);
+        pitch = Math.toDegrees(pitch);
+
+        return pitch; // degrees
+    }
 }
