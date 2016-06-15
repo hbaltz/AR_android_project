@@ -1,5 +1,7 @@
 package com.example.hbaltz.sub.Class;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,20 +76,26 @@ public final class Utilities {
      * Calculates the position on the screen of a point with an angle ang and a distance dist
      * between it and the user.
      *
-     * @param ang: the angle between the point and the user in radian
+     * @param angVer: the vertical angle between the point and the user in radian
+     * @param angHor: the horizontalical angle between the point and the user in radian
      * @param dist: the distance between the point and the user in meters
      * @param W: the screen's width
      * @param H: the screen's height
      * @return the point's position on the screen
      */
-    public static List<Float> screnPosition(double ang, double dist, double W, double H){
+    public static List<Float> screnPosition(double angVer, double angHor,
+                                            double dist, double W, double H){
         List<Float> pos = new ArrayList<>();
 
-        double xPos = Math.sin(ang) * dist;
-        double yPos = Math.cos(ang) * dist;
+        double xPos = Math.cos(angVer) * dist;
+        double yPos = Math.sin(angHor) * dist; // Not good
 
-        pos.add( (float)((W/2) + (xPos*256/yPos)));
-        pos.add( (float)((H/2) + yPos) );
+        //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
+
+        double ratio = (W+H)/2;
+
+        pos.add( (float)((W/2) + (xPos)) );
+        pos.add( (float)((H/2) + (yPos)) );
 
         return pos;
     }

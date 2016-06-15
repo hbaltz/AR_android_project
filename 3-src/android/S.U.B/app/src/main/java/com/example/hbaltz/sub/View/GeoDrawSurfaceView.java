@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.esri.core.geometry.GeometryEngine;
@@ -44,8 +45,8 @@ public class GeoDrawSurfaceView  extends View {
     ////////////////////////////////////// POIs: ///////////////////////////////////////////////////
     private ArrayList<BuildingPOI> POIs = null;
 
-    ////////////////////////////////////// Azimuth: ////////////////////////////////////////////////
-    private double azimuthReal;
+    ////////////////////////////////////// Angles: /////////////////////////////////////////////////
+    private double azimuthReal, pitchReal;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint();
@@ -96,18 +97,21 @@ public class GeoDrawSurfaceView  extends View {
             int countPoint;
             Point pointTemp;
             BuildingPOI poiTemp = new BuildingPOI();
-            double azimutTheo, dist, angle;
+            double azimutTheo, pitchTheo, dist, angleHor=0d, angleVer;
             List<Float> posScreenTemp;
             Path wallpath;
-            float x0=0f,y0=0f;
             float xPos,yPos;
+            boolean draw= false;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
                 isVisible = POI.isVisible();
 
-                if(isVisible) {
+                //if(isVisible) {
+
+                    draw = false;
+
                     footprint = POI.getFootprint();
 
                     countPoint = footprint.getPointCount();
@@ -120,26 +124,35 @@ public class GeoDrawSurfaceView  extends View {
                         poiTemp.setLocation(pointTemp);
 
                         azimutTheo = user.theoreticalAzimuthToPOI(poiTemp);
-                        angle = Math.toRadians(azimutTheo-azimuthReal);
+                        angleVer = Math.toRadians(azimutTheo-azimuthReal);
+
+                        pitchTheo = user.theoreticalPitchToPOI(poiTemp);
+                        angleHor = Math.toRadians(pitchTheo);
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
 
-                        posScreenTemp = Utilities.screnPosition(angle, dist, screenWidth, screenHeight);
+                        posScreenTemp = Utilities.screnPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
 
+                        canvas.drawCircle(xPos, yPos,(float) (200/dist), paint);
+/*
                         if(j==0){
                             wallpath.moveTo(xPos, yPos);
-                            x0 = xPos;
-                            y0 = yPos;
+                            draw = true;
                         }else wallpath.lineTo(xPos, yPos);
-
+*/
                     }
-                    wallpath.lineTo(x0, y0);
+                    if(draw) {
+                        wallpath.close();
 
-                    canvas.drawPath(wallpath, paint);
-                }
+                        //Log.d("wallpath",wallpath.toString());
+
+                        canvas.drawPath(wallpath, paint);
+                    }
+
+                //}
             }
         }
 
@@ -156,14 +169,19 @@ public class GeoDrawSurfaceView  extends View {
      *
      * @param pois: the arrayList of POI that we want to draw
      * @param azimuthreal: the real azimuth (double)
+     * @param pitchreal: the real pitch (double)
+     * @param usr: the user
+     * @param spRf: the spatial reference
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
                              double azimuthreal,
+                             double pitchreal,
                              User usr,
                              SpatialReference spRf){
 
         this.POIs = pois;
         this.azimuthReal = azimuthreal;
+        this.pitchReal = pitchreal;
         this.user = usr;
         this.spaRef =spRf;
     }

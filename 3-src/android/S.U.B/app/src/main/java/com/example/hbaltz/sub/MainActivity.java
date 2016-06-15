@@ -439,8 +439,6 @@ public class MainActivity extends FragmentActivity {
                 orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
                 orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
 
-                Log.d("Pitcht - roll?","1: " + orientationVals[1] + ", 2: "+ orientationVals[2]);
-
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
