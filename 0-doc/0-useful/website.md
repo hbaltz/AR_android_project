@@ -44,6 +44,9 @@ https://www.researchgate.net/publication/260767044_WorldPlus_An_Augmented_Realit
 ## Calculate angle:
 http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
 
+## Very completed explanation about aR:
+http://www.vtt.fi/inf/pdf/science/2012/S3.pdf
+
 # Help:
 
 ## Enable usb debbuging:
