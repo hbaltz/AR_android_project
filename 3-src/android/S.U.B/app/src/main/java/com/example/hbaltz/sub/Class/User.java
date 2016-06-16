@@ -1,5 +1,7 @@
 package com.example.hbaltz.sub.Class;
 
+import android.util.Log;
+
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
@@ -218,15 +220,14 @@ public class User {
         Point locUsr = this.getLocation();
         Point locPoi = Poi.getLocation();
 
-        double dist = Poi.getDistance();
-        double h = Math.abs(locUsr.getZ() - locPoi.getZ());
-        if(h==0) h = 1.8;
-
-        double hyp = Math.sqrt((dist*dist) + (h*h));
+        double dx = locPoi.getX() - locUsr.getX();
+        double dy = locPoi.getY() - locUsr.getY();
+        double dz = locPoi.getZ() - locUsr.getZ();
+        if(dz==0) dz = -1.8; // <-- PB found
 
         double pitch;
 
-        pitch = Math.acos(dist/hyp);
+        pitch = Math.atan2(dy, Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
         pitch = Math.toDegrees(pitch);
 
         return pitch; // degrees

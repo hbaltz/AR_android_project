@@ -108,7 +108,7 @@ public class GeoDrawSurfaceView  extends View {
                 BuildingPOI POI = POIs.get(i);
                 isVisible = POI.isVisible();
 
-                //if(isVisible) {
+                if(isVisible) {
 
                     draw = false;
 
@@ -131,20 +131,24 @@ public class GeoDrawSurfaceView  extends View {
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
 
-                        posScreenTemp = Utilities.screnPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
+                        posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
 
+                        Log.d("Coor","X: " + xPos + ", Y: " + yPos);
+
                         canvas.drawCircle(xPos, yPos,(float) (200/dist), paint);
-/*
+
                         if(j==0){
                             wallpath.moveTo(xPos, yPos);
                             draw = true;
                         }else wallpath.lineTo(xPos, yPos);
-*/
+
                     }
+
                     if(draw) {
+
                         wallpath.close();
 
                         //Log.d("wallpath",wallpath.toString());
@@ -152,7 +156,7 @@ public class GeoDrawSurfaceView  extends View {
                         canvas.drawPath(wallpath, paint);
                     }
 
-                //}
+                }
             }
         }
 
