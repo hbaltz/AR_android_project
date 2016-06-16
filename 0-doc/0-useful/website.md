@@ -106,3 +106,8 @@ https://infinityleap.com/
 
 ## Inition:
 https://www.inition.co.uk/extraordinary-experiences/
+
+# SLAM:
+
+## Introduction:
+http://www.computerrobotvision.org/2010/slam_camp/collier_intro.pdf
