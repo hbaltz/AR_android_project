@@ -87,17 +87,16 @@ public final class Utilities {
                                             double dist, double W, double H){
         List<Float> pos = new ArrayList<>();
 
-        double xPos = Math.cos(angVer) * dist;
-        double yPos = Math.cos(angHor) * dist;
-        double zPos1 = Math.sin(angVer) * dist;
-        double zPos2 = Math.sin(angHor) * dist;
+        double xPos = Math.sin(angVer) * dist;
+        double yPos = Math.sin(angHor) * dist;
+
 
         //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
 
-        double ratio = (W+H)/4;
+        double ratio = Math.min(W,H)/2;
 
-        pos.add( (float)((W/2) + (256*xPos/zPos1))); // TODO size not ok
-        pos.add( (float)((H/2) + (yPos)));
+        pos.add( (float)((W/2) - (xPos))); // TODO size not ok
+        pos.add( (float)((H/2) - (yPos)));
 
         return pos;
     }

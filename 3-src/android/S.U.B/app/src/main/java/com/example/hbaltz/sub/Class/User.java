@@ -223,7 +223,7 @@ public class User {
         double dx = locPoi.getX() - locUsr.getX();
         double dy = locPoi.getY() - locUsr.getY();
         double dz = locPoi.getZ() - locUsr.getZ();
-        if(dz==0) dz = -1.8; // <-- PB found
+        if(dz==0) dz = 1.8; // <-- PB found
 
         double pitch;
 

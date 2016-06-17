@@ -12,12 +12,13 @@
         android:layout_height="165dp"
         android:id="@+id/uoMap"
         android:layout_gravity="start|bottom"/>
-
+<!--
     <com.example.hbaltz.sub.View.CameraView
         android:id="@+id/CameraView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
+-->
 
     <com.example.hbaltz.sub.View.DrawSurfaceView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layerType="software"/>
+
 
 </FrameLayout>
 

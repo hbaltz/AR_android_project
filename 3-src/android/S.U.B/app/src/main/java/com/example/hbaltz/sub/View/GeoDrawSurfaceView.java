@@ -102,6 +102,7 @@ public class GeoDrawSurfaceView  extends View {
             Path wallpath;
             float xPos,yPos;
             boolean draw= false;
+            float area;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
@@ -109,10 +110,10 @@ public class GeoDrawSurfaceView  extends View {
                 isVisible = POI.isVisible();
 
                 if(isVisible) {
-
                     draw = false;
 
                     footprint = POI.getFootprint();
+                    area = (float) footprint.calculateArea2D();
 
                     countPoint = footprint.getPointCount();
 
@@ -127,16 +128,29 @@ public class GeoDrawSurfaceView  extends View {
                         angleVer = Math.toRadians(azimutTheo-azimuthReal);
 
                         pitchTheo = user.theoreticalPitchToPOI(poiTemp);
-                        angleHor = Math.toRadians(pitchTheo);
+                        angleHor = Math.toRadians(pitchTheo-pitchReal);
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
 
                         posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
 
-                        xPos=posScreenTemp.get(0);
-                        yPos=posScreenTemp.get(1);
-
-                        Log.d("Coor","X: " + xPos + ", Y: " + yPos);
+                        xPos=((posScreenTemp.get(0)));
+                        yPos=((posScreenTemp.get(1)));
+/*
+                        if(xPos < (screenWidth/2) && yPos > (screenHeight/2)){
+                            xPos = (float) (xPos - (area/dist));
+                            yPos = (float) (yPos + (area/dist));
+                        }else if((xPos > (screenWidth/2) && yPos > (screenHeight/2))){
+                            xPos = (float) (xPos + (area/dist));
+                            yPos = (float) (yPos + (area/dist));
+                        }else if((xPos > (screenWidth/2) && yPos < (screenHeight/2))){
+                            xPos = (float) (xPos + (area/dist));
+                            yPos = (float) (yPos - (area/dist));
+                        }else{
+                            xPos = (float) (xPos - (area/dist));
+                            yPos = (float) (yPos - (area/dist));
+                        }
+                        */
 
                         canvas.drawCircle(xPos, yPos,(float) (200/dist), paint);
 

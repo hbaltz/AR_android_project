@@ -103,7 +103,6 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        DrawView.setVisibility(View.INVISIBLE);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
@@ -255,11 +254,7 @@ public class MainActivity extends FragmentActivity {
             Feature[] features_footprints = new Feature[nbr_int_ft];
 
             for (int r = 1; r <= nbr_lig_ft; r++) {
-                if (pois.checkFeatureExists(r)) {
-                    features_footprints[r - 1] = footprints.getFeature(r);
-                } else {
-                    features_footprints[r - 1] = null;
-                }
+                features_footprints[r - 1] = footprints.getFeature(r);
             }
 
             /////////////////////////////////// Recover Footprints: ////////////////////////////////
@@ -442,7 +437,7 @@ public class MainActivity extends FragmentActivity {
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
-                pitchReal = (orientationVals[1] + 360) % 360;
+                pitchReal = (orientationVals[1]);
 
                 // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
                 difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
