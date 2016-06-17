@@ -90,7 +90,6 @@ public final class Utilities {
         double xPos = Math.sin(angVer) * dist;
         double yPos = Math.sin(angHor) * dist;
 
-
         //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
 
         double ratio = Math.min(W,H)/2;
