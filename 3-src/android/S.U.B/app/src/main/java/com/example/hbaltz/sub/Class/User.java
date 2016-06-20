@@ -230,6 +230,6 @@ public class User {
         pitch = Math.atan2(dy, Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
         pitch = Math.toDegrees(pitch);
 
-        return pitch; // degrees
+        return pitch+45; // degrees
     }
 }

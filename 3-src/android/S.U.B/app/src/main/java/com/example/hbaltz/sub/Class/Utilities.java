@@ -92,10 +92,11 @@ public final class Utilities {
 
         //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
 
-        double ratio = Math.min(W,H)/2;
+        double ratio = W/H;
 
-        pos.add( (float)((W/2) - (xPos))); // TODO size not ok
-        pos.add( (float)((H/2) - (yPos)));
+        // TODO : orientation pas bonne
+        pos.add((float) ((W/2) + (ratio*xPos)));
+        pos.add((float) ((H/2) - (ratio*yPos)));
 
         return pos;
     }

@@ -110,10 +110,25 @@ public class DrawSurfaceView extends View {
                     angRad = Math.toRadians(azTheo - azimuthReal);
 
                     /////////////////////////////////// Calculate location: ////////////////////////
+                    /*
                     // We calculate where the point have to be draw
-                    posScreen = Utilities.screenPosition(angRad, angRad,dist,screenWidth,screenHeight); // TODO change after successful too
+                    posScreen = Utilities.screenPosition(angRad, angRad,dist,screenWidth,screenHeight);
 
                     xPosScreen = posScreen.get(0);
+
+                    // We draw in the middle of the y-axis
+                    yPosScreen = (float)((screenHeight / 2));
+                    */
+
+                    double xPos = Math.sin(angRad) * dist;
+
+
+                    if (angRad <= 45)
+                        xPosScreen =((float) ((screenWidth / 2) + xPos));
+                    else if (angRad >= 315)
+                        xPosScreen =((float) ((screenWidth / 2) - ((screenWidth*4) - xPos)));
+                    else
+                        xPosScreen =((float) (screenWidth*9)); //somewhere off the screen
 
                     // We draw in the middle of the y-axis
                     yPosScreen = (float)((screenHeight / 2));

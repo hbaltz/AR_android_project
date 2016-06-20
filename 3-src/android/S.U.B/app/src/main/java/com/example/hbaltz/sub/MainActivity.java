@@ -103,6 +103,7 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        DrawView.setVisibility(View.INVISIBLE);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
@@ -437,7 +438,7 @@ public class MainActivity extends FragmentActivity {
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
                 azimuthReal = (orientationVals[0] + 360) % 360;
-                pitchReal = (orientationVals[1]);
+                pitchReal = (orientationVals[1]+360) % 360;
 
                 // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
                 difAzRe = Math.abs(azimuthReal - oldAzimuthReal);

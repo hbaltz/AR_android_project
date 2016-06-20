@@ -107,6 +107,9 @@ https://infinityleap.com/
 ## Inition:
 https://www.inition.co.uk/extraordinary-experiences/
 
+## TranslationAR:
+http://old.vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf
+
 # SLAM:
 
 ## Introduction:

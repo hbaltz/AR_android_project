@@ -61,7 +61,7 @@ public class GeoDrawSurfaceView  extends View {
         super(context, set);
 
         // We initialize the paint for the POIs:
-        paint.setColor(Color.GREEN);
+        paint.setColor(Color.RED);
         paint.setAntiAlias(true);
     }
 
@@ -134,23 +134,8 @@ public class GeoDrawSurfaceView  extends View {
 
                         posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
 
-                        xPos=((posScreenTemp.get(0)));
-                        yPos=((posScreenTemp.get(1)));
-/*
-                        if(xPos < (screenWidth/2) && yPos > (screenHeight/2)){
-                            xPos = (float) (xPos - (area/dist));
-                            yPos = (float) (yPos + (area/dist));
-                        }else if((xPos > (screenWidth/2) && yPos > (screenHeight/2))){
-                            xPos = (float) (xPos + (area/dist));
-                            yPos = (float) (yPos + (area/dist));
-                        }else if((xPos > (screenWidth/2) && yPos < (screenHeight/2))){
-                            xPos = (float) (xPos + (area/dist));
-                            yPos = (float) (yPos - (area/dist));
-                        }else{
-                            xPos = (float) (xPos - (area/dist));
-                            yPos = (float) (yPos - (area/dist));
-                        }
-                        */
+                        xPos=posScreenTemp.get(0);
+                        yPos=posScreenTemp.get(1);
 
                         canvas.drawCircle(xPos, yPos,(float) (200/dist), paint);
 
@@ -158,6 +143,7 @@ public class GeoDrawSurfaceView  extends View {
                             wallpath.moveTo(xPos, yPos);
                             draw = true;
                         }else wallpath.lineTo(xPos, yPos);
+
 
                     }
 

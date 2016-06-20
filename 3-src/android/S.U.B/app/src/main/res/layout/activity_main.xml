@@ -12,19 +12,12 @@
         android:layout_height="165dp"
         android:id="@+id/uoMap"
         android:layout_gravity="start|bottom"/>
-<!--
+
     <com.example.hbaltz.sub.View.CameraView
         android:id="@+id/CameraView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"/>
--->
-
-    <com.example.hbaltz.sub.View.DrawSurfaceView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawSurfaceView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <com.example.hbaltz.sub.View.GeoDrawSurfaceView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,6 +26,11 @@
         android:layout_height="match_parent"
         android:layerType="software"/>
 
+    <com.example.hbaltz.sub.View.DrawSurfaceView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
 
