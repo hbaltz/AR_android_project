@@ -84,7 +84,8 @@ public final class Utilities {
      * @return the point's position on the screen
      */
     public static List<Float> screenPosition(double angVer, double angHor,
-                                            double dist, double W, double H){
+                                             double dist, double W, double H,
+                                             double camW, double camH){
         List<Float> pos = new ArrayList<>();
 
         double xPos = Math.sin(angVer) * dist;
@@ -92,11 +93,11 @@ public final class Utilities {
 
         //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
 
-        double ratio = W/H;
+        double ratio = ((H*W)/(240*320));
 
         // TODO : orientation pas bonne
-        pos.add((float) ((W/2) + (ratio*xPos)));
-        pos.add((float) ((H/2) - (ratio*yPos)));
+        pos.add((float) ((W/2) - ((W/camW)*xPos)));
+        pos.add((float) ((H/2) + ((H/camH)*yPos)));
 
         return pos;
     }
