@@ -32,6 +32,7 @@ public class GeoDrawSurfaceView  extends View {
 
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
+    private double camWidth=320d, camHeight = 240d; // Tango
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference spaRef;
@@ -97,23 +98,22 @@ public class GeoDrawSurfaceView  extends View {
             int countPoint;
             Point pointTemp;
             BuildingPOI poiTemp = new BuildingPOI();
-            double azimutTheo, pitchTheo, dist, angleHor=0d, angleVer;
+            double azimutTheo, pitchTheo, dist, distPoi, angleHor=0d, angleVer;
             List<Float> posScreenTemp;
             Path wallpath;
             float xPos,yPos;
             boolean draw= false;
-            float area;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
+                distPoi = POI.getDistance();
                 isVisible = POI.isVisible();
 
                 if(isVisible) {
                     draw = false;
 
                     footprint = POI.getFootprint();
-                    area = (float) footprint.calculateArea2D();
 
                     countPoint = footprint.getPointCount();
 
@@ -132,12 +132,12 @@ public class GeoDrawSurfaceView  extends View {
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
 
-                        posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight);
+                        posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight, camWidth, camHeight);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
 
-                        canvas.drawCircle(xPos, yPos,(float) (200/dist), paint);
+                        canvas.drawCircle(xPos, yPos,(float) (500/dist), paint);
 
                         if(j==0){
                             wallpath.moveTo(xPos, yPos);
@@ -188,6 +188,20 @@ public class GeoDrawSurfaceView  extends View {
         this.pitchReal = pitchreal;
         this.user = usr;
         this.spaRef =spRf;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * * Function which sets the variables
+     *
+     * @param camwidth: the camera's width
+     * @param camheight: the camera's height
+     */
+    public void setCamSize(double camwidth, double camheight){
+
+        this.camWidth = camwidth;
+        this.camHeight = camheight;;
     }
 
 }
