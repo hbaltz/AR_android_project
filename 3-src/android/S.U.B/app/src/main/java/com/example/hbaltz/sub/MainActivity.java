@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
     private double azimuthReal = 0, pitchReal=0;
-    private static double AZIMUTH_ACCURACY = 60; // 120 degrees is the human visual field
+    private static double AZIMUTH_ACCURACY = 20; // 40 degrees is the tango visual field // TODO calculate FOV of the camera
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
@@ -103,7 +103,7 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        DrawView.setVisibility(View.INVISIBLE);
+        //DrawView.setVisibility(View.INVISIBLE);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
