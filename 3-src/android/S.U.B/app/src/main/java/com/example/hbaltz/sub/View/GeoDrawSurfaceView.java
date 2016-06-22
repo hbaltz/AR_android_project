@@ -48,9 +48,13 @@ public class GeoDrawSurfaceView  extends View {
 
     ////////////////////////////////////// Angles: /////////////////////////////////////////////////
     private double azimuthReal, pitchReal;
+    float[] orMat;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint();
+
+    ///////////////////////////////////// Debug: ///////////////////////////////////////////////////
+    private boolean DEBUG = false;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -122,29 +126,41 @@ public class GeoDrawSurfaceView  extends View {
 
                     for(int j=0; j<countPoint; j++){
                         pointTemp = footprint.getPoint(j);
+                        /*
                         poiTemp.setLocation(pointTemp);
 
                         azimutTheo = user.theoreticalAzimuthToPOI(poiTemp);
+                        if(DEBUG) Log.d("azimutTheo", "" + azimutTheo);
                         angleVer = Math.toRadians(azimutTheo-azimuthReal);
 
                         pitchTheo = user.theoreticalPitchToPOI(poiTemp);
+                        if(DEBUG) Log.d("pitchTheo", "" + pitchTheo);
                         angleHor = Math.toRadians(pitchTheo-pitchReal);
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
+                        if(DEBUG) Log.d("dist", "" + dist);
 
                         posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight, camWidth, camHeight);
+                        */
+
+                        dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
+
+                        posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
+                                (float)screenWidth,(float)screenHeight, (float)camWidth, (float)camHeight, (float) dist);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
+
+                        Log.d("X","" + xPos);
+                        Log.d("Y","" + yPos);
 
                         canvas.drawCircle(xPos, yPos,(float) (500/dist), paint);
 
                         if(j==0){
                             wallpath.moveTo(xPos, yPos);
                             draw = true;
+                            canvas.drawText(""+dist,30f, 30f,paint);
                         }else wallpath.lineTo(xPos, yPos);
-
-
                     }
 
                     if(draw) {
@@ -174,18 +190,21 @@ public class GeoDrawSurfaceView  extends View {
      * @param pois: the arrayList of POI that we want to draw
      * @param azimuthreal: the real azimuth (double)
      * @param pitchreal: the real pitch (double)
+     * @param ormat: the orientation matrix
      * @param usr: the user
      * @param spRf: the spatial reference
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
                              double azimuthreal,
                              double pitchreal,
+                             float[] ormat,
                              User usr,
                              SpatialReference spRf){
 
         this.POIs = pois;
         this.azimuthReal = azimuthreal;
         this.pitchReal = pitchreal;
+        this.orMat = ormat;
         this.user = usr;
         this.spaRef =spRf;
     }

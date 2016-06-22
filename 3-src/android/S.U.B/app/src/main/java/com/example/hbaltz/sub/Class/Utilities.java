@@ -2,6 +2,8 @@ package com.example.hbaltz.sub.Class;
 
 import android.util.Log;
 
+import com.esri.core.geometry.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,8 +98,41 @@ public final class Utilities {
         double ratio = ((H*W)/(240*320));
 
         // TODO : orientation pas bonne
-        pos.add((float) ((W/2) - ((W/camW)*xPos)));
-        pos.add((float) ((H/2) + ((H/camH)*yPos)));
+        pos.add((float) ((W/2) + (xPos)));
+        pos.add((float) ((H/2) - (yPos)));
+
+        return pos;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public static List<Float> screenPositionMatOr(Point locUser, Point pt, float[] orMat,
+                                                  float W, float H, float camW, float camH, float dist){
+        List<Float> pos = new ArrayList<>();
+
+        float x = (float)(locUser.getX()-pt.getX());
+        float y = (float)(locUser.getY()-pt.getY());
+        float z = (float)(locUser.getZ()-pt.getZ());
+
+        float ThetaX = (float)Math.toRadians(orMat[0]);
+        float ThetaY = (float)Math.toRadians(orMat[1]);
+        float ThetaZ = (float)Math.toRadians(orMat[2]);
+
+        float Cx = (float)Math.cos(ThetaX);
+        float Cy = (float)Math.cos(ThetaY);
+        float Cz = (float)Math.cos(ThetaZ);
+
+        float Sx = (float)Math.sin(ThetaX);
+        float Sy = (float)Math.sin(ThetaY);
+        float Sz = (float)Math.sin(ThetaZ);
+
+        float Dx = Cy*(Sz*y + Cz*x) - Sy*z;
+        float Dy = Sx*(Cy*z + Sy*(Sz*y+Cz*x)) + Cx*(Cz*y - Sz*x);
+        float Dz = Cx*(Cy*z + Sy*(Sz*y+Cz*x)) - Sx*(Cz*y - Sz*x);
+
+        pos.add((W/2)+(Dx*W/(camW)));
+        pos.add((H/2)+(Dy*H/(camH)));
 
         return pos;
     }

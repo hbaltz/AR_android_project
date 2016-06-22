@@ -58,6 +58,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         mCamera = Camera.open();
         mCamera.setDisplayOrientation(0);
+
+        Log.d("f",""+ mCamera.getParameters().getFocalLength());
     }
 
     @Override

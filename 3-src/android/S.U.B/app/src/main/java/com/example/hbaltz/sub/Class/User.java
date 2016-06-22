@@ -110,26 +110,11 @@ public class User {
         double dX = locPoi.getX() - locUsr.getX();
         double dY = locPoi.getY() - locUsr.getY();
 
-        double phiAngle;
-        double tanPhi;
         double azimuth;
 
-        tanPhi = Math.abs(dY / dX);
-        phiAngle = Math.atan(tanPhi);
-        phiAngle = Math.toDegrees(phiAngle);
+        azimuth = Math.atan2(dY,dX);
+        azimuth = (Math.toDegrees(azimuth) + 360) % 360 ; // degrees between 0 and 360
 
-        // We calculate the azimuth :
-        azimuth = phiAngle;
-
-        if (dX > 0 && dY > 0) { // I quater
-            azimuth = phiAngle;
-        } else if (dX < 0 && dY > 0) { // II
-            azimuth = 180 - phiAngle;
-        } else if (dX < 0 && dY < 0) { // III
-            azimuth = 180 + phiAngle;
-        } else if (dX > 0 && dY < 0) { // IV
-            azimuth = 360 - phiAngle;
-        }
 
         return azimuth;
     }
@@ -151,13 +136,17 @@ public class User {
         ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
 
         BuildingPOI poiTemp;
-        double azimuth, minAngle, maxAngle;
+        double azimuth, pitch, minAngle, maxAngle;
         boolean isVisible;
 
         for (int i=0; i<len_pois; i++){
             poiTemp = Pois.get(i);
-            azimuth = this.theoreticalAzimuthToPOI(Pois.get(i));
+
+            azimuth = this.theoreticalAzimuthToPOI(poiTemp);
             poiTemp.setAzimut(azimuth);
+
+            pitch = this.theoreticalPitchToPOI(poiTemp);
+            poiTemp.setPitch(pitch);
 
             List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
 
@@ -223,13 +212,14 @@ public class User {
         double dx = locPoi.getX() - locUsr.getX();
         double dy = locPoi.getY() - locUsr.getY();
         double dz = locPoi.getZ() - locUsr.getZ();
-        if(dz==0) dz = 5;
+        //Log.d("coord", "X : " + dx + "' Y: " +dy);
+        if(dz==0) dz = 0;
 
         double pitch;
 
-        pitch = Math.atan2(dy, Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
-        pitch = Math.toDegrees(pitch);
+        pitch = Math.atan2(dy,Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
+        pitch = (Math.toDegrees(pitch)+360)%360;
 
-        return pitch; // degrees
+        return pitch; // degrees between 0 and 360
     }
 }

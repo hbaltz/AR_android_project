@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.hbaltz.sub.Class.BuildingPOI;
+import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
+    private double camWidth=320d, camHeight = 240d; // Tango
 
     ////////////////////////////////////// POIs: ///////////////////////////////////////////////////
     private ArrayList<BuildingPOI> POIs = null;
@@ -97,6 +99,8 @@ public class DrawSurfaceView extends View {
             ArrayList<Integer> sizeStrings;
             ArrayList<String> information;
 
+            double pitchTheo, angleHor;
+
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
@@ -109,26 +113,15 @@ public class DrawSurfaceView extends View {
                     azTheo = POI.getAzimut();
                     angRad = Math.toRadians(azTheo - azimuthReal);
 
+                    pitchTheo = POI.getPitch();
+                    angleHor = Math.toRadians(pitchTheo-pitchReal);
+
                     /////////////////////////////////// Calculate location: ////////////////////////
-                    /*
                     // We calculate where the point have to be draw
-                    posScreen = Utilities.screenPosition(angRad, angRad,dist,screenWidth,screenHeight);
+                    posScreen = Utilities.screenPosition(angRad, angleHor,dist,screenWidth,screenHeight,camWidth,camHeight);
 
                     xPosScreen = posScreen.get(0);
-
-                    // We draw in the middle of the y-axis
-                    yPosScreen = (float)((screenHeight / 2));
-                    */
-
-                    double xPos = Math.sin(angRad) * dist;
-
-
-                    if (angRad <= 45)
-                        xPosScreen =((float) ((screenWidth / 2) + xPos));
-                    else if (angRad >= 315)
-                        xPosScreen =((float) ((screenWidth / 2) - ((screenWidth*4) - xPos)));
-                    else
-                        xPosScreen =((float) (screenWidth*9)); //somewhere off the screen
+                    //yPosScreen = posScreen.get(1);
 
                     // We draw in the middle of the y-axis
                     yPosScreen = (float)((screenHeight / 2));

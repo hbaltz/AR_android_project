@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
-    private Point locUser = new Point(-8425358, 5688505); // By default : 70 Laurier Street, Ottawa
+    private Point locUser = new Point(-8425218.888, 5688332.101);
     private User user = new User(locUser);
 
     ////////////////////////////////////// Compass: ////////////////////////////////////////////////
@@ -74,7 +74,8 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
     private double azimuthReal = 0, pitchReal=0;
-    private static double AZIMUTH_ACCURACY = 20; // 40 degrees is the tango visual field // TODO calculate FOV of the camera
+    private static double AZIMUTH_ACCURACY = 40; // 40 degrees is the tango visual field // TODO calculate FOV of the camera
+    float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
@@ -103,8 +104,9 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        //DrawView.setVisibility(View.INVISIBLE);
+        DrawView.setVisibility(View.INVISIBLE);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
+        //GeoDrawView.setVisibility(View.INVISIBLE);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
@@ -308,7 +310,7 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (GeoDrawView != null) {
-                GeoDrawView.setVariables(NN, azimuthReal, pitchReal, user, WGS_1984_WMAS);
+                GeoDrawView.setVariables(NN, azimuthReal, pitchReal, orientationVals, user, WGS_1984_WMAS);
                 GeoDrawView.invalidate();
             }
 
@@ -410,7 +412,6 @@ public class MainActivity extends FragmentActivity {
 
         // Initialized
         float[] mRotationMatrix = new float[9];
-        float[] orientationVals = new float[3];
         double oldAzimuthReal;
         double difAzRe;
         boolean updatedMapView;
@@ -431,14 +432,14 @@ public class MainActivity extends FragmentActivity {
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
-                orientationVals[0] = (float) Math.toDegrees(orientationVals[0]);
-                orientationVals[1] = (float) Math.toDegrees(orientationVals[1]);
-                orientationVals[2] = (float) Math.toDegrees(orientationVals[2]);
+                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])+ 360)%360);
+                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+ 360)%360);
+                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])+ 360)%360);
 
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
-                azimuthReal = (orientationVals[0] + 360) % 360;
-                pitchReal = (orientationVals[1]+360) % 360;
+                azimuthReal = orientationVals[0];
+                pitchReal = orientationVals[1];
 
                 // We redraw uoMap only if diff between the old azimuth and the new is superior to 1:
                 difAzRe = Math.abs(azimuthReal - oldAzimuthReal);
