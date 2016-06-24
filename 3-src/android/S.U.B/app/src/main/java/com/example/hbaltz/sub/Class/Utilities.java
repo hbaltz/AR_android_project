@@ -2,7 +2,9 @@ package com.example.hbaltz.sub.Class;
 
 import android.util.Log;
 
+import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
+import com.esri.core.geometry.SpatialReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,50 +116,38 @@ public final class Utilities {
         float x = (float)(pt.getX()-locUser.getX());
         float y = (float)(pt.getY()-locUser.getY());
         float z = (float)(pt.getZ()-locUser.getZ());
-        if(z == 0) z = 3f;
+        if(z == 0) z = -20f;
 
         //Log.d("XYZ", "X: " + x + ", Y: " + y + ", Z: " + z);
 
-        float ThetaX = (float)Math.toRadians(orMat[0]);
-        float ThetaY = (float)Math.toRadians(orMat[1]);
-        float ThetaZ = (float)Math.toRadians(orMat[2]);
-        //float ThetaZ = (float)(Math.PI/4);
+        float ThetaYaw = (float)Math.toRadians(orMat[0]);
+        float ThetaPitch = (float)Math.toRadians(orMat[1]);
+        float ThetaRoll = (float)Math.toRadians(orMat[2] );
 
-        float Cx = (float)Math.cos(ThetaX);
-        float Cy = (float)Math.cos(ThetaY);
-        float Cz = (float)Math.cos(ThetaZ);
+        float Cyaw = (float)Math.cos(ThetaYaw);
+        float Cpitch = (float)Math.cos(ThetaPitch);
+        float Croll = (float)Math.cos(ThetaRoll);
 
-        float Sx = (float)Math.sin(ThetaX);
-        float Sy = (float)Math.sin(ThetaY);
-        float Sz = (float)Math.sin(ThetaZ);
-/*
-        float Dx = Cy*(Sz*y + Cz*x) - Sy*z;
-        float Dy = Sx*(Cy*z + Sy*(Sz*y+Cz*x)) + Cx*(Cz*y - Sz*x);
-        float Dz = Cx*(Cy*z + Sy*(Sz*y+Cz*x)) - Sx*(Cz*y - Sz*x);
+        float Syaw = (float)Math.sin(ThetaYaw);
+        float Spitch = (float)Math.sin(ThetaPitch);
+        float Sroll = (float)Math.sin(ThetaRoll);
 
-        Log.d("elDz", "Cx:" + Cx + "+ Cy:" + Cy + "* z:" + z + "+ Sy:" + Sy + "*( Sz:" + Sz + "* y:"
-                + y + "+ Cz:" + Cz + "* x:" + x + ") Sx:" + Sx + "*( Cz:" + Cz + "* y" + y + "- Sz:"
-                + Sz + "* x:" + x);
+        float temp1 = Cyaw*y - Syaw*x;
+        float temp2 = Croll*z + Sroll*(Syaw*y + Cyaw*x);
 
-*/
-        float Dx = Cy*x + Sy*z;
-        float Dy = Cx*y - Sx*(-Sy*x+Cy*z);
-        float Dz = Sx*y + Cx*(-Sy*x+Cy*z);
+        float Dx = Croll*(Syaw*y + Cyaw*x) - Sroll*z;
+        float Dy = Spitch*temp2 + Cpitch*temp1;
+        float Dz = Cpitch*temp2 - Spitch*temp1;
+        
+        Log.d("D", "Dx: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
 
-        //float FOV = (float)(2 * Math.atan(Math.sqrt((W/(2*4.14f))*(W/(2*4.14f)) + (H/(2*6f))*(H/(2*6f)))));
-        float FOV = (float)(2 * Math.atan(0.5 * W / 4.14));
-        float distEq = (float)((W/2)/Math.tan(Math.toRadians(40)));
+        float xPos = (W/2)+((H/2)*Dy/Dz); // Landscape
+        float yPos = (H/2)+((H/2)*Dx/Dz); // Landscape
 
+        Log.d("pos", "X: " + xPos + ", Y: " + yPos);
 
-        //Log.d("D", "X: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
-
-        float xPos = (distEq)*Dx/Dz;
-        float yPos = (distEq)*Dy/Dz;
-
-        //Log.d("pos", "X: " + xPos + ", Y: " + yPos);
-
-        pos.add((W/2)+xPos);
-        pos.add((H/2)-yPos);
+        pos.add(xPos);
+        pos.add(yPos);
 
         return pos;
     }
