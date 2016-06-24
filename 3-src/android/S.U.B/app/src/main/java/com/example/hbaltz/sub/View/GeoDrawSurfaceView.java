@@ -151,10 +151,7 @@ public class GeoDrawSurfaceView  extends View {
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
 
-                        Log.d("X","" + xPos);
-                        Log.d("Y","" + yPos);
-
-                        canvas.drawCircle(xPos, yPos,(float) (500/dist), paint);
+                        canvas.drawCircle(xPos, yPos,(float) (800/dist), paint);
 
                         if(j==0){
                             wallpath.moveTo(xPos, yPos);

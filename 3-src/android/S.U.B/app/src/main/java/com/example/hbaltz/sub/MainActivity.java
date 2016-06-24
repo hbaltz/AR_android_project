@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
     private double azimuthReal = 0, pitchReal=0;
-    private static double AZIMUTH_ACCURACY = 40; // 40 degrees is the tango visual field // TODO calculate FOV of the camera
+    private static double AZIMUTH_ACCURACY = 20;
     float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -309,7 +309,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             // We update the display:
-            if (GeoDrawView != null) {
+            if (GeoDrawView != null ) {
                 GeoDrawView.setVariables(NN, azimuthReal, pitchReal, orientationVals, user, WGS_1984_WMAS);
                 GeoDrawView.invalidate();
             }
@@ -432,9 +432,9 @@ public class MainActivity extends FragmentActivity {
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
-                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])+ 360)%360);
-                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+ 360)%360);
-                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])+ 360)%360);
+                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])));
+                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])));
+                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])));
 
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
