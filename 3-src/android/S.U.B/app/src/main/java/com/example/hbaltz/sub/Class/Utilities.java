@@ -138,11 +138,11 @@ public final class Utilities {
         float Dx = Croll*(Syaw*y + Cyaw*x) - Sroll*z;
         float Dy = Spitch*temp2 + Cpitch*temp1;
         float Dz = Cpitch*temp2 - Spitch*temp1;
-        
+
         Log.d("D", "Dx: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
 
-        float xPos = (W/2)+((H/2)*Dy/Dz); // Landscape
-        float yPos = (H/2)+((H/2)*Dx/Dz); // Landscape
+        float xPos = (W/2)+((H/2)*Dx/Dz);
+        float yPos = (H/2)+((H/2)*Dy/Dz);
 
         Log.d("pos", "X: " + xPos + ", Y: " + yPos);
 
