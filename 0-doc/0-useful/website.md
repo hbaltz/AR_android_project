@@ -99,6 +99,9 @@ https://strawlab.org/2011/11/05/augmented-reality-with-OpenGL
 ## Artoolkit (OpenSource SDK):
 http://artoolkit.org/documentation/doku.php?id=4_Android:android_examples
 
+## Proj 3D -> 2D:
+http://aldream.net/article/2013-04-13-painter-s-algorithm/
+
 # Various:
 
 ## Website specialized in new technologies:
