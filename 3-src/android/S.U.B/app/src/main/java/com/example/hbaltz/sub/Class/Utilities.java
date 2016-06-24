@@ -111,13 +111,17 @@ public final class Utilities {
                                                   float W, float H, float camW, float camH, float dist){
         List<Float> pos = new ArrayList<>();
 
-        float x = (float)(locUser.getX()-pt.getX());
-        float y = (float)(locUser.getY()-pt.getY());
-        float z = (float)(locUser.getZ()-pt.getZ());
+        float x = (float)(pt.getX()-locUser.getX());
+        float y = (float)(pt.getY()-locUser.getY());
+        float z = (float)(pt.getZ()-locUser.getZ());
+        if(z == 0) z = 3f;
+
+        //Log.d("XYZ", "X: " + x + ", Y: " + y + ", Z: " + z);
 
         float ThetaX = (float)Math.toRadians(orMat[0]);
         float ThetaY = (float)Math.toRadians(orMat[1]);
         float ThetaZ = (float)Math.toRadians(orMat[2]);
+        //float ThetaZ = (float)(Math.PI/4);
 
         float Cx = (float)Math.cos(ThetaX);
         float Cy = (float)Math.cos(ThetaY);
@@ -126,13 +130,34 @@ public final class Utilities {
         float Sx = (float)Math.sin(ThetaX);
         float Sy = (float)Math.sin(ThetaY);
         float Sz = (float)Math.sin(ThetaZ);
-
+/*
         float Dx = Cy*(Sz*y + Cz*x) - Sy*z;
         float Dy = Sx*(Cy*z + Sy*(Sz*y+Cz*x)) + Cx*(Cz*y - Sz*x);
         float Dz = Cx*(Cy*z + Sy*(Sz*y+Cz*x)) - Sx*(Cz*y - Sz*x);
 
-        pos.add((W/2)+(Dx*W/(camW)));
-        pos.add((H/2)+(Dy*H/(camH)));
+        Log.d("elDz", "Cx:" + Cx + "+ Cy:" + Cy + "* z:" + z + "+ Sy:" + Sy + "*( Sz:" + Sz + "* y:"
+                + y + "+ Cz:" + Cz + "* x:" + x + ") Sx:" + Sx + "*( Cz:" + Cz + "* y" + y + "- Sz:"
+                + Sz + "* x:" + x);
+
+*/
+        float Dx = Cy*x + Sy*z;
+        float Dy = Cx*y - Sx*(-Sy*x+Cy*z);
+        float Dz = Sx*y + Cx*(-Sy*x+Cy*z);
+
+        //float FOV = (float)(2 * Math.atan(Math.sqrt((W/(2*4.14f))*(W/(2*4.14f)) + (H/(2*6f))*(H/(2*6f)))));
+        float FOV = (float)(2 * Math.atan(0.5 * W / 4.14));
+        float distEq = (float)((W/2)/Math.tan(Math.toRadians(40)));
+
+
+        //Log.d("D", "X: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
+
+        float xPos = (distEq)*Dx/Dz;
+        float yPos = (distEq)*Dy/Dz;
+
+        //Log.d("pos", "X: " + xPos + ", Y: " + yPos);
+
+        pos.add((W/2)+xPos);
+        pos.add((H/2)-yPos);
 
         return pos;
     }
