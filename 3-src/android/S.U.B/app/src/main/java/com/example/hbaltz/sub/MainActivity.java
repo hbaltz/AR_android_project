@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
-    private Polygon[] PoiFootprints;
+    private Polygon[] PoiFootprints, InfoGeos;
     private ArrayList<BuildingPOI> NN;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
@@ -281,6 +281,41 @@ public class MainActivity extends FragmentActivity {
             }
 
             Log.d("PoiFootprints", "" + PoiFootprints.length);
+
+            //////////////////////////////////// Recover features from  db: ////////////////////////
+            GeodatabaseFeatureTable geoInfos = gdb.getGeodatabaseTables().get(2);
+
+            long nbr_lig_geo = geoInfos.getNumberOfFeatures();
+            int nbr_int_geo = (int) nbr_lig_geo;
+
+            // We recover all the features in the gdb:
+            Feature[] features_geos = new Feature[nbr_int_geo];
+
+            for (int r = 1; r <= nbr_lig_geo; r++) {
+                features_geos[r - 1] = geoInfos.getFeature(r);
+            }
+
+            /////////////////////////////////// Recover Footprints: ////////////////////////////////
+            // Initialize:
+            int len2 = features_geos.length - 1;
+            InfoGeos = new Polygon[len2 + 1];
+
+            Polygon acGeo = new Polygon(); // useful if no object in the db
+            Feature infoGeo;
+
+            for (int l = 0; l < len2; l++) {
+
+                infoGeo = features_geos[l];
+
+                // Recover information about buildings :
+                if (infoGeo != null) {
+                    InfoGeos[l]=(Polygon) infoGeo.getGeometry();
+                } else {
+                    InfoGeos[l] = acGeo;
+                }
+            }
+
+            Log.d("InfoGeo", "" + InfoGeos.length);
 
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
