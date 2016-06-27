@@ -165,6 +165,33 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Function which calculates the theoretical pitch between the user's location and a POI
+     *
+     * @param Poi : a poi
+     * @return the theoretical pitch
+     */
+    public double theoreticalPitchToPOI(BuildingPOI Poi) {
+        // Initialize
+        Point locUsr = this.getLocation();
+        Point locPoi = Poi.getLocation();
+
+        double dx = locPoi.getX() - locUsr.getX();
+        double dy = locPoi.getY() - locUsr.getY();
+        double dz = locPoi.getZ() - locUsr.getZ();
+        //Log.d("coord", "X : " + dx + "' Y: " +dy);
+        if(dz==0) dz = 0;
+
+        double pitch;
+
+        pitch = Math.atan2(dy,Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
+        pitch = (Math.toDegrees(pitch)+360)%360;
+
+        return pitch; // degrees between 0 and 360
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Function which finds the footprints below a distance of radius unit from the point
      *
      * @param geomen : A geometry engine (Esri)
@@ -194,32 +221,5 @@ public class User {
         }
 
         return NF;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Function which calculates the theoretical pitch between the user's location and a POI
-     *
-     * @param Poi : a poin of a building
-     * @return the theoretical pitch
-     */
-    public double theoreticalPitchToPOI(BuildingPOI Poi) {
-        // Initialize
-        Point locUsr = this.getLocation();
-        Point locPoi = Poi.getLocation();
-
-        double dx = locPoi.getX() - locUsr.getX();
-        double dy = locPoi.getY() - locUsr.getY();
-        double dz = locPoi.getZ() - locUsr.getZ();
-        //Log.d("coord", "X : " + dx + "' Y: " +dy);
-        if(dz==0) dz = 0;
-
-        double pitch;
-
-        pitch = Math.atan2(dy,Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
-        pitch = (Math.toDegrees(pitch)+360)%360;
-
-        return pitch; // degrees between 0 and 360
     }
 }
