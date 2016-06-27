@@ -72,9 +72,9 @@ public class MainActivity extends FragmentActivity {
     //////////////////////////////////// Unit: /////////////////////////////////////////////////////
     private Unit meter = Unit.create(LinearUnit.Code.METER);
 
-    //////////////////////////////////// Azimuth: //////////////////////////////////////////////////
-    private double azimuthReal = 0, pitchReal=0;
-    private static double AZIMUTH_ACCURACY = 20;
+    //////////////////////////////////// Angles: ////////////////////////////////////////////////////
+    private double azimuthReal = 0d, pitchReal=0d;
+    private static double AZIMUTH_ACCURACY = 40d, PITCH_ACCURACY = 30d;
     float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -295,7 +295,7 @@ public class MainActivity extends FragmentActivity {
                 features_geos[r - 1] = geoInfos.getFeature(r);
             }
 
-            /////////////////////////////////// Recover Footprints: ////////////////////////////////
+            /////////////////////////////////// Recover geoInfos: //////////////////////////////////
             // Initialize:
             int len2 = features_geos.length - 1;
             InfoGeos = new Polygon[len2 + 1];
@@ -334,7 +334,7 @@ public class MainActivity extends FragmentActivity {
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
-            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY);
+            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY, pitchReal,PITCH_ACCURACY );
             if(DEBUG) Log.d("azTeo", "" + NN);
 
             // We update the display:

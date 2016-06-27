@@ -20,16 +20,16 @@ public final class Utilities {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which calculates the minimal and maximum value of the azimuth
-     * around the azimuth's accuracy
+     * Function which calculates the minimal and maximum value of the angle
+     * around the angle's accuracy
      *
-     * @param azimuthTheo: an azimuth
-     * @param azimuth_accuracy: the azimuth's accuracy
-     * @return minimal and maximum value of the azimuth around the azimuth's accuracy
+     * @param angleTheo: an angle
+     * @param angle_accuracy: the angle's accuracy
+     * @return minimal and maximum value of the angle around the angle's accuracy
      */
-    public static List<Double> azimuthAccuracy(double azimuthTheo, double azimuth_accuracy) {
-        double minAngle = azimuthTheo - azimuth_accuracy;
-        double maxAngle = azimuthTheo + azimuth_accuracy;
+    public static List<Double> angleAccuracy(double angleTheo, double angle_accuracy) {
+        double minAngle = angleTheo - angle_accuracy;
+        double maxAngle = angleTheo + angle_accuracy;
         List<Double> minMax = new ArrayList<>();
 
         if (minAngle < 0) {minAngle += 360;}
@@ -45,19 +45,19 @@ public final class Utilities {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which verifies if the real azimuth if between minAngle and maxAngle of the theoretical azimuth
+     * Function which verifies if the angle is between minAngle and maxAngle of the theoretical azimuth
      *
      * @param minAngle: minimal angle value for the azimuth
      * @param maxAngle: maximal angle value for the azimuth
-     * @param azimuthRe: the real azimuth
-     * @return a boolean(true if the theoretical azimuth if between minAngle and maxAngle, false else)
+     * @param angle: the angle
+     * @return a boolean(true if angle is between minAngle and maxAngle, false else)
      */
-    public static boolean isBetween(double minAngle, double maxAngle, double azimuthRe) {
+    public static boolean isBetween(double minAngle, double maxAngle, double angle) {
         if (minAngle > maxAngle) {
-            if (isBetween(0, maxAngle, azimuthRe) && isBetween(minAngle, 360, azimuthRe))
+            if (isBetween(0, maxAngle, angle) && isBetween(minAngle, 360, angle))
                 return true;
         } else {
-            if (azimuthRe > minAngle && azimuthRe < maxAngle)
+            if (angle > minAngle && angle < maxAngle)
                 return true;
         }
         return false;
@@ -123,7 +123,7 @@ public final class Utilities {
         float Dz = Cpitch*temp2 - Spitch*temp1;
 
         if(DEBUG) Log.d("D", "Dx: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
-
+        
         float xPos = (W/2)+((H/2)*Dx/Dz);
         float yPos = (H/2)+((H/2)*Dy/Dz);
 
