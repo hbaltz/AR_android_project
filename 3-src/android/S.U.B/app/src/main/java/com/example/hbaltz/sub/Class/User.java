@@ -122,49 +122,6 @@ public class User {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Function which calculates the theoretical azimuth between the user's location
-     * and every poi in the arrayList Pois and if the poi is visible by the user
-     *
-     * @param Pois : the arrayList of poi
-     * @return the pois with the theoretical azimuths
-     */
-    public ArrayList<BuildingPOI> theoreticalAzimuthToPOIs(ArrayList<BuildingPOI> Pois,
-                                                           double azimuthRe,
-                                                           double azimuth_accuracy){
-        int len_pois = Pois.size();
-
-        ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
-
-        BuildingPOI poiTemp;
-        double azimuth, pitch, minAngle, maxAngle;
-        boolean isVisible;
-
-        for (int i=0; i<len_pois; i++){
-            poiTemp = Pois.get(i);
-
-            azimuth = this.theoreticalAzimuthToPOI(poiTemp);
-            poiTemp.setAzimut(azimuth);
-
-            pitch = this.theoreticalPitchToPOI(poiTemp);
-            poiTemp.setPitch(pitch);
-
-            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
-
-            minAngle = minMax.get(0);
-            maxAngle = minMax.get(1);
-
-            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
-            poiTemp.setVisible(isVisible);
-
-            poisAzs.add(poiTemp);
-        }
-
-        return poisAzs;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
      * Function which calculates the theoretical pitch between the user's location and a POI
      *
      * @param Poi : a poi
@@ -178,7 +135,6 @@ public class User {
         double dx = locPoi.getX() - locUsr.getX();
         double dy = locPoi.getY() - locUsr.getY();
         double dz = locPoi.getZ() - locUsr.getZ();
-        //Log.d("coord", "X : " + dx + "' Y: " +dy);
         if(dz==0) dz = 0;
 
         double pitch;
@@ -187,6 +143,51 @@ public class User {
         pitch = (Math.toDegrees(pitch)+360)%360;
 
         return pitch; // degrees between 0 and 360
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which calculates the theoretical azimuth between the user's location
+     * and every poi in the arrayList Pois and if the poi is visible by the user
+     *
+     * @param Pois : the arrayList of poi
+     * @return the pois with the theoretical azimuths
+     */
+    public ArrayList<BuildingPOI> theoreticalAngleToPOIs(ArrayList<BuildingPOI> Pois,
+                                                           double azimuthRe,
+                                                           double azimuth_accuracy){
+        int len_pois = Pois.size();
+
+        ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
+
+        BuildingPOI poiTemp;
+        double azimuth, pitch, minAngle, maxAngle;
+        boolean isVisible;
+
+        for (int i=0; i<len_pois; i++){
+            // We calculate the angle of the poi:
+            poiTemp = Pois.get(i);
+
+            azimuth = this.theoreticalAzimuthToPOI(poiTemp);
+            poiTemp.setAzimut(azimuth);
+
+            pitch = this.theoreticalPitchToPOI(poiTemp);
+            poiTemp.setPitch(pitch);
+
+            // We calculate if the user sees or not the poi:
+            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
+
+            minAngle = minMax.get(0);
+            maxAngle = minMax.get(1);
+
+            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
+            poiTemp.setVisible(isVisible);
+
+            poisAzs.add(poiTemp);
+        }
+
+        return poisAzs;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

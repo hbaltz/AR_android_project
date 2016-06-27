@@ -91,23 +91,23 @@ public class DrawSurfaceView extends View {
             int len_pois = POIs.size();
 
             // Initialize:
-            boolean isVisible;
-            double dist;
-            List<Float> posScreen;
-            float xPosScreen, yPosScreen;
-            float radius;
-            float w;
-            String strct;
-            ArrayList<Integer> sizeStrings;
-            ArrayList<String> information;
+            boolean isVisible; // true is the poi is visible by the user
+            double dist;// the distance between the poi and the user
+            List<Float> posScreen;// the position on the screen of the point which has been projected
+            float xPosScreen, yPosScreen;// the position on the screen of the point which has been projected
+            float radius;// the size og the dote on the screen
+            float w; //the size of the text
+            String strct;// useful to initialize the paint
+            ArrayList<String> information;// the information that we want to display
+            ArrayList<Integer> sizeStrings;// the size of the string included in information
 
-            double pitchTheo, angleHor;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
                 isVisible = POI.isVisible();
 
+                // If the POI is visible by the user, we draw a dot and an information box
                 if(isVisible) {
 
                     // If the poi is visible we recover information about it :

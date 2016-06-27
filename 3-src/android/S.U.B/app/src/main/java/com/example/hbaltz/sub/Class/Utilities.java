@@ -80,7 +80,18 @@ public final class Utilities {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * Function which projects the point pt on the screen using a perspective projection defined by
+     * the information about the location of the user and the orientation of the device
+     * (based on http://aldream.net/article/2013-04-13-painter-s-algorithm/)
+     *
+     * @param locUser: the location of the user/device
+     * @param pt: the location of the point that we want to project
+     * @param orMat: the orientation matrix of the device
+     * @param W: the screen's width
+     * @param H: the screen/s heigth
+     * @return the position on the screen of the poi
+     */
     public static List<Float> screenPositionMatOr(Point locUser, Point pt, float[] orMat,
                                                   float W, float H){
         List<Float> pos = new ArrayList<>();

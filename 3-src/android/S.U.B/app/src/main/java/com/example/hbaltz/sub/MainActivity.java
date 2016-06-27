@@ -334,7 +334,7 @@ public class MainActivity extends FragmentActivity {
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
             // We calculate the azimuth between all the NN and the user:
-            NN = user.theoreticalAzimuthToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY);
+            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY);
             if(DEBUG) Log.d("azTeo", "" + NN);
 
             // We update the display:
@@ -345,7 +345,7 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (GeoDrawView != null) {
-                GeoDrawView.setVariables(NN, orientationVals, user, WGS_1984_WMAS);
+                GeoDrawView.setVariables(NN, orientationVals, user);
                 GeoDrawView.invalidate();
             }
 
