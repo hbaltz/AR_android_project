@@ -104,7 +104,7 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        DrawView.setVisibility(View.INVISIBLE);
+        //DrawView.setVisibility(View.INVISIBLE);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         //GeoDrawView.setVisibility(View.INVISIBLE);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
@@ -339,13 +339,13 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (DrawView != null) {
-                DrawView.setVariables(NN, azimuthReal, pitchReal);
+                DrawView.setVariables(NN, orientationVals, user);
                 DrawView.invalidate();
             }
 
             // We update the display:
-            if (GeoDrawView != null ) {
-                GeoDrawView.setVariables(NN, azimuthReal, pitchReal, orientationVals, user, WGS_1984_WMAS);
+            if (GeoDrawView != null) {
+                GeoDrawView.setVariables(NN, orientationVals, user, WGS_1984_WMAS);
                 GeoDrawView.invalidate();
             }
 

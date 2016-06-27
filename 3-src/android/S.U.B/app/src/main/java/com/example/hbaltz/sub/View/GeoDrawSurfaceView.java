@@ -32,7 +32,6 @@ public class GeoDrawSurfaceView  extends View {
 
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
-    private double camWidth=320d, camHeight = 240d; // Tango
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference spaRef;
@@ -47,7 +46,6 @@ public class GeoDrawSurfaceView  extends View {
     private ArrayList<BuildingPOI> POIs = null;
 
     ////////////////////////////////////// Angles: /////////////////////////////////////////////////
-    private double azimuthReal, pitchReal;
     float[] orMat;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
@@ -101,8 +99,7 @@ public class GeoDrawSurfaceView  extends View {
             Polygon footprint;
             int countPoint;
             Point pointTemp;
-            BuildingPOI poiTemp = new BuildingPOI();
-            double azimutTheo, pitchTheo, dist, distPoi, angleHor=0d, angleVer;
+            double dist;
             List<Float> posScreenTemp;
             Path wallpath;
             float xPos,yPos;
@@ -111,7 +108,6 @@ public class GeoDrawSurfaceView  extends View {
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
-                distPoi = POI.getDistance();
                 isVisible = POI.isVisible();
 
                 if(isVisible) {
@@ -126,27 +122,11 @@ public class GeoDrawSurfaceView  extends View {
 
                     for(int j=0; j<countPoint; j++){
                         pointTemp = footprint.getPoint(j);
-                        /*
-                        poiTemp.setLocation(pointTemp);
-
-                        azimutTheo = user.theoreticalAzimuthToPOI(poiTemp);
-                        if(DEBUG) Log.d("azimutTheo", "" + azimutTheo);
-                        angleVer = Math.toRadians(azimutTheo-azimuthReal);
-
-                        pitchTheo = user.theoreticalPitchToPOI(poiTemp);
-                        if(DEBUG) Log.d("pitchTheo", "" + pitchTheo);
-                        angleHor = Math.toRadians(pitchTheo-pitchReal);
-
-                        dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
-                        if(DEBUG) Log.d("dist", "" + dist);
-
-                        posScreenTemp = Utilities.screenPosition(angleVer, angleHor, dist, screenWidth, screenHeight, camWidth, camHeight);
-                        */
 
                         dist = geomen.distance(user.getLocation(), pointTemp, spaRef);
 
                         posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                                (float)screenWidth,(float)screenHeight, (float)camWidth, (float)camHeight, (float) dist);
+                                (float)screenWidth,(float)screenHeight);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);
@@ -161,11 +141,7 @@ public class GeoDrawSurfaceView  extends View {
                     }
 
                     if(draw) {
-
                         wallpath.close();
-
-                        //Log.d("wallpath",wallpath.toString());
-
                         canvas.drawPath(wallpath, paint);
                     }
 
@@ -185,39 +161,18 @@ public class GeoDrawSurfaceView  extends View {
      * * Function which sets the variables
      *
      * @param pois: the arrayList of POI that we want to draw
-     * @param azimuthreal: the real azimuth (double)
-     * @param pitchreal: the real pitch (double)
      * @param ormat: the orientation matrix
      * @param usr: the user
      * @param spRf: the spatial reference
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
-                             double azimuthreal,
-                             double pitchreal,
                              float[] ormat,
                              User usr,
                              SpatialReference spRf){
 
         this.POIs = pois;
-        this.azimuthReal = azimuthreal;
-        this.pitchReal = pitchreal;
         this.orMat = ormat;
         this.user = usr;
         this.spaRef =spRf;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * * Function which sets the variables
-     *
-     * @param camwidth: the camera's width
-     * @param camheight: the camera's height
-     */
-    public void setCamSize(double camwidth, double camheight){
-
-        this.camWidth = camwidth;
-        this.camHeight = camheight;;
-    }
-
 }

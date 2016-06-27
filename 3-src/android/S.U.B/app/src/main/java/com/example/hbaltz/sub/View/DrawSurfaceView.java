@@ -27,13 +27,15 @@ public class DrawSurfaceView extends View {
 
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
-    private double camWidth=320d, camHeight = 240d; // Tango
 
     ////////////////////////////////////// POIs: ///////////////////////////////////////////////////
     private ArrayList<BuildingPOI> POIs = null;
 
+    ////////////////////////////////////// User: ///////////////////////////////////////////////////
+    private User user;
+
     ////////////////////////////////////// Angles: /////////////////////////////////////////////////
-    private double azimuthReal, pitchReal;
+    float[] orMat;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint();
@@ -90,7 +92,7 @@ public class DrawSurfaceView extends View {
 
             // Initialize:
             boolean isVisible;
-            double dist, azTheo, angRad;
+            double dist;
             List<Float> posScreen;
             float xPosScreen, yPosScreen;
             float radius;
@@ -110,15 +112,11 @@ public class DrawSurfaceView extends View {
 
                     // If the poi is visible we recover information about it :
                     dist = POI.getDistance();
-                    azTheo = POI.getAzimut();
-                    angRad = Math.toRadians(azTheo - azimuthReal);
-
-                    pitchTheo = POI.getPitch();
-                    angleHor = Math.toRadians(pitchTheo-pitchReal);
 
                     /////////////////////////////////// Calculate location: ////////////////////////
                     // We calculate where the point have to be draw
-                    posScreen = Utilities.screenPosition(angRad, angleHor,dist,screenWidth,screenHeight,camWidth,camHeight);
+                    posScreen = Utilities.screenPositionMatOr(user.getLocation(),POI.getLocation(),orMat,
+                            (float)screenWidth,(float)screenHeight);
 
                     xPosScreen = posScreen.get(0);
                     //yPosScreen = posScreen.get(1);
@@ -164,15 +162,15 @@ public class DrawSurfaceView extends View {
      * * Function which sets the variables
      *
      * @param pois: the arrayList of POI that we want to draw
-     * @param azimuthreal: the real azimuth (double)
+     * @param ormat: the orientation matrix
+     * @param usr: the user
      */
     public void setVariables(ArrayList<BuildingPOI> pois,
-                             double azimuthreal,
-                             double pitchreal){
-
+                             float[] ormat,
+                             User usr){
         this.POIs = pois;
-        this.azimuthReal = azimuthreal;
-        this.pitchReal = pitchreal;
+        this.orMat = ormat;
+        this.user = usr;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

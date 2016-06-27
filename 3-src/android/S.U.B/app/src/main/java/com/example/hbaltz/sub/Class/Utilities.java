@@ -15,6 +15,10 @@ import java.util.List;
 
 public final class Utilities {
 
+    private final static boolean DEBUG = false;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Function which calculates the minimal and maximum value of the azimuth
      * around the azimuth's accuracy
@@ -76,41 +80,9 @@ public final class Utilities {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Calculates the position on the screen of a point with an angle ang and a distance dist
-     * between it and the user.
-     *
-     * @param angVer: the vertical angle between the point and the user in radian
-     * @param angHor: the horizontalical angle between the point and the user in radian
-     * @param dist: the distance between the point and the user in meters
-     * @param W: the screen's width
-     * @param H: the screen's height
-     * @return the point's position on the screen
-     */
-    public static List<Float> screenPosition(double angVer, double angHor,
-                                             double dist, double W, double H,
-                                             double camW, double camH){
-        List<Float> pos = new ArrayList<>();
-
-        double xPos = Math.sin(angVer) * dist;
-        double yPos = Math.sin(angHor) * dist;
-
-        //Log.d("coord", "X: " + xPos + ", Y: " + yPos);
-
-        double ratio = ((H*W)/(240*320));
-
-        // TODO : orientation pas bonne
-        pos.add((float) ((W/2) + (xPos)));
-        pos.add((float) ((H/2) - (yPos)));
-
-        return pos;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     public static List<Float> screenPositionMatOr(Point locUser, Point pt, float[] orMat,
-                                                  float W, float H, float camW, float camH, float dist){
+                                                  float W, float H){
         List<Float> pos = new ArrayList<>();
 
         float x = (float)(pt.getX()-locUser.getX());
@@ -118,7 +90,7 @@ public final class Utilities {
         float z = (float)(pt.getZ()-locUser.getZ());
         if(z == 0) z = -20f;
 
-        //Log.d("XYZ", "X: " + x + ", Y: " + y + ", Z: " + z);
+        if(DEBUG)Log.d("XYZ", "X: " + x + ", Y: " + y + ", Z: " + z);
 
         float ThetaYaw = (float)Math.toRadians(orMat[0]);
         float ThetaPitch = (float)Math.toRadians(orMat[1]);
@@ -139,12 +111,12 @@ public final class Utilities {
         float Dy = Spitch*temp2 + Cpitch*temp1;
         float Dz = Cpitch*temp2 - Spitch*temp1;
 
-        Log.d("D", "Dx: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
+        if(DEBUG) Log.d("D", "Dx: " + Dx + ", Dy: " + Dy + ", Dz: " + Dz);
 
         float xPos = (W/2)+((H/2)*Dx/Dz);
         float yPos = (H/2)+((H/2)*Dy/Dz);
 
-        Log.d("pos", "X: " + xPos + ", Y: " + yPos);
+        if(DEBUG)Log.d("pos", "X: " + xPos + ", Y: " + yPos);
 
         pos.add(xPos);
         pos.add(yPos);
