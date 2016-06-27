@@ -135,7 +135,7 @@ public class User {
         double dx = locPoi.getX() - locUsr.getX();
         double dy = locPoi.getY() - locUsr.getY();
         double dz = locPoi.getZ() - locUsr.getZ();
-        if(dz==0) dz = 0;
+        if(dz==0) dz =20d;
 
         double pitch;
 
@@ -156,14 +156,17 @@ public class User {
      */
     public ArrayList<BuildingPOI> theoreticalAngleToPOIs(ArrayList<BuildingPOI> Pois,
                                                            double azimuthRe,
-                                                           double azimuth_accuracy){
+                                                           double azimuth_accuracy,
+                                                           double pitchRe,
+                                                           double pitch_accuracy){
         int len_pois = Pois.size();
 
         ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
 
         BuildingPOI poiTemp;
-        double azimuth, pitch, minAngle, maxAngle;
-        boolean isVisible;
+        List<Double> minMaxAz, minMaxPt;
+        double azimuth, pitch, minAngleAz, maxAngleAz, minAnglePt, maxAnglePt;
+        boolean isVisibleAz, isVisiblePt;
 
         for (int i=0; i<len_pois; i++){
             // We calculate the angle of the poi:
@@ -176,13 +179,24 @@ public class User {
             poiTemp.setPitch(pitch);
 
             // We calculate if the user sees or not the poi:
-            List<Double> minMax = Utilities.azimuthAccuracy(azimuth,azimuth_accuracy);
 
-            minAngle = minMax.get(0);
-            maxAngle = minMax.get(1);
+            // Azimuth:
+            minMaxAz = Utilities.angleAccuracy(azimuth,azimuth_accuracy);
 
-            isVisible = Utilities.isBetween(minAngle, maxAngle, azimuthRe);
-            poiTemp.setVisible(isVisible);
+            minAngleAz = minMaxAz.get(0);
+            maxAngleAz = minMaxAz.get(1);
+
+            isVisibleAz = Utilities.isBetween(minAngleAz, maxAngleAz, azimuthRe);
+
+            // Pitch:
+            minMaxPt = Utilities.angleAccuracy(pitch,pitch_accuracy);
+
+            minAnglePt = minMaxPt.get(0);
+            maxAnglePt = minMaxPt.get(1);
+
+            isVisiblePt = Utilities.isBetween(minAnglePt, maxAnglePt, pitchRe);
+
+            poiTemp.setVisible((isVisibleAz && isVisiblePt));
 
             poisAzs.add(poiTemp);
         }
