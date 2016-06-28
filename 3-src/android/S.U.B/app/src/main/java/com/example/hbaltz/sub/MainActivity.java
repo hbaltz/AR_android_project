@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
+import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
@@ -37,6 +38,9 @@ import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
+
+import org.codehaus.jackson.JsonParser;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -61,7 +65,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
-    private SpatialReference NAD83_UTM_zone_18N = SpatialReference.create(26918);
+    private SpatialReference NAD83_UTM_zone_18N = SpatialReference.create("PROJCS[\"NAD_1983_UTM_Zone_18N\",GEOGCS[\"GCS_North_American_1983\",DATUM[\"D_NAD83\",SPHEROID[\"GRS_1980\",6378137,298.257222101]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"Meter\",1]]");
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
@@ -335,7 +339,14 @@ public class MainActivity extends FragmentActivity {
                 // Recover information about buildings :
                 if (infoGeo != null) {
                     geoTemp.setType((String) infoGeo.getAttributeValue("CLASS_TXT"));
-                    geoTemp.setShape((Polygon) infoGeo.getGeometry());
+
+
+                    //Geometry test = geomen.project(infoGeo.getGeometry(),NAD83_UTM_zone_18N,WGS_1984_WMAS);
+                    Geometry test = infoGeo.getGeometry();
+                    Log.d("proj", ""+test.calculateArea2D());
+
+
+                    geoTemp.setShape((Polygon) test);
                 } else {
                     geoTemp = acGeo;
                 }

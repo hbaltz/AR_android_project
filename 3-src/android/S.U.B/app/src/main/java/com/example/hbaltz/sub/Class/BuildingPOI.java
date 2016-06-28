@@ -257,8 +257,6 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
             if(geoInfo!=null) {
                 Polygon shape = geoInfo.getShape();
                 if(shape !=null) {
-                    Log.d("ft", "" + this.footprint);
-                    Log.d("shp", "" + shape);
                     Log.d("dist", "" + geomen.distance(this.location, shape, spaRef)); //pb proj
                     if (geomen.intersects(this.footprint, shape, spaRef)) {
                         Log.d("intersect", "in");
