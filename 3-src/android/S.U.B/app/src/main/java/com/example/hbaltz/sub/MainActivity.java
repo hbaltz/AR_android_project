@@ -32,6 +32,7 @@ import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
+import com.example.hbaltz.sub.Class.GeoInfo;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
@@ -63,7 +64,8 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
-    private Polygon[] PoiFootprints, InfoGeos;
+    private Polygon[] PoiFootprints;
+    private GeoInfo[] InfoGeos;
     private ArrayList<BuildingPOI> NN;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
@@ -319,10 +321,11 @@ public class MainActivity extends FragmentActivity {
             /////////////////////////////////// Recover geoInfos: //////////////////////////////////
             // Initialize:
             int len2 = features_geos.length - 1;
-            InfoGeos = new Polygon[len2 + 1];
+            InfoGeos = new GeoInfo[len2 + 1];
 
-            Polygon acGeo = new Polygon(); // useful if no object in the db
+            GeoInfo acGeo = new GeoInfo(); // useful if no object in the db
             Feature infoGeo;
+            GeoInfo geoTemp = new GeoInfo();
 
             for (int l = 0; l < len2; l++) {
 
@@ -330,10 +333,13 @@ public class MainActivity extends FragmentActivity {
 
                 // Recover information about buildings :
                 if (infoGeo != null) {
-                    InfoGeos[l]=(Polygon) infoGeo.getGeometry();
+                    geoTemp.setType((String) infoGeo.getAttributeValue("CLASS_TXT"));
+                    geoTemp.setShape((Polygon) infoGeo.getGeometry());
                 } else {
-                    InfoGeos[l] = acGeo;
+                    geoTemp = acGeo;
                 }
+
+                InfoGeos[l] = geoTemp;
             }
 
             Log.d("InfoGeo", "" + InfoGeos.length);
