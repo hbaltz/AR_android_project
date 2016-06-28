@@ -4,11 +4,8 @@ import android.content.Context;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Size;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.example.hbaltz.sub.R;
 
 import java.io.IOException;
 
@@ -25,10 +22,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
     private boolean isCameraviewOn = false;
-
-    //////////////////////////////////// View: /////////////////////////////////////////////////////
-    private GeoDrawSurfaceView geoView;
-
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
