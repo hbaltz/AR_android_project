@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by hbaltz on 6/13/2016.
  */
-public class GeoDrawSurfaceView  extends View {
+public class FtDrawSurfaceView extends View {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// VARIABLES: ////////////////////////////////////////////////
@@ -52,9 +52,9 @@ public class GeoDrawSurfaceView  extends View {
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public GeoDrawSurfaceView(Context context) {super(context);}
+    public FtDrawSurfaceView(Context context) {super(context);}
 
-    public GeoDrawSurfaceView(Context context, AttributeSet set) {
+    public FtDrawSurfaceView(Context context, AttributeSet set) {
         super(context, set);
 
         // We initialize the paint for the POIs:
