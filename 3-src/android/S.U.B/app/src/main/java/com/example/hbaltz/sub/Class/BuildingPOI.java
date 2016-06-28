@@ -1,5 +1,7 @@
 package com.example.hbaltz.sub.Class;
 
+import android.util.Log;
+
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
@@ -30,6 +32,8 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     //////////////////////////////////// Geometry: /////////////////////////////////////////////////
     private Point location;
     private Polygon footprint;
+    //////////////////////////////////// Geological information: ///////////////////////////////////
+    private ArrayList<GeoInfo> geologicalInfo;
     //////////////////////////////////// Relative to the user: /////////////////////////////////////
     private double distance;
     private double azimut;
@@ -112,6 +116,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         return this.footprint;
     }
 
+    public ArrayList<GeoInfo> getGeologicalInfo() {
+        return this.geologicalInfo;
+    }
+
     public double getDistance() {
         return this.distance;
     }
@@ -176,6 +184,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         this.footprint = footprint;
     }
 
+    public void setGeologicalInfo(ArrayList<GeoInfo> geologicalInfo) {
+        this.geologicalInfo = geologicalInfo;
+    }
+
     public void setDistance(double distance) {
         this.distance = distance;
     }
@@ -212,7 +224,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
      */
     public void setPoly( GeometryEngine geomen,
                          ArrayList<Polygon> footprints,
-                                 SpatialReference spaRef){
+                         SpatialReference spaRef){
 
         Polygon footprintPOI = new Polygon();
 
@@ -226,6 +238,35 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         }
 
         this.footprint = footprintPOI;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Sets the geological information
+     *
+     * @param geomen: geometry engine
+     * @param geoInfos: the array of GeoInfo
+     * @param spaRef: spatial reference
+     */
+    public void setGeoInfo(GeometryEngine geomen,
+                      GeoInfo[] geoInfos,
+                      SpatialReference spaRef){
+
+        for (GeoInfo geoInfo : geoInfos) {
+            if(geoInfo!=null) {
+                Polygon shape = geoInfo.getShape();
+                if(shape !=null) {
+                    Log.d("ft", "" + this.footprint);
+                    Log.d("shp", "" + shape);
+                    Log.d("dist", "" + geomen.distance(this.location, shape, spaRef)); //pb proj
+                    if (geomen.intersects(this.footprint, shape, spaRef)) {
+                        Log.d("intersect", "in");
+                        this.geologicalInfo.add(geoInfo);
+                    }
+                }
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

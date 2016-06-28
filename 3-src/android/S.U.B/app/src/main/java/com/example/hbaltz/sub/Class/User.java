@@ -66,7 +66,7 @@ public class User {
      */
     public ArrayList<BuildingPOI> nearestNeighbors(GeometryEngine geomen,
                                                 BuildingPOI[] builds, ArrayList<Polygon> footprints,
-                                                SpatialReference spaRef,
+                                                GeoInfo[] geoInfos, SpatialReference spaRef,
                                                 double radius, Unit unit){
 
         ArrayList<BuildingPOI> NN = new ArrayList<>();
@@ -82,6 +82,7 @@ public class User {
                     if (geomen.intersects(buffer, locPOI, spaRef)) {
                         build.setDistance(geomen.distance(loc, build.getLocation(), spaRef));
                         build.setPoly(geomen,footprints,spaRef);
+                        build.setGeoInfo(geomen,geoInfos,spaRef);
                         NN.add(build);
                     }
                 }

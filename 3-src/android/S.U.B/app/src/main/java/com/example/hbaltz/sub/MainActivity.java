@@ -61,6 +61,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
+    private SpatialReference NAD83_UTM_zone_18N = SpatialReference.create(26918);
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
@@ -395,8 +396,10 @@ public class MainActivity extends FragmentActivity {
         if (DEBUG) Log.d("NF250", "" + NF.size());
 
         // We recover the NN of the user:
-        NN = user.nearestNeighbors(geomen, buildings, NF, WGS_1984_WMAS, 200, meter);
+        NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
         if (DEBUG) Log.d("NN200", "" + NN.size());
+
+        Log.d("geoType","" + NN.get(0).getGeologicalInfo());
 
         // We update the map:
         if(uoMap != null) {
