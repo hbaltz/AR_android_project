@@ -22,7 +22,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
     private boolean isCameraviewOn = false;
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +34,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         this.mSurfaceHolder = this.getHolder();
         this.mSurfaceHolder.addCallback(this);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public CameraView(Context context, AttributeSet set) {
         super(context, set);
@@ -56,6 +58,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         Log.d("f",""+ mCamera.getParameters().getFocalLength());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         if (isCameraviewOn) {
@@ -74,6 +78,8 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
