@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -32,9 +33,8 @@ import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.User;
-import com.example.hbaltz.sub.Class.Utilities;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
-import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
+import com.example.hbaltz.sub.View.FtDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
 
 import java.util.ArrayList;
@@ -80,7 +80,15 @@ public class MainActivity extends FragmentActivity {
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
     private uoMapView uoMap;
-    private GeoDrawSurfaceView GeoDrawView;
+    private FtDrawSurfaceView FtDrawView;
+
+    ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
+    private CheckBox checkPoi, checkFt;
+
+    //////////////////////////////////// Display: //////////////////////////////////////////////////
+    private boolean displayPoi = false;
+    private boolean displayFootprint = false;
+    private boolean displayGeoInfo = false;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -104,10 +112,17 @@ public class MainActivity extends FragmentActivity {
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        //DrawView.setVisibility(View.INVISIBLE);
-        GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
-        //GeoDrawView.setVisibility(View.INVISIBLE);
+        FtDrawView = (FtDrawSurfaceView) findViewById(R.id.ftDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap) ;
+
+        /////////////////////////////// Checkbox: //////////////////////////////////////////////////
+        checkPoi = (CheckBox) findViewById(R.id.checkPoi);
+        String txtPoi = getResources().getString(R.string.dispPoi);
+        checkPoi.setText(txtPoi);
+
+        checkFt = (CheckBox) findViewById(R.id.checkFootprint);
+        String txtFt = getResources().getString(R.string.dispFt);
+        checkFt.setText(txtFt);
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -144,6 +159,12 @@ public class MainActivity extends FragmentActivity {
      * Function which setups the listeners
      */
     private void setupListeners() {
+
+        ////////////////////////////////////// Checkbox: ///////////////////////////////////////////
+        checkPoi.setOnClickListener(checkedListener);
+        checkFt.setOnClickListener(checkedListener);
+
+        checkPoi.setChecked(true);
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
 
@@ -338,15 +359,15 @@ public class MainActivity extends FragmentActivity {
             if(DEBUG) Log.d("azTeo", "" + NN);
 
             // We update the display:
-            if (DrawView != null) {
+            if (DrawView != null && displayPoi) {
                 DrawView.setVariables(NN, orientationVals, user);
                 DrawView.invalidate();
             }
 
             // We update the display:
-            if (GeoDrawView != null) {
-                GeoDrawView.setVariables(NN, orientationVals, user);
-                GeoDrawView.invalidate();
+            if (FtDrawView != null && displayFootprint) {
+                FtDrawView.setVariables(NN, orientationVals, user);
+                FtDrawView.invalidate();
             }
 
             if(uoMap != null && updatedMapView) {
@@ -487,4 +508,36 @@ public class MainActivity extends FragmentActivity {
 
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
     };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Footprint's Listener
+     */
+    private View.OnClickListener checkedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //Pois:
+            if(checkPoi.isChecked()){
+                displayPoi = true;
+                DrawView.setVisibility(View.VISIBLE);
+            }
+            else if(!checkPoi.isChecked()){
+                displayPoi = false;
+                DrawView.setVisibility(View.INVISIBLE);
+            }
+
+            // Footprints:
+            if(checkFt.isChecked()){
+                displayFootprint = true;
+                FtDrawView.setVisibility(View.VISIBLE);
+            }
+            else if(!checkFt.isChecked()) {
+                displayFootprint = false;
+                FtDrawView.setVisibility(View.INVISIBLE);
+            }
+
+        }
+    };
+
 }
