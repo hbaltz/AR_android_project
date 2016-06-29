@@ -256,16 +256,19 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
                       GeoInfo[] geoInfos,
                       SpatialReference spaRef){
 
+        this.geologicalInfo = new ArrayList<>();
+        Polygon shape;
+
         for (GeoInfo geoInfo : geoInfos) {
-            if(geoInfo!=null) {
-                Polygon shape = geoInfo.getShape();
-                if(shape !=null) {
-                    if (geomen.intersects(this.footprint, shape, spaRef)) {
-                        this.geologicalInfo.add(geoInfo);
-                    }
+            shape = geoInfo.getShape();
+            if (shape != null) {
+                if (geomen.intersects(geoInfo.getShape(), this.footprint, spaRef)) {
+                    this.geologicalInfo.add(geoInfo);
                 }
             }
         }
+
+        Log.d("sGeo", "" + geologicalInfo.size());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

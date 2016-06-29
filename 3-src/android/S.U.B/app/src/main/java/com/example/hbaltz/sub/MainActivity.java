@@ -326,14 +326,16 @@ public class MainActivity extends FragmentActivity {
             // Initialize:
             int len2 = features_geos.length;
             InfoGeos = new GeoInfo[len2];
+            ArrayList<GeoInfo> tst = new ArrayList<>();
 
             GeoInfo acGeo = new GeoInfo(); // useful if no object in the db
             Feature infoGeo;
-            GeoInfo geoTemp = new GeoInfo();
+            GeoInfo geoTemp;
 
-            for (int l = 0; l < len2; l++) {
+            for (int l2 = 0; l2 < len2; l2++) {
+                geoTemp = new GeoInfo();
 
-                infoGeo = features_geos[l];
+                infoGeo = features_geos[l2];
 
                 // Recover information about buildings :
                 if (infoGeo != null) {
@@ -342,8 +344,7 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     geoTemp = acGeo;
                 }
-
-                InfoGeos[l] = geoTemp;
+                InfoGeos[l2] = geoTemp;
             }
 
             Log.d("InfoGeo", "" + InfoGeos.length);
@@ -402,7 +403,7 @@ public class MainActivity extends FragmentActivity {
         NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
         if (DEBUG) Log.d("NN200", "" + NN.size());
 
-        Log.d("geoType",NN.get(0).getGeologicalInfo().get(0).getType());
+        Log.d("geoType","" + NN.get(0).getGeologicalInfo().size());
 
         // We update the map:
         if(uoMap != null) {
