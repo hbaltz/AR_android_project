@@ -37,6 +37,7 @@ import com.example.hbaltz.sub.Class.GeoInfo;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
+import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
 
 import org.codehaus.jackson.JsonParser;
@@ -71,6 +72,7 @@ public class MainActivity extends FragmentActivity {
     private Polygon[] PoiFootprints;
     private GeoInfo[] InfoGeos;
     private ArrayList<BuildingPOI> NN;
+    private ArrayList<GeoInfo> simpGeoInfos;
 
     //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
     private GeometryEngine geomen;
@@ -87,6 +89,7 @@ public class MainActivity extends FragmentActivity {
     private DrawSurfaceView DrawView;
     private uoMapView uoMap;
     private FtDrawSurfaceView FtDrawView;
+    private GeoDrawSurfaceView GeoDrawView;
 
     ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
     private CheckBox checkPoi, checkFt;
@@ -119,7 +122,8 @@ public class MainActivity extends FragmentActivity {
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
         FtDrawView = (FtDrawSurfaceView) findViewById(R.id.ftDrawView);
-        uoMap = (uoMapView) findViewById(R.id.uoMap) ;
+        GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
+        uoMap = (uoMapView) findViewById(R.id.uoMap);
 
         /////////////////////////////// Checkbox: //////////////////////////////////////////////////
         checkPoi = (CheckBox) findViewById(R.id.checkPoi);
@@ -381,6 +385,12 @@ public class MainActivity extends FragmentActivity {
                 FtDrawView.invalidate();
             }
 
+            // We update the display:
+            if (GeoDrawView != null) {
+                GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
+                GeoDrawView.invalidate();
+            }
+
             if(uoMap != null && updatedMapView) {
                 uoMap.setAzimut(azimuthReal);
                 uoMap.invalidate();
@@ -403,7 +413,8 @@ public class MainActivity extends FragmentActivity {
         NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
         if (DEBUG) Log.d("NN200", "" + NN.size());
 
-        Log.d("geoType","" + NN.get(0).getGeologicalInfo().size());
+        // we actualize the geological information:
+        simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,100,meter);
 
         // We update the map:
         if(uoMap != null) {
