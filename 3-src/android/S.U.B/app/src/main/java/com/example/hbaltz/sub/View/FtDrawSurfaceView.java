@@ -60,6 +60,7 @@ public class FtDrawSurfaceView extends View {
         // We initialize the paint for the POIs:
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
+        paint.setAlpha(175);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
