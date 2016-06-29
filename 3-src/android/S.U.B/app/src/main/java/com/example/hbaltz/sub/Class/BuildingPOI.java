@@ -51,6 +51,8 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         this.address = address;
         this.notes = notes;
         this.location = location;
+
+        this.geologicalInfo = new ArrayList<>();
     }
 
     public BuildingPOI(){
@@ -66,6 +68,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
         this.location = new Point();
         this.footprint = new Polygon();
+        this.geologicalInfo = new ArrayList<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,9 +260,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
             if(geoInfo!=null) {
                 Polygon shape = geoInfo.getShape();
                 if(shape !=null) {
-                    Log.d("dist", "" + geomen.distance(this.location, shape, spaRef)); //pb proj
                     if (geomen.intersects(this.footprint, shape, spaRef)) {
-                        Log.d("intersect", "in");
                         this.geologicalInfo.add(geoInfo);
                     }
                 }

@@ -65,7 +65,6 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
-    private SpatialReference NAD83_UTM_zone_18N = SpatialReference.create("PROJCS[\"NAD_1983_UTM_Zone_18N\",GEOGCS[\"GCS_North_American_1983\",DATUM[\"D_NAD83\",SPHEROID[\"GRS_1980\",6378137,298.257222101]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"Meter\",1]]");
 
     //////////////////////////////////// Buildings: ///////////////////////////////////////////////
     private BuildingPOI[] buildings;
@@ -81,7 +80,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Angles: ////////////////////////////////////////////////////
     private double azimuthReal = 0d, pitchReal=0d;
-    private static double AZIMUTH_ACCURACY = 40d, PITCH_ACCURACY = 30d;
+    private static double AZIMUTH_ACCURACY = 40d, PITCH_ACCURACY = 60d;
     float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -93,7 +92,7 @@ public class MainActivity extends FragmentActivity {
     private CheckBox checkPoi, checkFt;
 
     //////////////////////////////////// Display: //////////////////////////////////////////////////
-    private boolean displayPoi = false;
+    private boolean displayPoi = true;
     private boolean displayFootprint = false;
     private boolean displayGeoInfo = false;
 
@@ -240,8 +239,8 @@ public class MainActivity extends FragmentActivity {
 
             /////////////////////////////////// Recover POIs: //////////////////////////////////////
             // Initialize:
-            int len0 = features_pois.length - 1;
-            buildings = new BuildingPOI[len0 + 1];
+            int len0 = features_pois.length ;
+            buildings = new BuildingPOI[len0];
 
             BuildingPOI acBul = new BuildingPOI(); // useful if no object in the db
             double lon, lat;
@@ -290,8 +289,8 @@ public class MainActivity extends FragmentActivity {
 
             /////////////////////////////////// Recover Footprints: ////////////////////////////////
             // Initialize:
-            int len1 = features_footprints.length - 1;
-            PoiFootprints = new Polygon[len1 + 1];
+            int len1 = features_footprints.length;
+            PoiFootprints = new Polygon[len1];
 
             Polygon acFoot = new Polygon(); // useful if no object in the db
             Feature Footprint;
@@ -325,8 +324,8 @@ public class MainActivity extends FragmentActivity {
 
             /////////////////////////////////// Recover geoInfos: //////////////////////////////////
             // Initialize:
-            int len2 = features_geos.length - 1;
-            InfoGeos = new GeoInfo[len2 + 1];
+            int len2 = features_geos.length;
+            InfoGeos = new GeoInfo[len2];
 
             GeoInfo acGeo = new GeoInfo(); // useful if no object in the db
             Feature infoGeo;
@@ -339,14 +338,7 @@ public class MainActivity extends FragmentActivity {
                 // Recover information about buildings :
                 if (infoGeo != null) {
                     geoTemp.setType((String) infoGeo.getAttributeValue("CLASS_TXT"));
-
-
-                    //Geometry test = geomen.project(infoGeo.getGeometry(),NAD83_UTM_zone_18N,WGS_1984_WMAS);
-                    Geometry test = infoGeo.getGeometry();
-                    Log.d("proj", ""+test.calculateArea2D());
-
-
-                    geoTemp.setShape((Polygon) test);
+                    geoTemp.setShape((Polygon) infoGeo.getGeometry());
                 } else {
                     geoTemp = acGeo;
                 }
@@ -410,7 +402,7 @@ public class MainActivity extends FragmentActivity {
         NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
         if (DEBUG) Log.d("NN200", "" + NN.size());
 
-        Log.d("geoType","" + NN.get(0).getGeologicalInfo());
+        Log.d("geoType",NN.get(0).getGeologicalInfo().get(0).getType());
 
         // We update the map:
         if(uoMap != null) {
