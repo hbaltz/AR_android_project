@@ -92,7 +92,7 @@ public class MainActivity extends FragmentActivity {
     private GeoDrawSurfaceView GeoDrawView;
 
     ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
-    private CheckBox checkPoi, checkFt;
+    private CheckBox checkPoi, checkFt, checkGeo;
 
     //////////////////////////////////// Display: //////////////////////////////////////////////////
     private boolean displayPoi = true;
@@ -133,6 +133,10 @@ public class MainActivity extends FragmentActivity {
         checkFt = (CheckBox) findViewById(R.id.checkFootprint);
         String txtFt = getResources().getString(R.string.dispFt);
         checkFt.setText(txtFt);
+
+        checkGeo = (CheckBox) findViewById(R.id.checkGeo);
+        String txtGeo = getResources().getString(R.string.dispGeo);
+        checkGeo.setText(txtGeo);
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -386,7 +390,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             // We update the display:
-            if (GeoDrawView != null) {
+            if (GeoDrawView != null && displayGeoInfo) {
                 GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
             }
@@ -559,6 +563,16 @@ public class MainActivity extends FragmentActivity {
             else if(!checkFt.isChecked()) {
                 displayFootprint = false;
                 FtDrawView.setVisibility(View.INVISIBLE);
+            }
+
+            // Geological information:
+            if(checkGeo.isChecked()){
+                displayGeoInfo = true;
+                GeoDrawView.setVisibility(View.VISIBLE);
+            }
+            else if(!checkGeo.isChecked()) {
+                displayGeoInfo = false;
+                GeoDrawView.setVisibility(View.INVISIBLE);
             }
 
         }

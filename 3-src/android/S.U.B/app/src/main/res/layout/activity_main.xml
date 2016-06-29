@@ -42,15 +42,21 @@
 
     <CheckBox
         android:layout_width="wrap_content"
-        android:layout_height="90dp"
+        android:layout_height="150dp"
         android:layout_gravity="end|bottom"
         android:id= "@+id/checkPoi"/>
 
     <CheckBox
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="90dp"
         android:layout_gravity="end|bottom"
         android:id= "@+id/checkFootprint"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end|bottom"
+        android:id= "@+id/checkGeo"/>
 
 </FrameLayout>
 

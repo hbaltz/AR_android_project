@@ -3,4 +3,5 @@
     <string name="cam">Display the camera?</string>
     <string name="dispPoi">Display the POIs?</string>
     <string name="dispFt">Display the footprints?</string>
+    <string name="dispGeo">Display the geological information?</string>
 </resources>

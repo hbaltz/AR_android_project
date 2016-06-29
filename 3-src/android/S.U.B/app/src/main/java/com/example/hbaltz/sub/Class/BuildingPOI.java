@@ -267,8 +267,6 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
                 }
             }
         }
-
-        Log.d("sGeo", "" + geologicalInfo.size());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
