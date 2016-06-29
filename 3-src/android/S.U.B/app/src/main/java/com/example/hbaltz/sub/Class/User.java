@@ -261,9 +261,10 @@ public class User {
         Point loc = this.getLocation();
         Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
         GeoInfo geoTemp;
+        Polygon simpShape;
 
         for(GeoInfo geoInfo : geoInfos){
-            Polygon simpShape = (Polygon) geomen.intersect(geoInfo.getShape(),buffer,spaRef);
+            simpShape = (Polygon) geomen.intersect(geoInfo.getShape(),buffer,spaRef);
             if(simpShape.calculateArea2D() !=0) {
                 geoInfo.setShape(simpShape);
                 simpGeoInfos.add(geoInfo);
