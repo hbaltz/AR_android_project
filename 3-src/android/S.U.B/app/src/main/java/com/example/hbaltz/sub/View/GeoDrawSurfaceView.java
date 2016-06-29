@@ -59,7 +59,6 @@ public class GeoDrawSurfaceView extends View {
         super(context, set);
 
         // We initialize the paint for the POIs:
-        paint.setColor(Color.RED);
         paint.setAntiAlias(true);
     }
 
@@ -90,6 +89,7 @@ public class GeoDrawSurfaceView extends View {
             int len_pois = geoInfos.size();
 
             // Initialize:
+            String type; // the type of geological underground
             Polygon shape; // the footprint of the building
             int countPoint; // the number of point in the shape
             Point pointTemp; // the point that we project
@@ -106,6 +106,9 @@ public class GeoDrawSurfaceView extends View {
 
                 // We recover the shape
                 shape = geoInfo.getShape();
+
+                // We recover the type:
+                type = geoInfo.getType();
 
                 // We count the number of point in the shape
                 countPoint = shape.getPointCount();
@@ -131,6 +134,7 @@ public class GeoDrawSurfaceView extends View {
                 }
 
                 if(draw) {
+                    paint = initializedPaint(type);
                     wallpath.close();
                     canvas.drawPath(wallpath, paint);
                 }
@@ -160,6 +164,45 @@ public class GeoDrawSurfaceView extends View {
         this.geoInfos = geoinfos;
         this.orMat = ormat;
         this.user = usr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Functions which defines the color of the paint regarding the type
+     *
+     * @param type: the type of geological
+     * @return a Paint with the color defined regarding the type
+     */
+    public Paint initializedPaint( String type ){
+
+        Paint paint = new Paint();
+
+        paint.setAntiAlias(true);
+
+        // We set the color regarding the structure information:
+        switch (type) {
+            case "A":
+                paint.setColor(Color.GREEN);
+                break;
+            case "B":
+                paint.setColor(Color.YELLOW);
+                break;
+            case "C":
+                paint.setColor(Color.rgb(255,69,0)); // Orange
+                break;
+            case "D":
+                paint.setColor(Color.RED);
+                break;
+            default:
+                paint.setColor(Color.GRAY);
+                break;
+        }
+
+        // We set the opacity:
+        paint.setAlpha(175);
+
+        return paint;
     }
 }
 
