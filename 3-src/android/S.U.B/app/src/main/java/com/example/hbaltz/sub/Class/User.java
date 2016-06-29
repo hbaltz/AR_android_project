@@ -190,7 +190,7 @@ public class User {
             isVisibleAz = Utilities.isBetween(minAngleAz, maxAngleAz, azimuthRe);
 
             // Pitch:
-            minMaxPt = Utilities.angleAccuracy(pitch,pitch_accuracy);
+            minMaxPt = Utilities.angleAccuracy(60,pitch_accuracy);
 
             minAnglePt = minMaxPt.get(0);
             maxAnglePt = minMaxPt.get(1);
