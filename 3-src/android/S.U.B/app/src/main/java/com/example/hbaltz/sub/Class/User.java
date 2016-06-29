@@ -210,12 +210,12 @@ public class User {
     /**
      * Function which finds the footprints below a distance of radius unit from the point
      *
-     * @param geomen : A geometry engine (Esri)
-     * @param footprints : The array of footprints
-     * @param spaRef : the spatial reference
-     * @param radius : The distance to consider a geometries like a NN (Nearest Neighbor)
-     * @param unit : The distance's unit
-     * @return an ArrayList of buldings which qre the nearest geometries to the point
+     * @param geomen: A geometry engine (Esri)
+     * @param footprints: The array of footprints
+     * @param spaRef: the spatial reference
+     * @param radius: The distance to consider a geometries like a NN (Nearest Neighbor)
+     * @param unit: The distance's unit
+     * @return an ArrayList of footprints which are the nearest geometries to the point
      */
     public ArrayList<Polygon> nearestFootprints(GeometryEngine geomen,
                                                    Polygon[] footprints,
@@ -237,5 +237,39 @@ public class User {
         }
 
         return NF;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which recovers the geological close to the user, it simplifies geometries
+     *
+     * @param geomen: A geometry engine (Esri)
+     * @param geoInfos: The general geological information
+     * @param spaRef: the spatial reference
+     * @param radius: the distance around the user where we recover geological information
+     * @param unit: The distance's unit
+     * @return
+     */
+    public ArrayList<GeoInfo> simplifyGeoInfo(GeometryEngine geomen,
+                                                GeoInfo[] geoInfos,
+                                                SpatialReference spaRef,
+                                                double radius, Unit unit){
+
+        ArrayList<GeoInfo> simpGeoInfos = new ArrayList<>();
+
+        Point loc = this.getLocation();
+        Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
+        GeoInfo geoTemp;
+
+        for(GeoInfo geoInfo : geoInfos){
+            Polygon simpShape = (Polygon) geomen.intersect(geoInfo.getShape(),buffer,spaRef);
+            if(simpShape.calculateArea2D() !=0) {
+                geoInfo.setShape(simpShape);
+                simpGeoInfos.add(geoInfo);
+            }
+        }
+
+        return simpGeoInfos;
     }
 }
