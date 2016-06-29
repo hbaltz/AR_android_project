@@ -122,7 +122,7 @@ public class GeoDrawSurfaceView extends View {
                     pointTemp = shape.getPoint(j);
 
                     posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                            (float)screenWidth,(float)screenHeight);
+                            (float)screenWidth,(float)screenHeight, -90f);
 
                     xPos=posScreenTemp.get(0);
                     yPos=posScreenTemp.get(1);
@@ -200,7 +200,7 @@ public class GeoDrawSurfaceView extends View {
         }
 
         // We set the opacity:
-        paint.setAlpha(175);
+        paint.setAlpha(130);
 
         return paint;
     }

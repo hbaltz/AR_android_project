@@ -93,13 +93,13 @@ public final class Utilities {
      * @return the position on the screen of the poi
      */
     public static List<Float> screenPositionMatOr(Point locUser, Point pt, float[] orMat,
-                                                  float W, float H){
+                                                  float W, float H, float zDef){
         List<Float> pos = new ArrayList<>();
 
         float x = (float)(pt.getX()-locUser.getX());
         float y = (float)(pt.getY()-locUser.getY());
         float z = (float)(pt.getZ()-locUser.getZ());
-        if(z == 0) z = -1.8f;
+        if(z == 0) z = zDef;
 
         if(DEBUG)Log.d("XYZ", "X: " + x + ", Y: " + y + ", Z: " + z);
 

@@ -116,7 +116,7 @@ public class DrawSurfaceView extends View {
                     /////////////////////////////////// Calculate location: ////////////////////////
                     // We calculate where the point have to be draw
                     posScreen = Utilities.screenPositionMatOr(user.getLocation(),POI.getLocation(),orMat,
-                            (float)screenWidth,(float)screenHeight);
+                            (float)screenWidth,(float)screenHeight,0f);
 
                     xPosScreen = posScreen.get(0);
                     //yPosScreen = posScreen.get(1);

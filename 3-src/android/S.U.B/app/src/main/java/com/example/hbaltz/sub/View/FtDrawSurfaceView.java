@@ -60,7 +60,7 @@ public class FtDrawSurfaceView extends View {
         // We initialize the paint for the POIs:
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
-        paint.setAlpha(175);
+        paint.setAlpha(130);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ public class FtDrawSurfaceView extends View {
                         pointTemp = footprint.getPoint(j);
 
                         posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                                (float)screenWidth,(float)screenHeight);
+                                (float)screenWidth,(float)screenHeight, -2f);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);

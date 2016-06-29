@@ -390,7 +390,8 @@ public class MainActivity extends FragmentActivity {
             }
 
             // We update the display:
-            if (GeoDrawView != null && displayGeoInfo) {
+            //if (GeoDrawView != null && displayGeoInfo) {
+            if (GeoDrawView != null) {
                 GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
             }
@@ -418,7 +419,7 @@ public class MainActivity extends FragmentActivity {
         if (DEBUG) Log.d("NN200", "" + NN.size());
 
         // we actualize the geological information:
-        simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,100,meter);
+        simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
 
         // We update the map:
         if(uoMap != null) {
