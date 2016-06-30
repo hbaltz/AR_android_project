@@ -322,9 +322,11 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
      */
     public String recoverGeoInfo(){
         String informaGeo = "";
+        String separator = "";
 
         for(GeoInfo geoInfo : this.geologicalInfo){
-            informaGeo = informaGeo + ", " + geoInfo.getType();
+            informaGeo = informaGeo + separator + geoInfo.getType();
+            separator = ", "; //Chane at the end of the first iteration
         }
 
         return informaGeo;
