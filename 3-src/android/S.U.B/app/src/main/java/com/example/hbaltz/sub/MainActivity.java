@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Angles: ////////////////////////////////////////////////////
     private double azimuthReal = 0d, pitchReal=0d;
-    private static double AZIMUTH_ACCURACY = 40d, PITCH_ACCURACY = 60d;
+    private static double AZIMUTH_ACCURACY = 30d, PITCH_ACCURACY = 60d;
     float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -392,7 +392,7 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (GeoDrawView != null && displayGeoInfo) {
-                GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
+                GeoDrawView.setVariables(simpGeoInfos, orientationVals, user, azimuthReal, pitchReal);
                 GeoDrawView.invalidate();
             }
 
@@ -517,9 +517,10 @@ public class MainActivity extends FragmentActivity {
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
-                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])+360)%360);
-                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+360)%360);
-                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])+360)%360);
+                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])));
+                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])));
+                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])));
+
 
                 // The azimut:
                 oldAzimuthReal = azimuthReal;
@@ -546,6 +547,7 @@ public class MainActivity extends FragmentActivity {
     private View.OnClickListener checkedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             //Pois:
             if(checkPoi.isChecked()){
                 displayPoi = true;
@@ -575,9 +577,6 @@ public class MainActivity extends FragmentActivity {
                 displayGeoInfo = false;
                 GeoDrawView.setVisibility(View.INVISIBLE);
             }
-
-            Log.d("diplay", "Poi: " + displayPoi + ", Ft: " + displayFootprint + ", Geo: " + displayGeoInfo);
-
         }
     };
 

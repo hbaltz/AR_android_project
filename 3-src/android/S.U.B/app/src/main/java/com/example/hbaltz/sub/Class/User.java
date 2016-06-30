@@ -114,7 +114,7 @@ public class User {
         double azimuth;
 
         azimuth = Math.atan2(dY,dX);
-        azimuth = (Math.toDegrees(azimuth) + 360) % 360 ; // degrees between 0 and 360
+        azimuth = (Math.toDegrees(azimuth)); // degrees between 0 and 360
 
 
         return azimuth;
@@ -141,7 +141,7 @@ public class User {
         double pitch;
 
         pitch = Math.atan2(dy,Math.sqrt((Math.pow(dx,2))+(Math.pow(dz,2))));
-        pitch = (Math.toDegrees(pitch)+360)%360;
+        pitch = (Math.toDegrees(pitch));
 
         return pitch; // degrees between 0 and 360
     }

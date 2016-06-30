@@ -2,9 +2,7 @@ package com.example.hbaltz.sub.Class;
 
 import android.util.Log;
 
-import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
-import com.esri.core.geometry.SpatialReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +29,7 @@ public final class Utilities {
         double minAngle = angleTheo - angle_accuracy;
         double maxAngle = angleTheo + angle_accuracy;
         List<Double> minMax = new ArrayList<>();
-
-        if (minAngle < 0) {minAngle += 360;}
-        if (maxAngle >= 360){maxAngle -= 360;}
-
+  
         minMax.clear();
         minMax.add(minAngle);
         minMax.add(maxAngle);
@@ -54,7 +49,7 @@ public final class Utilities {
      */
     public static boolean isBetween(double minAngle, double maxAngle, double angle) {
         if (minAngle > maxAngle) {
-            if (isBetween(0, maxAngle, angle) && isBetween(minAngle, 360, angle))
+            if  (angle < minAngle && angle > maxAngle)
                 return true;
         } else {
             if (angle > minAngle && angle < maxAngle)

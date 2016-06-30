@@ -326,7 +326,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
         for(GeoInfo geoInfo : this.geologicalInfo){
             informaGeo = informaGeo + separator + geoInfo.getType();
-            separator = ", "; //Chane at the end of the first iteration
+            separator = ", "; //Change at the end of the first iteration
         }
 
         return informaGeo;
