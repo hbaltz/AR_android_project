@@ -177,6 +177,7 @@ public class MainActivity extends FragmentActivity {
         ////////////////////////////////////// Checkbox: ///////////////////////////////////////////
         checkPoi.setOnClickListener(checkedListener);
         checkFt.setOnClickListener(checkedListener);
+        checkGeo.setOnClickListener(checkedListener);
 
         checkPoi.setChecked(true);
 
@@ -390,8 +391,8 @@ public class MainActivity extends FragmentActivity {
             }
 
             // We update the display:
-            //if (GeoDrawView != null && displayGeoInfo) {
-            if (GeoDrawView != null) {
+            if (GeoDrawView != null && displayGeoInfo) {
+            //if (GeoDrawView != null) {
                 GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
             }
@@ -575,6 +576,8 @@ public class MainActivity extends FragmentActivity {
                 displayGeoInfo = false;
                 GeoDrawView.setVisibility(View.INVISIBLE);
             }
+
+            Log.d("diplay", "Poi: " + displayPoi + ", Ft: " + displayFootprint + ", Geo: " + displayGeoInfo);
 
         }
     };
