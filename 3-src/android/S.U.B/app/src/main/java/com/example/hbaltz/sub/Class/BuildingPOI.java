@@ -305,10 +305,28 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         information.add("Number of stories: " + this.numberOfStories);
         information.add("Vertical irregularity: " + this.verticalIrregularity);
         information.add("Plan irregularity: " + this.planIrregularity);
+        information.add("Geological information: " + this.recoverGeoInfo());
         information.add("Address: " + this.address);
         information.add("Notes: " +this.notes);
         information.add("Distance : " + ((int)(this.distance)) + " m");
 
         return information;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Recovers the geological information about the POI in a arrayList
+     *
+     * @return a string
+     */
+    public String recoverGeoInfo(){
+        String informaGeo = "";
+
+        for(GeoInfo geoInfo : this.geologicalInfo){
+            informaGeo = informaGeo + ", " + geoInfo.getType();
+        }
+
+        return informaGeo;
     }
 }

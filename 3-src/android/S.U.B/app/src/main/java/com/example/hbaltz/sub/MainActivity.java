@@ -392,7 +392,6 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (GeoDrawView != null && displayGeoInfo) {
-            //if (GeoDrawView != null) {
                 GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
             }
