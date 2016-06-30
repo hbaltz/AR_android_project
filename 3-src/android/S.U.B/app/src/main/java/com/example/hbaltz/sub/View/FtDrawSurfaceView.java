@@ -123,7 +123,7 @@ public class FtDrawSurfaceView extends View {
                         pointTemp = footprint.getPoint(j);
 
                         posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                                (float)screenWidth,(float)screenHeight, -2f);
+                                (float)screenWidth,(float)screenHeight, -10f);
 
                         xPos=posScreenTemp.get(0);
                         yPos=posScreenTemp.get(1);

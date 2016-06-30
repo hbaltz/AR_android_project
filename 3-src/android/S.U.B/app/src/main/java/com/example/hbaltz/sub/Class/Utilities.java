@@ -29,7 +29,7 @@ public final class Utilities {
         double minAngle = angleTheo - angle_accuracy;
         double maxAngle = angleTheo + angle_accuracy;
         List<Double> minMax = new ArrayList<>();
-  
+
         minMax.clear();
         minMax.add(minAngle);
         minMax.add(maxAngle);
