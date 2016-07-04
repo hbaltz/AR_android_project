@@ -94,51 +94,78 @@ public class FtDrawSurfaceView extends View {
             Polygon footprint; // the footprint of the building
             int countPoint; // the number of point in the footprint
             Point pointTemp; // the point that we project
-            List<Float> posScreenTemp; // the position on the screen of the point which has been projected
+            List<Float>  pos, posNear,posScreenTemp; // the position on the screen of the point which has been projected
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
+            float near;
+            float Dz;
+            List<Float> posPrec;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
-                isVisible = POI.isVisible();
 
                 // If the POI is visible by the user, we draw his footprint
-                if(isVisible) {
-                    draw = false;
+                draw = false;
 
-                    // We recover the footprint
-                    footprint = POI.getFootprint();
+                // We recover the footprint
+                footprint = POI.getFootprint();
 
-                    // We count the number of point in the footprint
-                    countPoint = footprint.getPointCount();
+                // We count the number of point in the footprint
+                countPoint = footprint.getPointCount();
 
-                    //We initialize the path (which will served to draw the footprint)
-                    wallpath = new Path();
-                    wallpath.reset(); // only needed when reusing this path for a new build
+                //We initialize the path (which will served to draw the footprint)
+                wallpath = new Path();
+                wallpath.reset(); // only needed when reusing this path for a new build
 
-                    // We project each point of the footprint on the screen with a perspective projection
-                    for(int j=0; j<countPoint; j++){
-                        pointTemp = footprint.getPoint(j);
+                // We project each point of the footprint on the screen with a perspective projection
+                for(int j=0; j<countPoint; j++){
+                    pointTemp = footprint.getPoint(j);
 
-                        posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                                (float)screenWidth,(float)screenHeight, -10f);
+                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
+                    posPrec = pos;
 
-                        xPos=posScreenTemp.get(0);
-                        yPos=posScreenTemp.get(1);
+                    Dz = pos.get(2); // We use th Dz to know if we calculate the nearest point in the screen>
 
-                        if(j==0){
+                    // TODO calculate the fov
+                    near = 0f; // We define if the fov the near
+
+                    // TODO rewrite nearest
+
+                    if(Dz < 0){
+                        // If j = 0, we cannot calculate the nearest point because we need two points
+                        if(j == 0){
+                            posScreenTemp = null;
+                        }else {
+                            // If j !=0, we have two points we can calculate the nearest point
+                            posNear = Utilities.nearestPointOnScreen(pos,posPrec,near);
+                            if(posNear != null) {
+                                // If posNear != null, then we can calculate the position on the screen.
+                                posPrec = posNear;
+                                posScreenTemp = Utilities.positionScreen(posNear, (float) screenWidth, (float) screenHeight);
+                            }else{
+                                posScreenTemp = null;
+                            }
+                        }
+                    } else {
+                        posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
+                    }
+
+                    if(posScreenTemp!=null) {
+                        xPos = posScreenTemp.get(0);
+                        yPos = posScreenTemp.get(1);
+
+                        if (j == 0) {
                             wallpath.moveTo(xPos, yPos);
                             draw = true;
-                        }else wallpath.lineTo(xPos, yPos);
+                        } else wallpath.lineTo(xPos, yPos);
                     }
+                }
 
-                    if(draw) {
-                        wallpath.close();
-                        canvas.drawPath(wallpath, paint);
-                    }
-
+                if(draw) {
+                    wallpath.close();
+                    canvas.drawPath(wallpath, paint);
                 }
             }
         }

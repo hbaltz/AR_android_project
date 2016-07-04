@@ -165,9 +165,7 @@ public class User {
         ArrayList<BuildingPOI> poisAzs = new ArrayList<>();
 
         BuildingPOI poiTemp;
-        List<Double> minMaxAz, minMaxPt;
-        double azimuth, pitch, minAngleAz, maxAngleAz, minAnglePt, maxAnglePt;
-        boolean isVisibleAz, isVisiblePt;
+        double azimuth, pitch;
 
         for (int i=0; i<len_pois; i++){
             // We calculate the angle of the poi:
@@ -178,26 +176,6 @@ public class User {
 
             pitch = this.theoreticalPitchToPOI(poiTemp);
             poiTemp.setPitch(pitch);
-
-            // We calculate if the user sees or not the poi:
-
-            // Azimuth:
-            minMaxAz = Utilities.angleAccuracy(azimuth,azimuth_accuracy);
-
-            minAngleAz = minMaxAz.get(0);
-            maxAngleAz = minMaxAz.get(1);
-
-            isVisibleAz = Utilities.isBetween(minAngleAz, maxAngleAz, azimuthRe);
-
-            // Pitch:
-            minMaxPt = Utilities.angleAccuracy(60,pitch_accuracy);
-
-            minAnglePt = minMaxPt.get(0);
-            maxAnglePt = minMaxPt.get(1);
-
-            isVisiblePt = Utilities.isBetween(minAnglePt, maxAnglePt, pitchRe);
-
-            poiTemp.setVisible((isVisibleAz && isVisiblePt));
 
             poisAzs.add(poiTemp);
         }

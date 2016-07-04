@@ -38,7 +38,6 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     private double distance;
     private double azimut;
     private double pitch;
-    private boolean visible;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -135,9 +134,6 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         return this.pitch;
     }
 
-    public boolean isVisible() {
-        return this.visible;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// SETTERS: //////////////////////////////////////////////////
@@ -201,10 +197,6 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
     public void setPitch(double pitch) {
         this.pitch = pitch;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -107,25 +107,25 @@ public class DrawSurfaceView extends View {
                 BuildingPOI POI = POIs.get(i);
                 isVisible = POI.isVisible();
 
-                // If the POI is visible by the user, we draw a dot and an information box
-                if(isVisible) {
+                //Log.d("in", "" +1);
 
-                    // If the poi is visible we recover information about it :
-                    dist = POI.getDistance();
+                // If the poi is visible we recover information about it :
+                dist = POI.getDistance();
 
-                    /////////////////////////////////// Calculate location: ////////////////////////
-                    // We calculate where the point have to be draw
-                    posScreen = Utilities.screenPositionMatOr(user.getLocation(),POI.getLocation(),orMat,
-                            (float)screenWidth,(float)screenHeight,0f);
+                /////////////////////////////////// Calculate location: ////////////////////////
+                // We calculate where the point have to be draw
+                posScreen = Utilities.positionMatOr(user.getLocation(),POI.getLocation(),orMat,0f);
+                posScreen = Utilities.positionScreen(posScreen,(float)screenWidth,(float)screenHeight);
 
+                if(posScreen!=null) {
                     xPosScreen = posScreen.get(0);
                     //yPosScreen = posScreen.get(1);
 
                     // We draw in the middle of the y-axis
-                    yPosScreen = (float)((screenHeight / 2));
+                    yPosScreen = (float) ((screenHeight / 2));
 
                     // We calculate the radius of the circle and of the text regarding the distance
-                    radius = (float) (2000/dist);
+                    radius = (float) (2000 / dist);
 
                     /////////////////////////////////// Recover info: //////////////////////////////
                     // We recover the information about the Poi that we want to display
@@ -142,10 +142,10 @@ public class DrawSurfaceView extends View {
                     canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
                     // We define the size of the rectangle:
-                    w = radius*Collections.max(sizeStrings)/2;
+                    w = radius * Collections.max(sizeStrings) / 2;
 
                     // We draw the rectangle and the texts:
-                    drawInformation(canvas,information,xPosScreen,yPosScreen,radius,w,paint,paintRect);
+                    drawInformation(canvas, information, xPosScreen, yPosScreen, radius, w, paint, paintRect);
                 }
             }
         }

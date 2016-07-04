@@ -95,15 +95,13 @@ public class GeoDrawSurfaceView extends View {
             Polygon shape; // the footprint of the building
             int countPoint; // the number of point in the shape
             Point pointTemp; // the point that we project
-            List<Float> posScreenTemp; // the position on the screen of the point which has been projected
+            List<Float> pos, posNear, posScreenTemp; // the position on the screen of the point which has been projected
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
-
-            BuildingPOI poiTemp;
-            List<Double> minMaxAz, minMaxPt;
-            double azimuth, pitch, minAngleAz, maxAngleAz, minAnglePt, maxAnglePt;
-            boolean isVisibleAz, isVisiblePt, isVisible;
+            float near;
+            float Dz;
+            List<Float> posPrec;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the geoInfo et the filed visible to know if the user sees the POI
@@ -124,40 +122,43 @@ public class GeoDrawSurfaceView extends View {
                 wallpath = new Path();
                 wallpath.reset(); // only needed when reusing this path for a new build
 
+                posPrec = new ArrayList<>();
+
                 // We project each point of the shape on the screen with a perspective projection
                 for(int j=0; j<countPoint; j++){
                     pointTemp = shape.getPoint(j);
-                    poiTemp = new BuildingPOI();
-                    poiTemp.setLocation(pointTemp);
 
-                    azimuth = user.theoreticalAzimuthToPOI(poiTemp);
-                    pitch = user.theoreticalPitchToPOI(poiTemp);
+                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
+                    posPrec = pos;
 
-                    // We calculate if the user sees or not the poi:
-                    // Azimuth:
-                    minMaxAz = Utilities.angleAccuracy(azimuth,360);
-                    minAngleAz = minMaxAz.get(0);
-                    maxAngleAz = minMaxAz.get(1);
-                    isVisibleAz = Utilities.isBetween(minAngleAz, maxAngleAz, azimuthRe);
+                    Dz = pos.get(2); // We use th Dz to know if we calculate the nearest point in the screen>
 
+                    // TODO calculate the fov
+                    near = -20f; // We define if the fov the near
 
-                    // Pitch:
-                    minMaxPt = Utilities.angleAccuracy(180,360);
-                    minAnglePt = minMaxPt.get(0);
-                    maxAnglePt = minMaxPt.get(1);
-                    isVisiblePt = Utilities.isBetween(minAnglePt, maxAnglePt, pitchRe);
+                    if(Dz < 0){
+                        // If j = 0, we cannot calculate the nearest point because we need two points
+                        if(j == 0){
+                            posScreenTemp = null;
+                        }else {
+                            // If j !=0, we have two points we can calculate the nearest point
+                            posNear = Utilities.nearestPointOnScreen(pos,posPrec,near);
+                            if(posNear != null) {
+                                // If posNear != null, then we can calculate the position on the screen.
+                                posPrec = posNear;
+                                posScreenTemp = Utilities.positionScreen(posNear, (float) screenWidth, (float) screenHeight);
+                            }else{
+                                posScreenTemp = null;
+                            }
+                        }
+                    } else {
+                        posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
+                    }
 
-                    isVisible = isVisibleAz && isVisiblePt; //Tjrs vraie
-
-                    Log.d("isVis", "" + isVisible);
-
-                    posScreenTemp = Utilities.screenPositionMatOr(user.getLocation(),pointTemp,orMat,
-                            (float)screenWidth,(float)screenHeight, -50f);
-
-                    if(posScreenTemp !=null && isVisible) {
+                    // To draw we add the point to the path, then we draw the path:
+                    if(posScreenTemp !=null) {
                         xPos = posScreenTemp.get(0);
                         yPos = posScreenTemp.get(1);
-
 
                         if (j == 0) {
                             wallpath.moveTo(xPos, yPos);
