@@ -180,7 +180,7 @@ public final class Utilities {
         // If v1 is in front and v2 is behind then you need to find vc where the line intersects the near clip plane
         // If v2 is in front and v1 is behind then you need to find vc where the line intersects the near clip plane
 
-        Log.d("Dz", "1: " + Dz1 + ", 2: " + Dz2);
+        //Log.d("Dz", "1: " + Dz1 + ", 2: " + Dz2);
         if(Dz1>= near && Dz2< near) {
             Log.d("Useful?", "Yep");
 
@@ -200,6 +200,44 @@ public final class Utilities {
         }
 
         return nearestPoint;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public static Point project(Point line1, Point line2, Point toProject){
+        Point project = new Point();
+
+        double X1 = line1.getX();
+        double Y1 = line1.getY();
+
+        double X2 = line2.getX();
+        double Y2 = line2.getY();
+
+        double XtoPro = toProject.getX();
+        double YtoPro = toProject.getY();
+
+        double Dx = X2-X1;
+        if(Dx== 0d) Dx = 0.1d;
+
+        double m = (Y2-Y1)/Dx;
+        double b = Y1-m*X1;
+
+        double D = m*m+1;
+
+        project.setX((m*YtoPro + XtoPro - m*b)/D);
+        project.setY((m*m*YtoPro + m*XtoPro +b)/D);
+
+        //Log.d("empty?", "" + project.isEmpty());
+        if(project.isEmpty()) {
+            Log.d("m", "" + m);
+            Log.d("b", "" + b);
+            Log.d("D", "" + D);
+            Log.d("l1", "X: " + X1 + ", Y: " + Y1);
+            Log.d("l2", "X: " + X2 + ", Y: " + Y2);
+            Log.d("ltoPro", "X: " + XtoPro + ", Y: " + YtoPro);
+        }
+
+
+        return project;
     }
 
 }

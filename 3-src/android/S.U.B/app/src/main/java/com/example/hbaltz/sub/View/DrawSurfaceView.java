@@ -111,7 +111,7 @@ public class DrawSurfaceView extends View {
                 // If the poi is visible we recover information about it :
                 dist = POI.getDistance();
 
-                /////////////////////////////////// Calculate location: ////////////////////////
+                /////////////////////////////////// Calculate location: ////////////////////////////
                 // We calculate where the point have to be draw
                 posScreen = Utilities.positionMatOr(user.getLocation(),POI.getLocation(),orMat,0f);
                 posScreen = Utilities.positionScreen(posScreen,(float)screenWidth,(float)screenHeight);
