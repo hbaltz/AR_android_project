@@ -125,6 +125,7 @@ public class FtDrawSurfaceView extends View {
 
                     pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
                     posPrec = pos;
+                    posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
 
                     Dz = pos.get(2); // We use th Dz to know if we calculate the nearest point in the screen>
 
