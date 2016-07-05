@@ -14,12 +14,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -101,6 +104,8 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
+    private EditText nbEdit;
+    private float zDef=-4f;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// METHODS: //////////////////////////////////////////////////
@@ -147,6 +152,9 @@ public class MainActivity extends FragmentActivity {
         ////////////////////////////// Nearest Neighbors: //////////////////////////////////////////
         updateNN();
 
+        ////////////////////////////// Debug: //////////////////////////////////////////////////////
+        if(DEBUG) debug();
+
     }
 
     @Override
@@ -154,7 +162,7 @@ public class MainActivity extends FragmentActivity {
         if (DEBUG) {Log.d("onResume", "Ok");}
         super.onResume();
 
-        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mListener, mSensor, SensorManager.SENSOR_DELAY_UI );
     }
 
     @Override
@@ -435,6 +443,33 @@ public class MainActivity extends FragmentActivity {
             public void run() {
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void debug(){
+        nbEdit = (EditText) findViewById(R.id.editText);
+        nbEdit.setVisibility(View.VISIBLE);
+        nbEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0 && !s.toString().equals("-")) {
+                    zDef = Float.parseFloat(s.toString());
+                }else{
+                    zDef = 0f;
+                }
+
+                GeoDrawView.setZdef(zDef);
+                FtDrawView.setZdef(zDef);
+                popToast("zDef: " + zDef, true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
     }
 
