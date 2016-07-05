@@ -90,7 +90,6 @@ public class FtDrawSurfaceView extends View {
             int len_pois = POIs.size();
 
             // Initialize:
-            boolean isVisible; // true is the poi is visible by the user
             Polygon footprint; // the footprint of the building
             int countPoint; // the number of point in the footprint
             Point pointTemp; // the point that we project
@@ -98,9 +97,6 @@ public class FtDrawSurfaceView extends View {
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
-            float near;
-            float Dz;
-            List<Float> posPrec;
 
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
@@ -124,34 +120,7 @@ public class FtDrawSurfaceView extends View {
                     pointTemp = footprint.getPoint(j);
 
                     pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
-                    posPrec = pos;
                     posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
-
-                    Dz = pos.get(2); // We use th Dz to know if we calculate the nearest point in the screen>
-
-                    // TODO calculate the fov
-                    near = 0f; // We define if the fov the near
-
-                    // TODO rewrite nearest
-
-                    if(Dz < 0){
-                        // If j = 0, we cannot calculate the nearest point because we need two points
-                        if(j == 0){
-                            posScreenTemp = null;
-                        }else {
-                            // If j !=0, we have two points we can calculate the nearest point
-                            posNear = Utilities.nearestPointOnScreen(pos,posPrec,near);
-                            if(posNear != null) {
-                                // If posNear != null, then we can calculate the position on the screen.
-                                posPrec = posNear;
-                                posScreenTemp = Utilities.positionScreen(posNear, (float) screenWidth, (float) screenHeight);
-                            }else{
-                                posScreenTemp = null;
-                            }
-                        }
-                    } else {
-                        posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
-                    }
 
                     if(posScreenTemp!=null) {
                         xPos = posScreenTemp.get(0);

@@ -99,14 +99,6 @@ public class GeoDrawSurfaceView extends View {
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
-            float near;
-            float Dz;
-            List<Float> posPrec;
-
-            Point S1 = new Point(0,0);
-            Point S2 = new Point(screenWidth,0);
-            Point S3 = new Point(screenWidth,screenHeight);
-            Point S4 = new Point(0,screenHeight);
 
             for(int i =0; i<len_pois; i++){
                 // We recover the geoInfo et the filed visible to know if the user sees the POI
@@ -127,89 +119,22 @@ public class GeoDrawSurfaceView extends View {
                 wallpath = new Path();
                 wallpath.reset(); // only needed when reusing this path for a new build
 
-                posPrec = new ArrayList<>();
-
                 // We project each point of the shape on the screen with a perspective projection
                 for(int j=0; j<countPoint; j++){
                     pointTemp = shape.getPoint(j);
 
                     pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
-                    //posPrec = pos;
                     posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
-
-                    Dz = pos.get(2); // We use th Dz to know if we calculate the nearest point in the screen
-
-                    /*
-                    near = -20f; // We define if the fov the near
-
-                    if(Dz < 0f){
-                        // If j = 0, we cannot calculate the nearest point because we need two points
-                        if(j == 0){
-                            posScreenTemp = null;
-                        }else {
-                            // If j !=0, we have two points we can calculate the nearest point
-                            posNear = Utilities.nearestPointOnScreen(pos,posPrec,near);
-                            if(posNear != null) {
-                                // If posNear != null, then we can calculate the position on the screen.
-                                posPrec = posNear;
-                                posScreenTemp = Utilities.positionScreen(posNear, (float) screenWidth, (float) screenHeight);
-                            }else{
-                                posScreenTemp = null;
-                            }
-                        }
-                    } else {
-                        posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
-                    }
-                    */
 
                     // To draw we add the point to the path, then we draw the path:
                     if(posScreenTemp !=null) {
-
                         xPos = posScreenTemp.get(0);
                         yPos = posScreenTemp.get(1);
-                        Point post = new Point(xPos, yPos);
 
-
-                        //Log.d("dep", "X: " + xPos + ", Y: "+yPos);
-                        if(Dz>=0f){
-                            xPos = posScreenTemp.get(0);
-                            yPos = posScreenTemp.get(1);
-
-                            if (j == 0) {
-                                wallpath.moveTo(xPos, yPos);
-                                draw = true;
-                            } else wallpath.lineTo(xPos, yPos);
-
-
-                        }/*else if (Dz<0f && Dz>-1f) {
-
-                            if (xPos < 0 && yPos < 0) {
-                                post = S1;
-                            } else if (screenWidth > xPos && xPos > 0 && yPos < 0) {
-                                if (yPos < 0) post = Utilities.project(S1, S2, post);
-                            } else if (xPos > screenWidth && yPos < 0) {
-                                post = S2;
-                            } else if (xPos > screenWidth && yPos > 0 && yPos < screenHeight) {
-                                post = Utilities.project(S2, S3, post);
-                            } else if (xPos > screenWidth && yPos > screenHeight) {
-                                post = S4;
-                            } else if (screenWidth > xPos && xPos > 0 && yPos > screenHeight) {
-                                post = Utilities.project(S3, S4, post);
-                            } else if (xPos < 0 && yPos > screenHeight) {
-                                post = S4;
-                            } else if (xPos < 0 && yPos > 0 && yPos < screenHeight) {
-                                post = Utilities.project(S4, S1, post);
-                            }
-
-                            xPos = (float) post.getX();
-                            yPos = (float) post.getY();
-
-                            if (j == 0) {
-                                wallpath.moveTo(xPos, yPos);
-                                draw = true;
-                            } else wallpath.lineTo(xPos, yPos);
-                        }
-                        */
+                        if (j == 0) {
+                            wallpath.moveTo(xPos, yPos);
+                            draw = true;
+                        } else wallpath.lineTo(xPos, yPos);
                     }
                 }
 
