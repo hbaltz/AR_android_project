@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.esri.core.geometry.GeometryEngine;
@@ -47,6 +48,7 @@ public class FtDrawSurfaceView extends View {
 
     ///////////////////////////////////// Debug: ///////////////////////////////////////////////////
     private boolean DEBUG = false;
+    private float zDef=-5f;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -98,6 +100,10 @@ public class FtDrawSurfaceView extends View {
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
 
+            float[] orMatTest = new float[3];
+            orMatTest = orMat;
+            orMatTest[1] = (orMatTest[1] + zDef)%360;
+
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
@@ -119,7 +125,7 @@ public class FtDrawSurfaceView extends View {
                 for(int j=0; j<countPoint; j++){
                     pointTemp = footprint.getPoint(j);
 
-                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
+                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMatTest,zDef);
                     posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
 
                     if(posScreenTemp!=null) {
@@ -162,5 +168,11 @@ public class FtDrawSurfaceView extends View {
         this.POIs = pois;
         this.orMat = ormat;
         this.user = usr;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setZdef(float zdef){
+        this.zDef = zdef;
     }
 }

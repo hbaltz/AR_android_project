@@ -541,9 +541,9 @@ public class MainActivity extends FragmentActivity {
                 SensorManager.getOrientation(mRotationMatrix, orientationVals);
 
                 // Optionally convert the result from radians to degrees
-                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0])));
-                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])));
-                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2])));
+                orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0]))%360);
+                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+90                    )%360);
+                orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2]))%360);
 
 
                 // The azimut:

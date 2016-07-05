@@ -50,6 +50,7 @@ public class GeoDrawSurfaceView extends View {
 
     ///////////////////////////////////// Debug: ///////////////////////////////////////////////////
     private boolean DEBUG = false;
+    private float zDef=-4f;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
@@ -123,7 +124,7 @@ public class GeoDrawSurfaceView extends View {
                 for(int j=0; j<countPoint; j++){
                     pointTemp = shape.getPoint(j);
 
-                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,-5f);
+                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,zDef);
                     posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
 
                     // To draw we add the point to the path, then we draw the path:
@@ -172,6 +173,12 @@ public class GeoDrawSurfaceView extends View {
         this.user = usr;
         this.azimuthRe = az;
         this.pitchRe = pt;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void setZdef(float zdef){
+        this.zDef = zdef;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
