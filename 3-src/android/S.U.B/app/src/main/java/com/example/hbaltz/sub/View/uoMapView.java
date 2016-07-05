@@ -75,7 +75,7 @@ public class uoMapView extends MapView {
 
         // We change the orientation:
         float angle = (float) (90-azimut);
-        symbolImg.setAngle(angle); // In degrees
+        symbolImg.setAngle(-angle); // In degrees
 
         // We add the point to the graphicLayer:
         Graphic loc = new Graphic(locUser, symbolImg);
