@@ -374,9 +374,7 @@ public class MainActivity extends FragmentActivity {
      */
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
-            // We calculate the azimuth between all the NN and the user:
-            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY, pitchReal,PITCH_ACCURACY );
-            if(DEBUG) Log.d("azTeo", "" + NN);
+            new ViewThread().start();
 
             // We update the display:
             if (DrawView != null && displayPoi) {
@@ -410,16 +408,7 @@ public class MainActivity extends FragmentActivity {
      * and the distances between them and the user
      */
     private void updateNN() {
-        // We recover the NF:
-        ArrayList<Polygon> NF =  user.nearestFootprints(geomen, PoiFootprints, WGS_1984_WMAS, 250, meter);
-        if (DEBUG) Log.d("NF250", "" + NF.size());
-
-        // We recover the NN of the user:
-        NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
-        if (DEBUG) Log.d("NN200", "" + NN.size());
-
-        // we actualize the geological information:
-        simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
+        new NNThread().start();
 
         // We update the map:
         if(uoMap != null) {
@@ -579,5 +568,36 @@ public class MainActivity extends FragmentActivity {
             }
         }
     };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////// THREAD: ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public class NNThread extends Thread {
+        @Override
+        public void run() {
+            // We recover the NF:
+            ArrayList<Polygon> NF =  user.nearestFootprints(geomen, PoiFootprints, WGS_1984_WMAS, 250, meter);
+            if (DEBUG) Log.d("NF250", "" + NF.size());
+
+            // We recover the NN of the user:
+            NN = user.nearestNeighbors(geomen, buildings, NF, InfoGeos, WGS_1984_WMAS, 200, meter);
+            if (DEBUG) Log.d("NN200", "" + NN.size());
+
+            // we actualize the geological information:
+            simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
+        }
+    }
+
+    public class ViewThread extends Thread {
+        @Override
+        public void run() {
+            // We calculate the azimuth between all the NN and the user:
+            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY, pitchReal,PITCH_ACCURACY );
+            if(DEBUG) Log.d("azTeo", "" + NN);
+        }
+    }
+
+
 
 }
