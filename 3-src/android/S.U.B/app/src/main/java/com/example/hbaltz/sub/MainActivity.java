@@ -93,6 +93,7 @@ public class MainActivity extends FragmentActivity {
     private uoMapView uoMap;
     private FtDrawSurfaceView FtDrawView;
     private GeoDrawSurfaceView GeoDrawView;
+    private FaultDrawSurfaceView FaultDrawView;
 
     ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
     private CheckBox checkPoi, checkFt, checkGeo;
@@ -128,6 +129,7 @@ public class MainActivity extends FragmentActivity {
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
         FtDrawView = (FtDrawSurfaceView) findViewById(R.id.ftDrawView);
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
+        FaultDrawView = (FaultDrawSurfaceView) findViewById(R.id.faultDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap);
 
         /////////////////////////////// Checkbox: //////////////////////////////////////////////////
@@ -268,7 +270,7 @@ public class MainActivity extends FragmentActivity {
 
             Log.d("InfoFault", "" + InfoFaultsTemp.length);
 
-            InfoFaults = Utilities.unionGeoms(InfoFaultsTemp, WGS_1984_WMAS, geomen);
+            InfoFaults = (Polyline)Utilities.unionGeoms(InfoFaultsTemp, WGS_1984_WMAS, geomen);
 
             Log.d("unionFault","" + InfoFaults.calculateLength2D());
 
@@ -436,6 +438,11 @@ public class MainActivity extends FragmentActivity {
             if (GeoDrawView != null && displayGeoInfo) {
                 GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
+            }
+
+            if(FaultDrawView != null){
+                FaultDrawView.setVariables(InfoFaults,orientationVals,user);
+                FaultDrawView.invalidate();
             }
 
             if(uoMap != null && updatedMapView) {
