@@ -34,6 +34,8 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     private Polygon footprint;
     //////////////////////////////////// Geological information: ///////////////////////////////////
     private ArrayList<GeoInfo> geologicalInfo;
+    //////////////////////////////////// Fault information: ////////////////////////////////////////
+    private double distToFault;
     //////////////////////////////////// Relative to the user: /////////////////////////////////////
     private double distance;
     private double azimut;
@@ -122,6 +124,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         return this.geologicalInfo;
     }
 
+    public double getDistToFault() {
+        return this.distToFault;
+    }
+
     public double getDistance() {
         return this.distance;
     }
@@ -185,6 +191,10 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
 
     public void setGeologicalInfo(ArrayList<GeoInfo> geologicalInfo) {
         this.geologicalInfo = geologicalInfo;
+    }
+
+    public void setDistToFault(double distToFault) {
+        this.distToFault = distToFault;
     }
 
     public void setDistance(double distance) {
@@ -298,6 +308,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         information.add("Vertical irregularity: " + this.verticalIrregularity);
         information.add("Plan irregularity: " + this.planIrregularity);
         information.add("Geological information: " + this.recoverGeoInfo());
+        information.add("Distance to nearest fault line: " + this.distToFault);
         information.add("Address: " + this.address);
         information.add("Notes: " +this.notes);
         information.add("Distance : " + ((int)(this.distance)) + " m");
