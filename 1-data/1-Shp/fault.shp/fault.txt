@@ -1,0 +1,2 @@
+
+There is no Legend to create with the fault.shp. Datas are lines showing faults position.
