@@ -66,6 +66,7 @@ public class FaultDrawSurfaceView extends View {
         paint.setAntiAlias(true);
         paint.setColor(Color.MAGENTA);
         paint.setAlpha(140);
+        paint.setStrokeWidth(5);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
