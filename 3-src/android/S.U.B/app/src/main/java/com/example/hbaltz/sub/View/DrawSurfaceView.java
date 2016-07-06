@@ -105,6 +105,7 @@ public class DrawSurfaceView extends View {
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
 
+
                 // If the poi is visible we recover information about it :
                 dist = POI.getDistance();
 
