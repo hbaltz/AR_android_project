@@ -27,6 +27,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -66,7 +67,10 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////// GPS: ////////////////////////////////////////////////////
     private LocationManager locMgr;
     private Point locUser = new Point(-8425218.888, 5688332.101);
+
+    ///////////////////////////////////// User: ////////////////////////////////////////////////////
     private User user = new User(locUser);
+    private TextView displDist;
 
     ////////////////////////////////////// Sensor: /////////////////////////////////////////////////
     private SensorManager mSensorManager;
@@ -112,7 +116,7 @@ public class MainActivity extends FragmentActivity {
     private boolean displayPoi = true;
     private boolean displayFootprint = false;
     private boolean displayGeoInfo = false;
-    private boolean displayFault = false;
+    private boolean displayFault = true; // TODO: change after debug
     private boolean displayMap = true;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
@@ -213,6 +217,7 @@ public class MainActivity extends FragmentActivity {
         GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
         FaultDrawView = (FaultDrawSurfaceView) findViewById(R.id.faultDrawView);
         uoMap = (uoMapView) findViewById(R.id.uoMap);
+        displDist = (TextView) findViewById(R.id.distToFault);
 
         /////////////////////////////// Checkbox: //////////////////////////////////////////////////
         checkPoi = (CheckBox) findViewById(R.id.checkPoi);
@@ -528,6 +533,8 @@ public class MainActivity extends FragmentActivity {
             uoMap.setUser(user.getLocation());
             uoMap.invalidate();
         }
+
+        displDist.setText("Distance to the nearest fault: " + (int)(user.getDistToFault()) + " m");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -789,7 +796,9 @@ public class MainActivity extends FragmentActivity {
             simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
 
             // We actualize the fault:
-            simpFault = user.simplifyFault(geomen,InfoFaults,WGS_1984_WMAS,200,meter);
+            simpFault = user.simplifyFault(geomen,InfoFaults,WGS_1984_WMAS,500,meter);
+
+            user.calculateDistToFault(InfoFaults,geomen,WGS_1984_WMAS);
         }
     }
 }
