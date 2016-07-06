@@ -17,11 +17,15 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.esri.core.geodatabase.Geodatabase;
@@ -63,14 +67,14 @@ public class MainActivity extends FragmentActivity {
     private Point locUser = new Point(-8425218.888, 5688332.101);
     private User user = new User(locUser);
 
-    ////////////////////////////////////// Compass: ////////////////////////////////////////////////
+    ////////////////////////////////////// Sensor: /////////////////////////////////////////////////
     private SensorManager mSensorManager;
     private Sensor mSensor;
 
     //////////////////////////////////// Spatial reference: ////////////////////////////////////////
     private SpatialReference WGS_1984_WMAS = SpatialReference.create(102100);
 
-    //////////////////////////////////// Buildings: ///////////////////////////////////////////////
+    //////////////////////////////////// Buildings: ////////////////////////////////////////////////
     private BuildingPOI[] buildings;
     private Polygon[] PoiFootprints;
     private GeoInfo[] InfoGeos;
@@ -84,9 +88,14 @@ public class MainActivity extends FragmentActivity {
     //////////////////////////////////// Unit: /////////////////////////////////////////////////////
     private Unit meter = Unit.create(LinearUnit.Code.METER);
 
-    //////////////////////////////////// Angles: ////////////////////////////////////////////////////
+    //////////////////////////////////// Angles: ///////////////////////////////////////////////////
     private double azimuthReal = 0d, pitchReal=0d;
     float[] orientationVals = new float[3];
+
+    //////////////////////////////////// Menu: /////////////////////////////////////////////////////
+    private LinearLayout menu;
+    private float startY;
+    private Animation animUp, animDown;
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
     private DrawSurfaceView DrawView;
@@ -125,6 +134,12 @@ public class MainActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        ////////////////////////////////////// Menu: ///////////////////////////////////////////////
+        menu = (LinearLayout) findViewById(R.id.slider);
+        menu.setVisibility(View.GONE);
+        animUp = AnimationUtils.loadAnimation(this, R.anim.anim_up);
+        animDown = AnimationUtils.loadAnimation(this, R.anim.anim_down);
 
         ////////////////////////////////////// Views: //////////////////////////////////////////////
         DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
@@ -178,6 +193,31 @@ public class MainActivity extends FragmentActivity {
 
         mSensorManager.unregisterListener(mListener);
         super.onStop();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN : {
+                startY = event.getY();
+                break ;
+            }
+            case MotionEvent.ACTION_UP: {
+                float endY = event.getY();
+
+                if (endY > startY) {
+                    menu.setVisibility(View.VISIBLE);
+                    menu.startAnimation(animDown);
+                }
+                else {
+
+                    menu.startAnimation(animUp);
+                    menu.setVisibility(View.GONE);
+                }
+            }
+
+        }
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -591,7 +631,7 @@ public class MainActivity extends FragmentActivity {
 
                 // Optionally convert the result from radians to degrees
                 orientationVals[0] = (float) ((Math.toDegrees(orientationVals[0]))%360);
-                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+90                    )%360);
+                orientationVals[1] = (float) ((Math.toDegrees(orientationVals[1])+90)%360);
                 orientationVals[2] = (float) ((Math.toDegrees(orientationVals[2]))%360);
 
 
