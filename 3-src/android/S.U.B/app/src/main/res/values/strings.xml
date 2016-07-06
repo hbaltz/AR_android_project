@@ -5,4 +5,5 @@
     <string name="dispFt">Display the footprints?</string>
     <string name="dispGeo">Display the geological information?</string>
     <string name="dispFault">Display the fault lines?</string>
+    <string name="dispMap">Display the map?</string>
 </resources>

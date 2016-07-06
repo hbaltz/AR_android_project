@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -105,13 +106,14 @@ public class MainActivity extends FragmentActivity {
     private FaultDrawSurfaceView FaultDrawView;
 
     ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
-    private CheckBox checkPoi, checkFt, checkGeo, checkFault;
+    private CheckBox checkPoi, checkFt, checkGeo, checkFault, checkMap;
 
     //////////////////////////////////// Display: //////////////////////////////////////////////////
     private boolean displayPoi = true;
     private boolean displayFootprint = false;
     private boolean displayGeoInfo = false;
     private boolean displayFault = false;
+    private boolean displayMap = true;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -135,35 +137,8 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        ////////////////////////////////////// Menu: ///////////////////////////////////////////////
-        menu = (LinearLayout) findViewById(R.id.slider);
-        menu.setVisibility(View.GONE);
-        animUp = AnimationUtils.loadAnimation(this, R.anim.anim_up);
-        animDown = AnimationUtils.loadAnimation(this, R.anim.anim_down);
-
-        ////////////////////////////////////// Views: //////////////////////////////////////////////
-        DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
-        FtDrawView = (FtDrawSurfaceView) findViewById(R.id.ftDrawView);
-        GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
-        FaultDrawView = (FaultDrawSurfaceView) findViewById(R.id.faultDrawView);
-        uoMap = (uoMapView) findViewById(R.id.uoMap);
-
-        /////////////////////////////// Checkbox: //////////////////////////////////////////////////
-        checkPoi = (CheckBox) findViewById(R.id.checkPoi);
-        String txtPoi = getResources().getString(R.string.dispPoi);
-        checkPoi.setText(txtPoi);
-
-        checkFt = (CheckBox) findViewById(R.id.checkFootprint);
-        String txtFt = getResources().getString(R.string.dispFt);
-        checkFt.setText(txtFt);
-
-        checkGeo = (CheckBox) findViewById(R.id.checkGeo);
-        String txtGeo = getResources().getString(R.string.dispGeo);
-        checkGeo.setText(txtGeo);
-
-        checkFault = (CheckBox) findViewById(R.id.checkFault);
-        String txtFault = getResources().getString(R.string.dispFault);
-        checkFault.setText(txtFault);
+        /////////////////////////////// View: //////////////////////////////////////////////////////
+        manageViews();
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -224,18 +199,59 @@ public class MainActivity extends FragmentActivity {
     //////////////////////////////////// FUNCTIONS: ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private void manageViews(){
+
+        ////////////////////////////////////// Menu: ///////////////////////////////////////////////
+        menu = (LinearLayout) findViewById(R.id.slider);
+        menu.setVisibility(View.GONE);
+        animUp = AnimationUtils.loadAnimation(this, R.anim.anim_up);
+        animDown = AnimationUtils.loadAnimation(this, R.anim.anim_down);
+
+        ////////////////////////////////////// Views: //////////////////////////////////////////////
+        DrawView = (DrawSurfaceView) findViewById(R.id.drawSurfaceView);
+        FtDrawView = (FtDrawSurfaceView) findViewById(R.id.ftDrawView);
+        GeoDrawView = (GeoDrawSurfaceView) findViewById(R.id.geoDrawView);
+        FaultDrawView = (FaultDrawSurfaceView) findViewById(R.id.faultDrawView);
+        uoMap = (uoMapView) findViewById(R.id.uoMap);
+
+        /////////////////////////////// Checkbox: //////////////////////////////////////////////////
+        checkPoi = (CheckBox) findViewById(R.id.checkPoi);
+        String txtPoi = getResources().getString(R.string.dispPoi);
+        checkPoi.setText(txtPoi);
+
+        checkFt = (CheckBox) findViewById(R.id.checkFootprint);
+        String txtFt = getResources().getString(R.string.dispFt);
+        checkFt.setText(txtFt);
+
+        checkGeo = (CheckBox) findViewById(R.id.checkGeo);
+        String txtGeo = getResources().getString(R.string.dispGeo);
+        checkGeo.setText(txtGeo);
+
+        checkFault = (CheckBox) findViewById(R.id.checkFault);
+        String txtFault = getResources().getString(R.string.dispFault);
+        checkFault.setText(txtFault);
+
+        checkMap = (CheckBox) findViewById(R.id.checkMap);
+        String txtMap = getResources().getString(R.string.dispMap);
+        checkMap.setText(txtMap);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Function which setups the listeners
      */
     private void setupListeners() {
 
         ////////////////////////////////////// Checkbox: ///////////////////////////////////////////
-        checkPoi.setOnClickListener(checkedListener);
-        checkFt.setOnClickListener(checkedListener);
-        checkGeo.setOnClickListener(checkedListener);
-        checkFault.setOnClickListener(checkedListener);
+        checkPoi.setOnClickListener(checkedPoiListener);
+        checkFt.setOnClickListener(checkedFtListener);
+        checkGeo.setOnClickListener(checkedGeoListener);
+        checkFault.setOnClickListener(checkedFaultListener);
+        checkMap.setOnClickListener(checkedMapListener);
 
         checkPoi.setChecked(true);
+        checkMap.setChecked(true);
 
         ////////////////////////////////////// GPS: ////////////////////////////////////////////////
 
@@ -491,7 +507,7 @@ public class MainActivity extends FragmentActivity {
                 FaultDrawView.invalidate();
             }
 
-            if(uoMap != null && updatedMapView) {
+            if(uoMap != null && updatedMapView && displayMap) {
                 uoMap.setAzimut(azimuthReal);
                 uoMap.invalidate();
             }
@@ -508,7 +524,7 @@ public class MainActivity extends FragmentActivity {
         new NNThread().start();
 
         // We update the map:
-        if(uoMap != null) {
+        if(uoMap != null && displayMap) {
             uoMap.setUser(user.getLocation());
             uoMap.invalidate();
         }
@@ -655,21 +671,31 @@ public class MainActivity extends FragmentActivity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Footprint's Listener
+     * Pois's Listener
      */
-    private View.OnClickListener checkedListener = new View.OnClickListener() {
+    private View.OnClickListener checkedPoiListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             //Pois:
-            if(checkPoi.isChecked()){
+            if (checkPoi.isChecked()) {
                 displayPoi = true;
                 DrawView.setVisibility(View.VISIBLE);
-            }
-            else if(!checkPoi.isChecked()){
+            } else if (!checkPoi.isChecked()) {
                 displayPoi = false;
                 DrawView.setVisibility(View.INVISIBLE);
             }
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Footprint's Listener
+     */
+    private View.OnClickListener checkedFtListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
             // Footprints:
             if(checkFt.isChecked()){
@@ -680,6 +706,17 @@ public class MainActivity extends FragmentActivity {
                 displayFootprint = false;
                 FtDrawView.setVisibility(View.INVISIBLE);
             }
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * geoInfo's Listener
+     */
+    private View.OnClickListener checkedGeoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
             // Geological information:
             if(checkGeo.isChecked()){
@@ -690,6 +727,17 @@ public class MainActivity extends FragmentActivity {
                 displayGeoInfo = false;
                 GeoDrawView.setVisibility(View.INVISIBLE);
             }
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Fault's Listener
+     */
+    private View.OnClickListener checkedFaultListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
             // Fault:
             if(checkFault.isChecked()){
@@ -699,6 +747,25 @@ public class MainActivity extends FragmentActivity {
             else if(!checkFault.isChecked()) {
                 displayFault = false;
                 FaultDrawView.setVisibility(View.INVISIBLE);
+            }
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Map's Listener
+     */
+    private View.OnClickListener checkedMapListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(checkMap.isChecked()){
+                displayMap = true;
+                uoMap.setVisibility(View.VISIBLE);
+            }
+            else if(!checkMap.isChecked()) {
+                displayMap = false;
+                uoMap.setVisibility(View.INVISIBLE);
             }
         }
     };

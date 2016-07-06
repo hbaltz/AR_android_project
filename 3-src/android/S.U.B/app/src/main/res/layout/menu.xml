@@ -11,7 +11,7 @@
     android:content="@+id/content"
     android:gravity="bottom|center_horizontal"
     android:orientation="vertical"
-    android:alpha="130">
+    android:alpha="0.7">
 
 
     <CheckBox
@@ -37,5 +37,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:id= "@+id/checkFault"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:id= "@+id/checkMap"/>
 
 </LinearLayout>
