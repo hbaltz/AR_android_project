@@ -238,6 +238,44 @@ public class MainActivity extends FragmentActivity {
             if (DEBUG) Log.d("GbdTbs", "" + gdb.getGeodatabaseTables());
 
             //////////////////////////////////// Recover features from  db: ////////////////////////
+            GeodatabaseFeatureTable faultInfos = gdb.getGeodatabaseTables().get(3);
+
+            long nbr_lig_fault = faultInfos.getNumberOfFeatures();
+            int nbr_int_fault = (int) nbr_lig_fault;
+
+            // We recover all the features in the gdb:
+            Feature[] features_faults = new Feature[nbr_int_fault];
+
+            for (int r = 1; r <= nbr_lig_fault; r++) {
+                features_faults[r - 1] = faultInfos.getFeature(r);
+            }
+
+            /////////////////////////////////// Recover faultInfos: //////////////////////////////////
+            // Initialize:
+            int len3 = features_faults.length;
+            Geometry[] InfoFaultsTemp = new Geometry[len3];
+
+            Geometry acFault = new Line(); // useful if no object in the db
+            Feature infoFault;
+
+            for (int l3 = 0; l3 < len3; l3++) {
+                infoFault = features_faults[l3];
+
+                // Recover information about buildings :
+                if (infoFault != null) {
+                    InfoFaultsTemp[l3] = infoFault.getGeometry();
+                } else {
+                    InfoFaultsTemp[l3] = acFault;
+                }
+            }
+
+            Log.d("InfoFault", "" + InfoFaultsTemp.length);
+
+            InfoFaults = Utilities.unionGeoms(InfoFaultsTemp, WGS_1984_WMAS, geomen);
+
+            Log.d("unionFault","" + InfoFaults.calculateLength2D());
+
+            //////////////////////////////////// Recover features from  db: ////////////////////////
             GeodatabaseFeatureTable pois = gdb.getGeodatabaseTables().get(0);
 
             long nbr_lignes = pois.getNumberOfFeatures();
@@ -285,6 +323,9 @@ public class MainActivity extends FragmentActivity {
 
                     // Information:
                     buildTemp.setInformation(POI);
+
+                    // Distance to fault:
+                    buildTemp.calculateDistToFault(InfoFaults, geomen, WGS_1984_WMAS);
 
                 } else {
                     buildTemp = acBul;
@@ -367,45 +408,6 @@ public class MainActivity extends FragmentActivity {
             }
 
             Log.d("InfoGeo", "" + InfoGeos.length);
-
-            //////////////////////////////////// Recover features from  db: ////////////////////////
-            GeodatabaseFeatureTable faultInfos = gdb.getGeodatabaseTables().get(3);
-
-            long nbr_lig_fault = faultInfos.getNumberOfFeatures();
-            int nbr_int_fault = (int) nbr_lig_fault;
-
-            // We recover all the features in the gdb:
-            Feature[] features_faults = new Feature[nbr_int_fault];
-
-            for (int r = 1; r <= nbr_lig_fault; r++) {
-                features_faults[r - 1] = faultInfos.getFeature(r);
-            }
-
-            /////////////////////////////////// Recover faultInfos: //////////////////////////////////
-            // Initialize:
-            int len3 = features_faults.length;
-            Geometry[] InfoFaultsTemp = new Geometry[len3];
-
-            Geometry acFault = new Line(); // useful if no object in the db
-            Feature infoFault;
-
-            for (int l3 = 0; l3 < len3; l3++) {
-                infoFault = features_faults[l3];
-
-                // Recover information about buildings :
-                if (infoFault != null) {
-                    InfoFaultsTemp[l3] = infoFault.getGeometry();
-                } else {
-                    InfoFaultsTemp[l3] = acFault;
-                }
-            }
-
-            Log.d("InfoFault", "" + InfoFaultsTemp.length);
-
-            InfoFaults = Utilities.unionGeoms(InfoFaultsTemp, WGS_1984_WMAS, geomen);
-
-            Log.d("unionFault","" + InfoFaults.calculateLength2D());
-
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();

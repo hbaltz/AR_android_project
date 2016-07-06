@@ -2,6 +2,7 @@ package com.example.hbaltz.sub.Class;
 
 import android.util.Log;
 
+import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
@@ -45,7 +46,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
     //////////////////////////////////// CONSTRUCTORS: /////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public BuildingPOI(String structure, String deteration, String occupancyClass,
+    public BuildingPOI(String structure, String occupancyClass,
                        String address, String notes, Point location) {
         this.structure = structure;
         this.occupancyClass = occupancyClass;
@@ -308,7 +309,7 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         information.add("Vertical irregularity: " + this.verticalIrregularity);
         information.add("Plan irregularity: " + this.planIrregularity);
         information.add("Geological information: " + this.recoverGeoInfo());
-        information.add("Distance to nearest fault line: " + this.distToFault);
+        information.add("Distance to nearest fault line: " + ((int)(this.distToFault)) + " m");
         information.add("Address: " + this.address);
         information.add("Notes: " +this.notes);
         information.add("Distance : " + ((int)(this.distance)) + " m");
@@ -333,5 +334,18 @@ public class BuildingPOI implements Comparable<BuildingPOI>{
         }
 
         return informaGeo;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Caulcates the dsitance between the POI and the nearest faultLine
+     *
+     * @param fault: the fault line
+     * @param geomen: a geometry engine
+     * @param spaRef: the spatial reference
+     */
+    public void calculateDistToFault(Geometry fault, GeometryEngine geomen, SpatialReference spaRef){
+        this.distToFault = geomen.distance(this.location, fault, spaRef);
     }
 }
