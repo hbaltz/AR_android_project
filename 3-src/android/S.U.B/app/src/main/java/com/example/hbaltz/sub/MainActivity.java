@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
     private BuildingPOI[] buildings;
     private Polygon[] PoiFootprints;
     private GeoInfo[] InfoGeos;
-    private Polyline InfoFaults;
+    private Polyline InfoFaults, simpFault;
     private ArrayList<BuildingPOI> NN;
     private ArrayList<GeoInfo> simpGeoInfos;
 
@@ -96,12 +96,13 @@ public class MainActivity extends FragmentActivity {
     private FaultDrawSurfaceView FaultDrawView;
 
     ////////////////////////////////////// Checkbox: ///////////////////////////////////////////////
-    private CheckBox checkPoi, checkFt, checkGeo;
+    private CheckBox checkPoi, checkFt, checkGeo, checkFault;
 
     //////////////////////////////////// Display: //////////////////////////////////////////////////
     private boolean displayPoi = true;
     private boolean displayFootprint = false;
     private boolean displayGeoInfo = false;
+    private boolean displayFault = false;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
     private final boolean DEBUG = false;
@@ -144,6 +145,10 @@ public class MainActivity extends FragmentActivity {
         checkGeo = (CheckBox) findViewById(R.id.checkGeo);
         String txtGeo = getResources().getString(R.string.dispGeo);
         checkGeo.setText(txtGeo);
+
+        checkFault = (CheckBox) findViewById(R.id.checkFault);
+        String txtFault = getResources().getString(R.string.dispFault);
+        checkFault.setText(txtFault);
 
         /////////////////////////////// Listeners: /////////////////////////////////////////////////
         setupListeners();
@@ -188,6 +193,7 @@ public class MainActivity extends FragmentActivity {
         checkPoi.setOnClickListener(checkedListener);
         checkFt.setOnClickListener(checkedListener);
         checkGeo.setOnClickListener(checkedListener);
+        checkFault.setOnClickListener(checkedListener);
 
         checkPoi.setChecked(true);
 
@@ -440,8 +446,8 @@ public class MainActivity extends FragmentActivity {
                 GeoDrawView.invalidate();
             }
 
-            if(FaultDrawView != null){
-                FaultDrawView.setVariables(InfoFaults,orientationVals,user);
+            if(FaultDrawView != null && displayFault){
+                FaultDrawView.setVariables(simpFault,orientationVals,user);
                 FaultDrawView.invalidate();
             }
 
@@ -644,6 +650,16 @@ public class MainActivity extends FragmentActivity {
                 displayGeoInfo = false;
                 GeoDrawView.setVisibility(View.INVISIBLE);
             }
+
+            // Fault:
+            if(checkFault.isChecked()){
+                displayFault = true;
+                FaultDrawView.setVisibility(View.VISIBLE);
+            }
+            else if(!checkFault.isChecked()) {
+                displayFault = false;
+                FaultDrawView.setVisibility(View.INVISIBLE);
+            }
         }
     };
 
@@ -664,6 +680,9 @@ public class MainActivity extends FragmentActivity {
 
             // we actualize the geological information:
             simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
+
+            // We actualize the fault:
+            simpFault = user.simplifyFault(geomen,InfoFaults,WGS_1984_WMAS,200,meter);
         }
     }
 }

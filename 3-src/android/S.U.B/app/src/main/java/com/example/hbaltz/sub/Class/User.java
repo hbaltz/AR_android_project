@@ -6,6 +6,7 @@ import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 
@@ -162,5 +163,33 @@ public class User {
         }
 
         return simpGeoInfos;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which recovers the fault lines close to the user, it simplifies geometries
+     *
+     * @param geomen: A geometry engine (Esri)
+     * @param fault: The fault polyline
+     * @param spaRef: the spatial reference
+     * @param radius: the distance around the user where we recover geological information
+     * @param unit: The distance's unit
+     * @return
+     */
+    public Polyline simplifyFault(GeometryEngine geomen,
+                                      Polyline fault,
+                                      SpatialReference spaRef,
+                                      double radius, Unit unit){
+
+        Polyline simpFault = new Polyline();
+
+        Point loc = this.getLocation();
+        Geometry buffer = geomen.buffer(loc, spaRef, radius, unit);
+        GeoInfo geoTemp;
+
+        simpFault = (Polyline) geomen.intersect(fault,buffer,spaRef);
+
+        return simpFault;
     }
 }

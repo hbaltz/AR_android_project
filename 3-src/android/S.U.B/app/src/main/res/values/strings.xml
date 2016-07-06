@@ -4,4 +4,5 @@
     <string name="dispPoi">Display the POIs?</string>
     <string name="dispFt">Display the footprints?</string>
     <string name="dispGeo">Display the geological information?</string>
+    <string name="dispFault">Display the nearest fault?</string>
 </resources>

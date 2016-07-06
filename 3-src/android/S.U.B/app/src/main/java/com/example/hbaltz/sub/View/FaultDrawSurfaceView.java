@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.esri.core.geometry.Geometry;
@@ -90,39 +91,42 @@ public class FaultDrawSurfaceView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        if(fault != null){
+        if(fault != null) {
 
             // Initialize:
             String type; // the type of geological underground
             int countPoint = fault.getPointCount(); // the number of point in the fault
             Point pointTemp; // the point that we project
             List<Float> pos, posScreenTemp; // the position on the screen of the point which has been projected
-            float[] pts = new float[2*countPoint]; // the points in the fault
-            float xPos,yPos; // the position on the screen of the point which has been projected
-            boolean draw= false; // useful to know if we draw or not the path
+            float xPos, yPos, xPrec=-5f, yPrec=-5f; // the position on the screen of the point which has been projected
+
 
             // We project each point of the shape on the screen with a perspective projection
-            for(int j=0; j<2*countPoint; j=j+2){
-                pointTemp = fault.getPoint(j/2);
+            for (int j = 0; j < countPoint; j++) {
+                pointTemp = fault.getPoint(j);
 
-                pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMat,zDef);
+                pos = Utilities.positionMatOr(user.getLocation(), pointTemp, orMat, zDef);
                 posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
 
                 // To draw we add the point to the path, then we draw the path:
-                if(posScreenTemp !=null) {
+                if (posScreenTemp != null) {
                     xPos = posScreenTemp.get(0);
                     yPos = posScreenTemp.get(1);
 
-                    pts[j] = xPos;
-                    pts[j+1] = yPos;
-                }
-            }
+                    if(xPrec == -5 && yPrec == -5) {
+                        xPrec = xPos;
+                        yPrec = yPos;
+                    } else {
+                        canvas.drawLine(xPrec,yPrec,xPos,yPos,paint);
 
-            if(draw) {
-                canvas.drawLines(pts, paint);
+                        xPrec = xPos;
+                        yPrec = yPos;
+                    }
+                }
+
+
             }
         }
-
         super.onDraw(canvas);
     }
 

@@ -90,7 +90,7 @@ public class GeoDrawSurfaceView extends View {
             Polygon shape; // the footprint of the building
             int countPoint; // the number of point in the shape
             Point pointTemp; // the point that we project
-            List<Float> pos, posNear, posScreenTemp; // the position on the screen of the point which has been projected
+            List<Float> pos, posScreenTemp; // the position on the screen of the point which has been projected
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
