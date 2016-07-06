@@ -2,7 +2,10 @@ package com.example.hbaltz.sub.Class;
 
 import android.util.Log;
 
+import com.esri.core.geometry.Geometry;
+import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
+import com.esri.core.geometry.SpatialReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,72 @@ import java.util.List;
 public final class Utilities {
 
     private final static boolean DEBUG = false;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which makes the union of an array of geometries regardless of his size
+     *
+     * @param geoms:  the array of geometries
+     * @param SpaRef: the spatial reference of these geometries
+     * @return union: a geometry resulting from the union
+     */
+    public static Geometry unionGeoms(Geometry[] geoms, SpatialReference SpaRef, GeometryEngine geomen) {
+        // Initialize
+        Geometry union = null;
+        int len_geoms = geoms.length;
+
+        int len_lim = 500; // Limit length of the geometry array (limit for the union)
+
+        // If the array have a length below the limit we can do the union,
+        // else we have to split the array in several parts and do the union in several times
+        if (len_geoms < len_lim) {
+            union = geomen.union(geoms, SpaRef);
+        } else {
+            // Initialize:
+            Geometry[] array_union = new Geometry[2]; // temporary array for the union
+            Geometry[] geomTemp = new Geometry[len_lim];
+            Geometry[] geomRem = new Geometry[len_geoms - len_lim]; // The remaining geometries
+            int k = 1; // useful for the while loop
+
+            // We split geometries in two for the union:
+            int len_temp = geomTemp.length;
+            int len_rem = geomRem.length;
+            System.arraycopy(geoms, 0, geomTemp, 0, len_temp);
+            System.arraycopy(geoms, len_temp, geomRem, 0, len_rem);
+
+            if (DEBUG) {Log.d("len_geom_temp", "" + geomTemp.length);}
+            if (DEBUG) {Log.d("len_geom_rem", "" + geomRem.length);}
+
+            // We do the union of the array with a length below the limit
+            array_union[0] = geomen.union(geomTemp, SpaRef);
+
+            // While the length of the remaining geometries is not below the limit
+            // we split the array and we do several union to never exceed the limit
+            while (len_rem > len_lim) {
+                // We split the array in two, we use geomTemp:
+                System.arraycopy(geomRem, 0, geomTemp, 0, len_temp);
+                k = k + 1;
+
+                // geomRem recover the remaining geometries:
+                geomRem = new Geometry[len_rem - len_lim];
+                len_rem = geomRem.length;
+                System.arraycopy(geoms, k * len_temp, geomRem, 0, len_rem);
+
+                // We do the union of the geometries we have stock in geomTemp
+                // and the union between the two geometries resulting from the unions
+                array_union[1] = geomen.union(geomTemp, SpaRef);
+                array_union[0] = geomen.union(array_union, SpaRef);
+            }
+
+            // We do the union of the remaining geometries
+            // and the union between the two geometries resulting from the unions
+            array_union[1] = geomen.union(geomRem, SpaRef);
+            union = geomen.union(array_union, SpaRef);
+        }
+
+        return union;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 

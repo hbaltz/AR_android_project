@@ -29,6 +29,7 @@ import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.GeometryEngine;
+import com.esri.core.geometry.Line;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
@@ -38,6 +39,7 @@ import com.esri.core.map.Feature;
 import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.GeoInfo;
 import com.example.hbaltz.sub.Class.User;
+import com.example.hbaltz.sub.Class.Utilities;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
 import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
@@ -74,6 +76,7 @@ public class MainActivity extends FragmentActivity {
     private BuildingPOI[] buildings;
     private Polygon[] PoiFootprints;
     private GeoInfo[] InfoGeos;
+    private Geometry InfoFaults;
     private ArrayList<BuildingPOI> NN;
     private ArrayList<GeoInfo> simpGeoInfos;
 
@@ -343,7 +346,6 @@ public class MainActivity extends FragmentActivity {
             // Initialize:
             int len2 = features_geos.length;
             InfoGeos = new GeoInfo[len2];
-            ArrayList<GeoInfo> tst = new ArrayList<>();
 
             GeoInfo acGeo = new GeoInfo(); // useful if no object in the db
             Feature infoGeo;
@@ -366,11 +368,48 @@ public class MainActivity extends FragmentActivity {
 
             Log.d("InfoGeo", "" + InfoGeos.length);
 
+            //////////////////////////////////// Recover features from  db: ////////////////////////
+            GeodatabaseFeatureTable faultInfos = gdb.getGeodatabaseTables().get(3);
+
+            long nbr_lig_fault = faultInfos.getNumberOfFeatures();
+            int nbr_int_fault = (int) nbr_lig_fault;
+
+            // We recover all the features in the gdb:
+            Feature[] features_faults = new Feature[nbr_int_fault];
+
+            for (int r = 1; r <= nbr_lig_fault; r++) {
+                features_faults[r - 1] = faultInfos.getFeature(r);
+            }
+
+            /////////////////////////////////// Recover faultInfos: //////////////////////////////////
+            // Initialize:
+            int len3 = features_faults.length;
+            Geometry[] InfoFaultsTemp = new Geometry[len3];
+
+            Geometry acFault = new Line(); // useful if no object in the db
+            Feature infoFault;
+
+            for (int l3 = 0; l3 < len3; l3++) {
+                infoFault = features_faults[l3];
+
+                // Recover information about buildings :
+                if (infoFault != null) {
+                    InfoFaultsTemp[l3] = infoFault.getGeometry();
+                } else {
+                    InfoFaultsTemp[l3] = acFault;
+                }
+            }
+
+            Log.d("InfoFault", "" + InfoFaultsTemp.length);
+
+            InfoFaults = Utilities.unionGeoms(InfoFaultsTemp, WGS_1984_WMAS, geomen);
+
+            Log.d("unionFault","" + InfoFaults.calculateLength2D());
+
         } catch (Exception e) {
             popToast("Error while initializing :" + e.getMessage(), true);
             e.printStackTrace();
         }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
