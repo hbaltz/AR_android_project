@@ -83,7 +83,7 @@ public final class Utilities {
 
         return union;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -186,84 +186,4 @@ public final class Utilities {
 
         return null;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public static List<Float> nearestPointOnScreen(List<Float> point1, List<Float> point2, float near){
-        List<Float> nearestPoint = new ArrayList<>();
-
-        float Dx1 = point1.get(0);
-        float Dy1 = point1.get(1);
-        float Dz1 = point1.get(2);
-
-        float Dx2 = point2.get(0);
-        float Dy2 = point2.get(1);
-        float Dz2 = point2.get(2);
-
-        float n;
-
-        // If v1 and v2 are both behind then don't draw the line.
-        // If v1 is in front and v2 is behind then you need to find vc where the line intersects the near clip plane
-        // If v2 is in front and v1 is behind then you need to find vc where the line intersects the near clip plane
-
-        //Log.d("Dz", "1: " + Dz1 + ", 2: " + Dz2);
-        if(Dz1>= near && Dz2< near) {
-            Log.d("Useful?", "Yep");
-
-            n = (Dz1 - near) / (Dz1 - Dz2);
-            nearestPoint.add((n * Dx1) + ((1 - n) * Dx2));
-            nearestPoint.add((n * Dy1) + ((1 - n) * Dy2));
-            nearestPoint.add(near);
-        }else if(Dz2>= near && Dz1< near) {
-            Log.d("Useful?", "Yep");
-
-            n = (Dz2 - near) / (Dz2 - Dz1);
-            nearestPoint.add((n * Dx2) + ((1 - n) * Dx1));
-            nearestPoint.add((n * Dy2) + ((1 - n) * Dy1));
-            nearestPoint.add(near);
-        } else {
-            nearestPoint = null;
-        }
-
-        return nearestPoint;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    public static Point project(Point line1, Point line2, Point toProject){
-        Point project = new Point();
-
-        double X1 = line1.getX();
-        double Y1 = line1.getY();
-
-        double X2 = line2.getX();
-        double Y2 = line2.getY();
-
-        double XtoPro = toProject.getX();
-        double YtoPro = toProject.getY();
-
-        double Dx = X2-X1;
-        if(Dx== 0d) Dx = 0.1d;
-
-        double m = (Y2-Y1)/Dx;
-        double b = Y1-m*X1;
-
-        double D = m*m+1;
-
-        project.setX((m*YtoPro + XtoPro - m*b)/D);
-        project.setY((m*m*YtoPro + m*XtoPro +b)/D);
-
-        //Log.d("empty?", "" + project.isEmpty());
-        if(project.isEmpty()) {
-            Log.d("m", "" + m);
-            Log.d("b", "" + b);
-            Log.d("D", "" + D);
-            Log.d("l1", "X: " + X1 + ", Y: " + Y1);
-            Log.d("l2", "X: " + X2 + ", Y: " + Y2);
-            Log.d("ltoPro", "X: " + XtoPro + ", Y: " + YtoPro);
-        }
-
-
-        return project;
-    }
-
 }

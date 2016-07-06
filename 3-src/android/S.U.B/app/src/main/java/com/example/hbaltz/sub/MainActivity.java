@@ -32,6 +32,7 @@ import com.esri.core.geometry.Line;
 import com.esri.core.geometry.LinearUnit;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.esri.core.geometry.Polyline;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.geometry.Unit;
 import com.esri.core.map.Feature;
@@ -40,6 +41,7 @@ import com.example.hbaltz.sub.Class.GeoInfo;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
 import com.example.hbaltz.sub.View.DrawSurfaceView;
+import com.example.hbaltz.sub.View.FaultDrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
 import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
@@ -72,7 +74,7 @@ public class MainActivity extends FragmentActivity {
     private BuildingPOI[] buildings;
     private Polygon[] PoiFootprints;
     private GeoInfo[] InfoGeos;
-    private Geometry InfoFaults;
+    private Polyline InfoFaults;
     private ArrayList<BuildingPOI> NN;
     private ArrayList<GeoInfo> simpGeoInfos;
 
@@ -84,7 +86,6 @@ public class MainActivity extends FragmentActivity {
 
     //////////////////////////////////// Angles: ////////////////////////////////////////////////////
     private double azimuthReal = 0d, pitchReal=0d;
-    private static double AZIMUTH_ACCURACY = 30d, PITCH_ACCURACY = 60d;
     float[] orientationVals = new float[3];
 
     /////////////////////////////////// Views: /////////////////////////////////////////////////////
@@ -419,8 +420,6 @@ public class MainActivity extends FragmentActivity {
      */
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
-            new ViewThread().start();
-
             // We update the display:
             if (DrawView != null && displayPoi) {
                 DrawView.setVariables(NN, orientationVals, user);
@@ -660,16 +659,4 @@ public class MainActivity extends FragmentActivity {
             simpGeoInfos = user.simplifyGeoInfo(geomen, InfoGeos,WGS_1984_WMAS,200,meter);
         }
     }
-
-    public class ViewThread extends Thread {
-        @Override
-        public void run() {
-            // We calculate the azimuth between all the NN and the user:
-            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY, pitchReal,PITCH_ACCURACY );
-            if(DEBUG) Log.d("azTeo", "" + NN);
-        }
-    }
-
-
-
 }
