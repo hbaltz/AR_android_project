@@ -6,13 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
-import com.example.hbaltz.sub.Class.BuildingPOI;
 import com.example.hbaltz.sub.Class.GeoInfo;
 import com.example.hbaltz.sub.Class.User;
 import com.example.hbaltz.sub.Class.Utilities;
@@ -32,9 +30,6 @@ public class GeoDrawSurfaceView extends View {
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
 
-    //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
-    private GeometryEngine geomen;
-
     ////////////////////////////////////// User: ///////////////////////////////////////////////////
     private User user;
 
@@ -43,7 +38,6 @@ public class GeoDrawSurfaceView extends View {
 
     ////////////////////////////////////// Angles: /////////////////////////////////////////////////
     float[] orMat;
-    double azimuthRe, pitchRe;
 
     ///////////////////////////////////// Paint: ///////////////////////////////////////////////////
     private Paint paint = new Paint();
@@ -149,7 +143,6 @@ public class GeoDrawSurfaceView extends View {
         }
 
         super.onDraw(canvas);
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,18 +158,19 @@ public class GeoDrawSurfaceView extends View {
      */
     public void setVariables(ArrayList<GeoInfo> geoinfos,
                              float[] ormat,
-                             User usr,
-                             double az, double pt){
-
+                             User usr){
         this.geoInfos = geoinfos;
         this.orMat = ormat;
         this.user = usr;
-        this.azimuthRe = az;
-        this.pitchRe = pt;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * sets Zdef
+     *
+     * @param zdef: the Z by default
+     */
     public void setZdef(float zdef){
         this.zDef = zdef;
     }

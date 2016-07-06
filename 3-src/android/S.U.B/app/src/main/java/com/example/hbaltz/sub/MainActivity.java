@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,9 +43,6 @@ import com.example.hbaltz.sub.View.DrawSurfaceView;
 import com.example.hbaltz.sub.View.FtDrawSurfaceView;
 import com.example.hbaltz.sub.View.GeoDrawSurfaceView;
 import com.example.hbaltz.sub.View.uoMapView;
-
-import org.codehaus.jackson.JsonParser;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -439,7 +435,7 @@ public class MainActivity extends FragmentActivity {
 
             // We update the display:
             if (GeoDrawView != null && displayGeoInfo) {
-                GeoDrawView.setVariables(simpGeoInfos, orientationVals, user, azimuthReal, pitchReal);
+                GeoDrawView.setVariables(simpGeoInfos, orientationVals, user);
                 GeoDrawView.invalidate();
             }
 

@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.example.hbaltz.sub.Class.BuildingPOI;
@@ -105,8 +104,6 @@ public class DrawSurfaceView extends View {
             for(int i =0; i<len_pois; i++){
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
-
-                //Log.d("in", "" +1);
 
                 // If the poi is visible we recover information about it :
                 dist = POI.getDistance();

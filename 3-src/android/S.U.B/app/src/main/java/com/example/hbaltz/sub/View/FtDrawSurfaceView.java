@@ -6,10 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.esri.core.geometry.GeometryEngine;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
 import com.example.hbaltz.sub.Class.BuildingPOI;
@@ -30,9 +28,6 @@ public class FtDrawSurfaceView extends View {
 
     ////////////////////////////////////// Screen size: ////////////////////////////////////////////
     private double screenWidth, screenHeight = 0d;
-
-    //////////////////////////////////// Geometrie Engine: /////////////////////////////////////////
-    private GeometryEngine geomen;
 
     ////////////////////////////////////// User: ///////////////////////////////////////////////////
     private User user;
@@ -95,7 +90,7 @@ public class FtDrawSurfaceView extends View {
             Polygon footprint; // the footprint of the building
             int countPoint; // the number of point in the footprint
             Point pointTemp; // the point that we project
-            List<Float>  pos, posNear,posScreenTemp; // the position on the screen of the point which has been projected
+            List<Float>  pos, posScreenTemp; // the position on the screen of the point which has been projected
             Path wallpath; // the path
             float xPos,yPos; // the position on the screen of the point which has been projected
             boolean draw= false; // useful to know if we draw or not the path
