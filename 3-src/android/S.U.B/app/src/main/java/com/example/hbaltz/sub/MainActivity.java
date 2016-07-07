@@ -116,7 +116,7 @@ public class MainActivity extends FragmentActivity {
     private boolean displayPoi = true;
     private boolean displayFootprint = false;
     private boolean displayGeoInfo = false;
-    private boolean displayFault = true; // TODO: change after debug
+    private boolean displayFault = false;
     private boolean displayMap = true;
 
     //////////////////////////////////// Debug: ////////////////////////////////////////////////////
