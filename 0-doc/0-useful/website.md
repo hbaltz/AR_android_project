@@ -122,3 +122,4 @@ http://www.computerrobotvision.org/2010/slam_camp/collier_intro.pdf
 
 https://developers.arcgis.com/android/guide/edit-features.htm
 https://developers.arcgis.com/android/guide/editing.htm
+https://developers.arcgis.com/android/sample-code/attribute-editor/
