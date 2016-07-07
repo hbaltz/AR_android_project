@@ -117,3 +117,8 @@ http://old.vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf
 
 ## Introduction:
 http://www.computerrobotvision.org/2010/slam_camp/collier_intro.pdf
+
+#Edit features:
+
+https://developers.arcgis.com/android/guide/edit-features.htm
+https://developers.arcgis.com/android/guide/editing.htm
