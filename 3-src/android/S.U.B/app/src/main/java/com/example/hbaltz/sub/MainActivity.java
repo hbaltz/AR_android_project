@@ -54,6 +54,7 @@ import com.example.hbaltz.sub.View.uoMapView;
 
 import java.util.ArrayList;
 
+
 public class MainActivity extends FragmentActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -802,3 +803,4 @@ public class MainActivity extends FragmentActivity {
         }
     }
 }
+
