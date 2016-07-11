@@ -1,0 +1,10 @@
+Sample project TANGO
+Copyright 2016 Google Inc. All Rights Reserved.
+
+This product includes software developed at
+Google (http://www.google.com/).
+
+Portions of this software were developed at the Laboratory for Applied Geomatics
+and GIS Science (LAGGISS) in the Department of Geography, University of Ottawa.
+
+This software contains code derived from the sample codes of the Project Tango, Google Inc.
