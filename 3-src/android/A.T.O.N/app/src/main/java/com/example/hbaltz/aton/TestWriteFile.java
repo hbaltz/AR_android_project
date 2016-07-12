@@ -34,10 +34,12 @@ public class TestWriteFile extends Activity {
 
         File test = new File(getFilesDir(),"Yep.txt");
         createFile(test);
-        addInfoToFile(test,"Pump");
-        addInfoToFile(test,"Plomp");
+        addInfoToFile(test,"Pump \n");
+        addInfoToFile(test,"Plomp \n");
 
         Log.d("Works?", readFromFile("Yep.txt"));
+
+        test.delete();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
