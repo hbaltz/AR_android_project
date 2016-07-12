@@ -38,7 +38,7 @@ public class PointCloudRajawaliRenderer extends RajawaliRenderer {
 
     private static final float CAMERA_NEAR = 0.01f;
     private static final float CAMERA_FAR = 200f;
-    private static final int MAX_NUMBER_OF_POINTS = 60000;
+    private static final int MAX_NUMBER_OF_POINTS = 999999;
 
     private TouchViewHandler mTouchViewHandler;
 

@@ -44,4 +44,5 @@ dependencies {
     compile files('libs/TangoSDK_Qianru_Java.jar')
     testCompile 'junit:junit:4.12'
     compile(name: 'tango-ux-support-library', ext: 'aar')
+    compile "commons-io:commons-io:+"
 }

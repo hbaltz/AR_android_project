@@ -17,6 +17,7 @@ import com.google.atap.tangoservice.TangoPoseData;
 import com.google.atap.tangoservice.TangoXyzIjData;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,6 +28,9 @@ import android.widget.TextView;
 import org.rajawali3d.scene.ASceneFrameCallback;
 import org.rajawali3d.surface.RajawaliSurfaceView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,6 +43,8 @@ import com.projecttango.tangosupport.TangoSupport;
  * Created by hbaltz on 7/11/2016.
  */
 public class AtonActivity  extends Activity {
+
+    private String strorage = "/storage/sdcard1/aton";
 
     private static final String TAG = AtonActivity.class.getSimpleName();
     private static final int SECS_TO_MILLISECS = 1000;
@@ -60,6 +66,8 @@ public class AtonActivity  extends Activity {
     private static final double UPDATE_INTERVAL_MS = 100.0;
 
     private double mXyzIjTimeToNextUpdate = UPDATE_INTERVAL_MS;
+
+    private ArrayList<TangoXyzIjData> acquisition = new ArrayList<TangoXyzIjData>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,6 +236,9 @@ public class AtonActivity  extends Activity {
                     // Update point cloud data.
                     TangoXyzIjData pointCloud = mPointCloudManager.getLatestXyzIj();
                     if (pointCloud != null) {
+                        acquisition.add(pointCloud);
+                        Log.d("acqui", "" + acquisition.size());
+
                         // Calculate the camera color pose at the camera frame update time in
                         // OpenGL engine.
                         TangoSupport.TangoMatrixTransformData transform =
