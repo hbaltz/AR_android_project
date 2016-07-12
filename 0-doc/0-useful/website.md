@@ -75,6 +75,18 @@ https://developers.google.com/project-tango/hardware/tablet#get_started
 ## Community:
 https://plus.google.com/communities/114537896428695886568
 
+## Roomscaner:
+https://github.com/andyzeng/roomscanner
+
+## Coordinates:
+https://developers.google.com/tango/overview/coordinate-systems
+
+## How maps indoor:
+http://bgr.com/2014/02/24/how-googles-project-tango-sees-indoor-spaces/
+
+## Capturing and aving point cloud:
+http://stackoverflow.com/questions/27473651/how-do-i-get-started-capturing-and-saving-project-tango-point-cloud-data-as-a-me
+
 # Underground:
 
 ## Display underground info:
@@ -123,3 +135,13 @@ http://www.computerrobotvision.org/2010/slam_camp/collier_intro.pdf
 https://developers.arcgis.com/android/guide/edit-features.htm
 https://developers.arcgis.com/android/guide/editing.htm
 https://developers.arcgis.com/android/sample-code/attribute-editor/
+
+#Write file:
+http://stackoverflow.com/questions/14376807/how-to-read-write-string-from-a-file-in-android
+
+# Apache commons: 
+http://stackoverflow.com/questions/17895557/add-commons-io-dependency-to-gradle-project-in-android-studio
+https://examples.javacodegeeks.com/core-java/apache/commons/io-commons/fileutils/org-apache-commons-io-fileutils-example/
+
+# Sd writable:
+http://technofaq.org/posts/2014/04/fixing-external-sd-card-write-issue-on-android-kitkat/
