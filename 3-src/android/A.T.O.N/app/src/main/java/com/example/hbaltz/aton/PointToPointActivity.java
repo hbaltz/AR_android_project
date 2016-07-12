@@ -16,12 +16,12 @@
 
 package com.example.hbaltz.aton;
 
+import com.example.hbaltz.aton.renderer.PointToPointRenderer;
 import com.google.atap.tangoservice.Tango;
 import com.google.atap.tangoservice.Tango.OnTangoUpdateListener;
 import com.google.atap.tangoservice.TangoCameraIntrinsics;
 import com.google.atap.tangoservice.TangoConfig;
 import com.google.atap.tangoservice.TangoCoordinateFramePair;
-import com.google.atap.tangoservice.TangoErrorException;
 import com.google.atap.tangoservice.TangoEvent;
 import com.google.atap.tangoservice.TangoException;
 import com.google.atap.tangoservice.TangoOutOfDateException;
@@ -83,6 +83,7 @@ public class PointToPointActivity extends Activity implements View.OnTouchListen
     private boolean mIsConnected = false;
     private double mCameraPoseTimestamp = 0;
     private TextView mDistanceMeasure;
+    private TangoConfig mConfig;
 
     // Texture rendering related fields
     // NOTE: Naming indicates which thread is in charge of updating this variable

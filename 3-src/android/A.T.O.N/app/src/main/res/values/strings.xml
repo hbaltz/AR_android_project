@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ATON</string>
-    <string name="app_name_long">ATON</string>
+    <string name="app_name">A.T.O.N.</string>
+    <string name="app_name_long">A.T.O.N.</string>
     <string name="tango_out_of_date_exception">"Tango service outdated!"</string>
     <string name="failed_measurement">Failed to place point</string>
     <string name="failed_permissions">Permissions required!</string>
     <string name="measurement">DISTANCE: </string>
+
+    <string name="first_person">First</string>
+    <string name="third_person">Third</string>
+    <string name="top_down">Top</string>
+    <string name="start">Start</string>
+    <string name="auto_reset_on">Auto Reset On</string>
+    <string name="auto_reset_off">Auto Reset Off</string>
+
+    <string name="average_z">"Average depth (m): "</string>
+    <string name="point_count">"Point count: "</string>
+
+    <string name="exception_tango_error">"Tango Exception! Try again!"</string>
+    <string name="exception_out_of_date">"Tango Service outdated!"</string>
+    <string name="motiontrackingpermission">"Motion Tracking permission needed!"</string>
+    <string name="na">"N/A"</string>
+    <string name="pose_initializing">"initializing"</string>
+    <string name="pose_valid">"valid"</string>
+    <string name="pose_invalid">"invalid"</string>
+    <string name="pose_unknown">"unknown"</string>
+    <string name="latest_adf_is">", Latest ADF is: "</string>
 
 </resources>

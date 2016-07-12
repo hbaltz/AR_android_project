@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.hbaltz.aton;
+package com.example.hbaltz.aton.renderer;
 
 import com.example.hbaltz.aton.rajawali.ScenePoseCalculator;
 import com.google.atap.tangoservice.TangoCameraIntrinsics;
