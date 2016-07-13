@@ -17,6 +17,7 @@ package com.example.hbaltz.aton.renderer;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.hbaltz.aton.rajawali.TouchViewHandler;
@@ -109,13 +110,5 @@ public class PointCloudRajawaliRenderer extends RajawaliRenderer {
 
     public void setFirstPersonView() {
         mTouchViewHandler.setFirstPersonView();
-    }
-
-    public void setTopDownView() {
-        mTouchViewHandler.setTopDownView();
-    }
-
-    public void setThirdPersonView() {
-        mTouchViewHandler.setThirdPersonView();
     }
 }
