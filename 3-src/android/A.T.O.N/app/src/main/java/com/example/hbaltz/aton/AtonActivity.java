@@ -87,6 +87,8 @@ public class AtonActivity  extends Activity {
         mPointCloudManager = new TangoPointCloudManager();
         mTangoUx = setupTangoUxAndLayout();
         mRenderer = new PointCloudRajawaliRenderer(this);
+        mRenderer.setFirstPersonView();
+
         setupRenderer();
 
         Log.d("Dir",getFilesDir().toString());
@@ -262,7 +264,16 @@ public class AtonActivity  extends Activity {
 
                         acquisition.add(pointCloud);
 
-                        Log.d("XYZ", "" + pointCloud.xyz);
+                        Log.d("XYZCount", "" + pointCloud.xyzCount/3);
+
+                        /*
+                        float[] testXYZ = new float[3];
+                        pointCloud.xyz.get(testXYZ,0,2);
+                        Log.d("testXYZ", "" + testXYZ);
+                        */
+
+                        Log.d("XYZ", "" + pointCloud.xyz.get(0));
+
                         Log.d("acqui", "" + acquisition.size());
 
                         // Calculate the camera color pose at the camera frame update time in
@@ -371,27 +382,6 @@ public class AtonActivity  extends Activity {
     };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * First Person button onClick callback.
-     */
-    public void onFirstPersonClicked(View v) {
-        mRenderer.setFirstPersonView();
-    }
-
-    /**
-     * Third Person button onClick callback.
-     */
-    public void onThirdPersonClicked(View v) {
-        mRenderer.setThirdPersonView();
-    }
-
-    /**
-     * Top-down button onClick callback.
-     */
-    public void onTopDownClicked(View v) {
-        mRenderer.setTopDownView();
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
