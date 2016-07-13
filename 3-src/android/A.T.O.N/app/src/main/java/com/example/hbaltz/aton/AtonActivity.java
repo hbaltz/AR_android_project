@@ -28,9 +28,13 @@ import android.widget.TextView;
 import org.rajawali3d.scene.ASceneFrameCallback;
 import org.rajawali3d.surface.RajawaliSurfaceView;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -69,6 +73,8 @@ public class AtonActivity  extends Activity {
 
     private ArrayList<TangoXyzIjData> acquisition = new ArrayList<TangoXyzIjData>();
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +88,15 @@ public class AtonActivity  extends Activity {
         mTangoUx = setupTangoUxAndLayout();
         mRenderer = new PointCloudRajawaliRenderer(this);
         setupRenderer();
+
+        Log.d("Dir",getFilesDir().toString());
+/*
+        File test = new File(getFilesDir(),"Test01.txt");
+        createFile(test);
+*/
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onResume() {
@@ -126,6 +140,8 @@ public class AtonActivity  extends Activity {
         });
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -142,6 +158,8 @@ public class AtonActivity  extends Activity {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Sets up the tango configuration object. Make sure mTango object is initialized before
      * making this call.
@@ -152,6 +170,8 @@ public class AtonActivity  extends Activity {
         config.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true);
         return config;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Set up the callback listeners for the Tango service, then begin using the Point
@@ -215,6 +235,8 @@ public class AtonActivity  extends Activity {
         });
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Sets Rajawali surface view and its renderer. This is ideally called only once in onCreate.
      */
@@ -235,8 +257,12 @@ public class AtonActivity  extends Activity {
 
                     // Update point cloud data.
                     TangoXyzIjData pointCloud = mPointCloudManager.getLatestXyzIj();
+
                     if (pointCloud != null) {
+
                         acquisition.add(pointCloud);
+
+                        Log.d("XYZ", "" + pointCloud.xyz);
                         Log.d("acqui", "" + acquisition.size());
 
                         // Calculate the camera color pose at the camera frame update time in
@@ -285,6 +311,8 @@ public class AtonActivity  extends Activity {
         mSurfaceView.setSurfaceRenderer(mRenderer);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Sets up TangoUX layout and sets its listener.
      */
@@ -295,6 +323,8 @@ public class AtonActivity  extends Activity {
         tangoUx.setUxExceptionEventListener(mUxExceptionListener);
         return tangoUx;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
     * This is an advanced way of using UX exceptions. In most cases developers can just use the in
@@ -340,6 +370,8 @@ public class AtonActivity  extends Activity {
         }
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * First Person button onClick callback.
      */
@@ -367,6 +399,8 @@ public class AtonActivity  extends Activity {
         return true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Calculates the average depth from a point cloud buffer.
      *
@@ -384,5 +418,131 @@ public class AtonActivity  extends Activity {
             averageZ = totalZ / pointCount;
         }
         return averageZ;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Creates a file
+     *
+     * @param file: the file that we want to create
+     * @return true if the file has been created, false if not
+     */
+    private boolean createFile(File file){
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Adds the string info to the File file
+     *
+     * @param file: c
+     * @param info: the string that we want ot add to the file
+     * @return true if the file has been modified, false if not
+     */
+    private boolean addInfoToFile(File file, String info){
+
+        FileOutputStream writer = null;
+        try {
+            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
+
+            Log.d("fle", file.toString());
+
+            Log.d("content",writer.toString());
+
+            writer.write(info.getBytes());
+            writer.flush();
+            writer.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Adds the list of strings data to the File file
+     *
+     * @param file: true if the file has been create, false if not
+     * @param data: the list of strings that we want ot add to the file
+     * @return true if the file has been modified, false if not
+     */
+    private boolean addDataToFile(File file, ArrayList<String> data){
+
+        FileOutputStream writer = null;
+        try {
+            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
+
+            Log.d("fle", file.toString());
+
+            Log.d("content",writer.toString());
+
+            for (String string: data){
+                writer.write(string.getBytes());
+                writer.flush();
+            }
+
+            writer.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Read the information in the file
+     *
+     * @param file: the file that we want to read
+     * @return a string that contains all the information int the file
+     */
+    private String readFromFile(String file) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = openFileInput(file);
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
     }
 }
