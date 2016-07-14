@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.hbaltz.aton.AtonActivity;
 import com.example.hbaltz.aton.R;
 import com.example.hbaltz.aton.renderer.PointCollection;
 

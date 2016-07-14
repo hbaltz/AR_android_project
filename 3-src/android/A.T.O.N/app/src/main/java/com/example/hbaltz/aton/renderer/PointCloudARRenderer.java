@@ -40,11 +40,6 @@ import org.rajawali3d.math.vector.Vector3;
  * Renderer for Point Cloud data.
  */
 public class PointCloudARRenderer extends TangoRajawaliRenderer {
-
-    private static final float CAMERA_NEAR = 0.01f;
-    private static final float CAMERA_FAR = 200f;
-    private static final int MAX_NUMBER_OF_POINTS = 999999;
-
     private static final int MAX_POINTS = 100000;
     private static final int MAX_COLLECTED_POINTS = 300000;
 
@@ -55,10 +50,6 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     private TouchViewHandler mTouchViewHandler;
 
-    // Objects rendered in the scene.
-    private PointCloud mPointCloud;
-    private FrustumAxes mFrustumAxes;
-    private Grid mGrid;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,39 +100,6 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
         PointCloudExporter exporter = new PointCloudExporter(mainActivity, collectedPoints);
         exporter.export();
         Log.d("Export", "Ok");
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Updates the rendered point cloud. For this, we need the point cloud data and the device pose
-     * at the time the cloud data was acquired.
-     * NOTE: This needs to be called from the OpenGL rendering thread.
-     */
-    public void updatePointCloud(TangoXyzIjData xyzIjData, float[] openGlTdepth) {
-        mPointCloud.updateCloud(xyzIjData.xyzCount, xyzIjData.xyz);
-        Matrix4 openGlTdepthMatrix = new Matrix4(openGlTdepth);
-        mPointCloud.setPosition(openGlTdepthMatrix.getTranslation());
-        // Conjugating the Quaternion is need because Rajawali uses left handed convention.
-        mPointCloud.setOrientation(new Quaternion().fromMatrix(openGlTdepthMatrix).conjugate());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Updates our information about the current device pose.
-     * NOTE: This needs to be called from the OpenGL rendering thread.
-     */
-    public void updateCameraPose(TangoPoseData cameraPose) {
-        float[] rotation = cameraPose.getRotationAsFloats();
-        float[] translation = cameraPose.getTranslationAsFloats();
-        Quaternion quaternion = new Quaternion(rotation[3], rotation[0], rotation[1], rotation[2]);
-        mFrustumAxes.setPosition(translation[0], translation[1], translation[2]);
-        // Conjugating the Quaternion is need because Rajawali uses left handed convention for
-        // quaternions.
-        mFrustumAxes.setOrientation(quaternion.conjugate());
-        mTouchViewHandler.updateCamera(new Vector3(translation[0], translation[1], translation[2]),
-                quaternion);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
