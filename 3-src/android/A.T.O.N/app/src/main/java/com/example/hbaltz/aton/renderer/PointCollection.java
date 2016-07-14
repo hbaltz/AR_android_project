@@ -1,11 +1,13 @@
 package com.example.hbaltz.aton.renderer;
 
+import android.graphics.Color;
 import android.opengl.GLES10;
 import android.opengl.GLES20;
 
 import com.example.hbaltz.aton.rajawali.Pose;
 
 import org.rajawali3d.Object3D;
+import org.rajawali3d.materials.Material;
 import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.math.vector.Vector3;
 
@@ -19,6 +21,17 @@ public class PointCollection extends Object3D {
     private FloatBuffer buffer;
     private int mMaxNumberOfVertices;
     private int count = 0;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public PointCollection(int numberOfPoints) {
+        super();
+        mMaxNumberOfVertices = numberOfPoints;
+        init();
+        Material m = new Material();
+        m.setColor(Color.GREEN);
+        setMaterial(m);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 

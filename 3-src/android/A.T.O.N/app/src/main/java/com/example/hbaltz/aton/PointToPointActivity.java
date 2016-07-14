@@ -101,12 +101,13 @@ public class PointToPointActivity extends Activity implements View.OnTouchListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*
         mSurfaceView = (RajawaliSurfaceView) findViewById(R.id.ar_view);
         mRenderer = new PointToPointRenderer(this);
         mSurfaceView.setSurfaceRenderer(mRenderer);
         mSurfaceView.setOnTouchListener(this);
         mPointCloudManager = new TangoPointCloudManager();
-        mDistanceMeasure = (TextView) findViewById(R.id.distance_textview);
+        mDistanceMeasure = (TextView) findViewById(R.id.distance_textview);*/
         mLinePoints[0] = null;
         mLinePoints[1] = null;
     }

@@ -1,13 +1,12 @@
 package com.example.hbaltz.aton;
 
-import com.example.hbaltz.aton.renderer.PointCloudRajawaliRenderer;
+import com.example.hbaltz.aton.renderer.PointCloudARRenderer;
 import com.google.atap.tango.ux.TangoUx;
 import com.google.atap.tango.ux.TangoUx.StartParams;
 import com.google.atap.tango.ux.TangoUxLayout;
 import com.google.atap.tango.ux.UxExceptionEvent;
 import com.google.atap.tango.ux.UxExceptionEventListener;
 import com.google.atap.tangoservice.Tango;
-import com.google.atap.tangoservice.Tango.OnTangoUpdateListener;
 import com.google.atap.tangoservice.TangoConfig;
 import com.google.atap.tangoservice.TangoCoordinateFramePair;
 import com.google.atap.tangoservice.TangoErrorException;
@@ -17,28 +16,18 @@ import com.google.atap.tangoservice.TangoPoseData;
 import com.google.atap.tangoservice.TangoXyzIjData;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.View;
 import android.widget.TextView;
 
 import org.rajawali3d.scene.ASceneFrameCallback;
 import org.rajawali3d.surface.RajawaliSurfaceView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.projecttango.tangosupport.TangoPointCloudManager;
 import com.projecttango.tangosupport.TangoSupport;
@@ -58,7 +47,7 @@ public class AtonActivity  extends Activity {
     private TangoUx mTangoUx;
     private TangoPointCloudManager mPointCloudManager;
 
-    private PointCloudRajawaliRenderer mRenderer;
+    private PointCloudARRenderer mRenderer;
     private RajawaliSurfaceView mSurfaceView;
     private TextView mPointCountTextView;
     private TextView mAverageZTextView;
@@ -86,7 +75,7 @@ public class AtonActivity  extends Activity {
 
         mPointCloudManager = new TangoPointCloudManager();
         mTangoUx = setupTangoUxAndLayout();
-        mRenderer = new PointCloudRajawaliRenderer(this);
+        mRenderer = new PointCloudARRenderer(this);
         mRenderer.setFirstPersonView();
 
         setupRenderer();
@@ -266,11 +255,14 @@ public class AtonActivity  extends Activity {
 
                         Log.d("XYZCount", "" + pointCloud.xyzCount/3);
 
-                        /*
                         float[] testXYZ = new float[3];
-                        pointCloud.xyz.get(testXYZ,0,2);
-                        Log.d("testXYZ", "" + testXYZ);
-                        */
+                        if(pointCloud.xyz.remaining() >= 28) {
+                            pointCloud.xyz.get(testXYZ,0,2);
+                            Log.d("testX", "" + testXYZ[0]);
+                            Log.d("testY", "" + testXYZ[1]);
+                            Log.d("testZ", "" + testXYZ[2]);
+
+                        }
 
                         Log.d("XYZ", "" + pointCloud.xyz.get(0));
 
@@ -408,131 +400,5 @@ public class AtonActivity  extends Activity {
             averageZ = totalZ / pointCount;
         }
         return averageZ;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Creates a file
-     *
-     * @param file: the file that we want to create
-     * @return true if the file has been created, false if not
-     */
-    private boolean createFile(File file){
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Adds the string info to the File file
-     *
-     * @param file: c
-     * @param info: the string that we want ot add to the file
-     * @return true if the file has been modified, false if not
-     */
-    private boolean addInfoToFile(File file, String info){
-
-        FileOutputStream writer = null;
-        try {
-            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
-
-            Log.d("fle", file.toString());
-
-            Log.d("content",writer.toString());
-
-            writer.write(info.getBytes());
-            writer.flush();
-            writer.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Adds the list of strings data to the File file
-     *
-     * @param file: true if the file has been create, false if not
-     * @param data: the list of strings that we want ot add to the file
-     * @return true if the file has been modified, false if not
-     */
-    private boolean addDataToFile(File file, ArrayList<String> data){
-
-        FileOutputStream writer = null;
-        try {
-            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
-
-            Log.d("fle", file.toString());
-
-            Log.d("content",writer.toString());
-
-            for (String string: data){
-                writer.write(string.getBytes());
-                writer.flush();
-            }
-
-            writer.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return true;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Read the information in the file
-     *
-     * @param file: the file that we want to read
-     * @return a string that contains all the information int the file
-     */
-    private String readFromFile(String file) {
-
-        String ret = "";
-
-        try {
-            InputStream inputStream = openFileInput(file);
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
-
-        return ret;
     }
 }

@@ -28,4 +28,14 @@
     <string name="pose_unknown">"unknown"</string>
     <string name="latest_adf_is">", Latest ADF is: "</string>
 
+    <string name="toggle_pointcloud">Toggle Visibility</string>
+    <string name="toggle_pointcloud_capturing">Capture Pointcloud</string>
+    <string name="take_snapshot">Snapshot machen</string>
+    <string name="show_infos">Infos anzeigen</string>
+    <string name="export_pointcloud">Export Pointcloud</string>
+    <string name="exporting_pointcloud">Exporting</string>
+    <string name="please_wait">please wait …</string>
+    <string name="export_pointcloud_failure">Error exporting pointcloud!</string>
+    <string name="export_pointcloud_result">Pointcloud exported to (%1$s)</string>
+
 </resources>
