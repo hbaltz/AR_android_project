@@ -28,6 +28,7 @@ import com.example.hbaltz.aton.rajawali.renderables.PointCloud;
 import com.example.hbaltz.aton.rajawali.renderables.primitives.Points;
 import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
+import com.example.hbaltz.aton.utilities.PointCloudExporter2;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
 import com.google.atap.tangoservice.TangoPoseData;
 import com.google.atap.tangoservice.TangoXyzIjData;
@@ -97,7 +98,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void exportPointCloud(MainActivity mainActivity) {
-        PointCloudExporter exporter = new PointCloudExporter(mainActivity, collectedPoints);
+        PointCloudExporter2 exporter = new PointCloudExporter2(mainActivity, collectedPoints);
         exporter.export();
         Log.d("Export", "Ok");
     }

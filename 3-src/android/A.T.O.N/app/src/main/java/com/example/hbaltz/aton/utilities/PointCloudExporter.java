@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.R;
 import com.example.hbaltz.aton.renderer.PointCollection;
 
@@ -27,10 +28,10 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class PointCloudExporter extends Activity{
+public class PointCloudExporter {
+
     private final Context context;
     private final PointCollection pointCollection;
-    private String filePath;
 
     public PointCloudExporter(Context context, PointCollection pointCollection) {
         this.context = context;
@@ -46,6 +47,7 @@ public class PointCloudExporter extends Activity{
 
         @Override
         protected Void doInBackground(PointCollection... params) {
+
             if (params.length == 0) {
                 return null;
             }
@@ -53,8 +55,10 @@ public class PointCloudExporter extends Activity{
             Format formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.FRENCH);
 
 
-            String fileName = "pointcloud-" + formatter.format(new Date()) + ".xyz";
-            File f = new File(getFilesDir() , fileName);
+            String fileName = "pointcloud-" + formatter.format(new Date()) + ".txt";
+            File f = new File(context.getFilesDir() , fileName);
+
+            Log.d("filename", fileName);
 
             boolean created = createFile(f);
 
@@ -75,6 +79,8 @@ public class PointCloudExporter extends Activity{
                         publishProgress(progressCounter);
                     }
                 }
+
+                Log.d("Works?",""+ readFromFile(fileName).length());
 
             } else {
                 Log.e("Creation", "File not creates");
@@ -119,7 +125,7 @@ public class PointCloudExporter extends Activity{
 
         FileOutputStream writer = null;
         try {
-            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
+            writer = context.openFileOutput(file.getName(), Context.MODE_APPEND);
 
             Log.d("fle", file.toString());
 
@@ -151,7 +157,7 @@ public class PointCloudExporter extends Activity{
 
         FileOutputStream writer = null;
         try {
-            writer = openFileOutput(file.getName(), Context.MODE_APPEND);
+            writer = context.openFileOutput(file.getName(), Context.MODE_APPEND);
 
             Log.d("fle", file.toString());
 
@@ -186,7 +192,7 @@ public class PointCloudExporter extends Activity{
         String ret = "";
 
         try {
-            InputStream inputStream = openFileInput(file);
+            InputStream inputStream = context.openFileInput(file);
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
