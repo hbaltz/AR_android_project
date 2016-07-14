@@ -62,31 +62,6 @@ http://support.esri.com/technical-article/000009381
 
 ## Unity AR tuto:
 https://www.youtube.com/watch?v=pv0u8ClfGi4
-
-# Tango:
-
-## Sample tango:
-https://github.com/googlesamples/tango-examples-java
-https://github.com/googlesamples/tango-examples-unity
-
-## Tango get started:
-https://developers.google.com/project-tango/hardware/tablet#get_started
-
-## Community:
-https://plus.google.com/communities/114537896428695886568
-
-## Roomscaner:
-https://github.com/andyzeng/roomscanner
-
-## Coordinates:
-https://developers.google.com/tango/overview/coordinate-systems
-
-## How maps indoor:
-http://bgr.com/2014/02/24/how-googles-project-tango-sees-indoor-spaces/
-
-## Capturing and aving point cloud:
-http://stackoverflow.com/questions/27473651/how-do-i-get-started-capturing-and-saving-project-tango-point-cloud-data-as-a-me
-
 # Underground:
 
 ## Display underground info:
@@ -145,3 +120,39 @@ https://examples.javacodegeeks.com/core-java/apache/commons/io-commons/fileutils
 
 # Sd writable:
 http://technofaq.org/posts/2014/04/fixing-external-sd-card-write-issue-on-android-kitkat/
+
+# Corner point cloud proc:
+http://stackoverflow.com/questions/28731442/detecting-set-of-planes-from-point-cloud
+
+# Tango:
+
+## Sample tango:
+https://github.com/googlesamples/tango-examples-java
+https://github.com/googlesamples/tango-examples-unity
+
+## Tango get started:
+https://developers.google.com/project-tango/hardware/tablet#get_started
+
+## Community:
+https://plus.google.com/communities/114537896428695886568
+
+## Roomscaner:
+https://github.com/andyzeng/roomscanner
+
+## Coordinates:
+https://developers.google.com/tango/overview/coordinate-systems
+
+## How maps indoor:
+http://bgr.com/2014/02/24/how-googles-project-tango-sees-indoor-spaces/
+
+## Capturing and aving point cloud:
+http://stackoverflow.com/questions/27473651/how-do-i-get-started-capturing-and-saving-project-tango-point-cloud-data-as-a-me
+
+## Ransac:
+https://github.com/stetro/project-tango-poc/blob/master/ar/src/main/java/de/stetro/master/ar/calc/RANSAC.java
+
+## UX Framework:
+https://developers.google.com/tango/apis/java/java-ux-framework
+
+## point cloud save:
+https://github.com/stetro/project-tango-poc
