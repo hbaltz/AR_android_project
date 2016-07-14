@@ -118,12 +118,6 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setFirstPersonView() {
-        mTouchViewHandler.setFirstPersonView();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
     public void setPointCloudManager(PointCloudManager pointCloudManager) {
         this.pointCloudManager = pointCloudManager;
     }
