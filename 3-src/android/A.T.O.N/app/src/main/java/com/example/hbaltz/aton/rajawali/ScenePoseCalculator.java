@@ -27,6 +27,12 @@ import org.rajawali3d.math.vector.Vector3;
  * using Rajawali specific classes and conventions.
  */
 public final class ScenePoseCalculator {
+    // Transformation from the position of the depth camera to the device frame.
+    private Matrix4 mDeviceTDepthCamera;
+
+    // Transformation from the position of the color Camera to the device frame.
+    private Matrix4 mDeviceTColorCamera;
+
     private static final String TAG = ScenePoseCalculator.class.getSimpleName();
 
     /**
@@ -106,7 +112,7 @@ public final class ScenePoseCalculator {
     /**
      * Avoid instantiating the class since it will only be used statically.
      */
-    private ScenePoseCalculator() {
+    public ScenePoseCalculator() {
     }
 
     /**
@@ -364,5 +370,71 @@ public final class ScenePoseCalculator {
         Matrix4 openGlWorldPointMatrix 
                 = OPENGL_T_TANGO_WORLD.clone().multiply(startServicePointMatrix);
         return matrixToPose(openGlWorldPointMatrix).getPosition();
+    }
+
+
+    /**
+     * Configure the scene pose calculator with the transformation between the selected
+     * camera and the device.
+     * Note that this requires going through the IMU since the Tango service can't calculate
+     * the transform between the camera and the device directly.
+     */
+    public void setupExtrinsics(TangoPoseData imuTDevicePose, TangoPoseData imuTColorCameraPose,
+                                TangoPoseData imuTDepthCameraPose) {
+        Matrix4 deviceTImu = ScenePoseCalculator.tangoPoseToMatrix(imuTDevicePose).inverse();
+        Matrix4 imuTColorCamera = ScenePoseCalculator.tangoPoseToMatrix(imuTColorCameraPose);
+        Matrix4 imuTDepthCamera = ScenePoseCalculator.tangoPoseToMatrix(imuTDepthCameraPose);
+        mDeviceTDepthCamera = deviceTImu.clone().multiply(imuTDepthCamera);
+        mDeviceTColorCamera = deviceTImu.multiply(imuTColorCamera);
+    }
+
+    /**
+     * Given a pose in start of service or area description frame, calculate the corresponding
+     * position and orientation for a OpenGL Scene Camera in the Rajawali world.
+     */
+    public Pose toOpenGLCameraPose(TangoPoseData tangoPose) {
+        // We can't do this calculation until extrinsics are set-up.
+        if (mDeviceTColorCamera == null) {
+            throw new RuntimeException("You must call setupExtrinsics first.");
+        }
+
+        Matrix4 startServiceTdevice = tangoPoseToMatrix(tangoPose);
+
+        // Get device pose in OpenGL world frame.
+        Matrix4 openglTDevice = OPENGL_T_TANGO_WORLD.clone().multiply(startServiceTdevice);
+
+        // Get OpenGL camera pose in OpenGL world frame.
+        Matrix4 openglWorldTOpenglCamera = openglTDevice.multiply(mDeviceTColorCamera).
+                multiply(COLOR_CAMERA_T_OPENGL_CAMERA);
+
+        return matrixToPose(openglWorldTOpenglCamera);
+    }
+
+    /**
+     * Given a TangoPoseData object, calculate the corresponding position and orientation for a
+     * PointCloud in Depth camera coordinate system to the Rajawali world.
+     */
+    public Pose toOpenGLPointCloudPose(TangoPoseData tangoPose) {
+        // We can't do this calculation until extrinsics are set-up.
+        if (mDeviceTDepthCamera == null) {
+            throw new RuntimeException("You must call setupExtrinsics first.");
+        }
+
+        //conversion matrix to put point cloud data in Rajawali/OpenGL coordinate system.
+        Matrix4 invertYandZMatrix = new Matrix4(new double[]{1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, -1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, -1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f});
+
+        Matrix4 startServiceTdevice = tangoPoseToMatrix(tangoPose);
+
+        // Get device pose in OpenGL world frame.
+        Matrix4 openglTDevice = OPENGL_T_TANGO_WORLD.clone().multiply(startServiceTdevice);
+
+        // Get OpenGL camera pose in OpenGL world frame.
+        Matrix4 openglWorldTOpenglCamera = openglTDevice.multiply(mDeviceTDepthCamera).
+                multiply(DEPTH_CAMERA_T_OPENGL_CAMERA).multiply(invertYandZMatrix);
+
+        return matrixToPose(openglWorldTOpenglCamera);
     }
 }
