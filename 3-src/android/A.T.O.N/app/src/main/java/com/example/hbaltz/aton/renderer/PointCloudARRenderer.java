@@ -15,10 +15,16 @@
  */
 package com.example.hbaltz.aton.renderer;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.example.hbaltz.aton.R;
 import com.example.hbaltz.aton.rajawali.Pose;
 import com.example.hbaltz.aton.rajawali.TouchViewHandler;
 import com.example.hbaltz.aton.rajawali.ar.TangoRajawaliRenderer;
@@ -94,13 +100,32 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void exportPointCloud(MainActivity mainActivity) {
+    public void exportPointCloud(final MainActivity mainActivity) {
 
-        // TODO add dialog
+        final Dialog dialog = new Dialog(mainActivity);
+        dialog.setContentView(R.layout.dialog_export);
+        dialog.setTitle("Enter the name of the room");
 
-        PointCloudExporter exporter = new PointCloudExporter(mainActivity, collectedPoints);
-        exporter.export();
-        Log.d("Export", "Ok");
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        final EditText nameRoom = (EditText) dialog.findViewById(R.id.nameRoom);
+
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name = nameRoom.getText().toString();
+
+                PointCloudExporter exporter = new PointCloudExporter(mainActivity, name, collectedPoints);
+                exporter.export();
+                Log.d("Export", "Ok");
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

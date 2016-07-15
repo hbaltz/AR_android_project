@@ -33,13 +33,15 @@ public class PointCloudExporter {
     private final Context context;
     private final PointCollection pointCollection;
     private String filePath;
+    private String roomName = "";
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// CONSTRUCTORS: ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public PointCloudExporter(Context context, PointCollection pointCollection) {
+    public PointCloudExporter(Context context, String roomname, PointCollection pointCollection) {
         this.context = context;
+        this.roomName = roomname;
         this.pointCollection = pointCollection;
     }
 
@@ -61,9 +63,9 @@ public class PointCloudExporter {
                 return null;
             }
             PointCollection pointCollection = params[0];
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.FRENCH);
 
-            String fileName = "pointcloud-" + formatter.format(new Date()) + ".xyz";
+            String fileName = String.format("pointcloud-%s.xyz", roomName);
+
             File f = new File(context.getFilesDir() + "");
             if (!f.exists()) {
                 f.mkdirs();
@@ -73,6 +75,7 @@ public class PointCloudExporter {
             filePath = file.getPath();
 
             Log.d("fPath", filePath);
+
             try {
                 OutputStream os = new FileOutputStream(file);
                 int size = pointCollection.getCount();
