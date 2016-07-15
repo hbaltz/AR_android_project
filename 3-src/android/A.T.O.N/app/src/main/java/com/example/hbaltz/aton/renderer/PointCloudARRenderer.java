@@ -22,25 +22,19 @@ import android.view.MotionEvent;
 import com.example.hbaltz.aton.rajawali.Pose;
 import com.example.hbaltz.aton.rajawali.TouchViewHandler;
 import com.example.hbaltz.aton.rajawali.ar.TangoRajawaliRenderer;
-import com.example.hbaltz.aton.rajawali.renderables.FrustumAxes;
-import com.example.hbaltz.aton.rajawali.renderables.Grid;
-import com.example.hbaltz.aton.rajawali.renderables.PointCloud;
 import com.example.hbaltz.aton.rajawali.renderables.primitives.Points;
 import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
-import com.example.hbaltz.aton.utilities.PointCloudExporter2;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
-import com.google.atap.tangoservice.TangoPoseData;
-import com.google.atap.tangoservice.TangoXyzIjData;
-
-import org.rajawali3d.math.Matrix4;
-import org.rajawali3d.math.Quaternion;
-import org.rajawali3d.math.vector.Vector3;
 
 /**
  * Renderer for Point Cloud data.
  */
 public class PointCloudARRenderer extends TangoRajawaliRenderer {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// FIELDS: /////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     private static final int MAX_POINTS = 100000;
     private static final int MAX_COLLECTED_POINTS = 300000;
 
@@ -51,7 +45,8 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     private TouchViewHandler mTouchViewHandler;
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// CONSTRUCTORS: ///////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public PointCloudARRenderer(Context context) {
@@ -59,6 +54,8 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
         mTouchViewHandler = new TouchViewHandler(mContext, getCurrentCamera());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -98,7 +95,10 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void exportPointCloud(MainActivity mainActivity) {
-        PointCloudExporter2 exporter = new PointCloudExporter2(mainActivity, collectedPoints);
+
+        // TODO add dialog
+
+        PointCloudExporter exporter = new PointCloudExporter(mainActivity, collectedPoints);
         exporter.export();
         Log.d("Export", "Ok");
     }

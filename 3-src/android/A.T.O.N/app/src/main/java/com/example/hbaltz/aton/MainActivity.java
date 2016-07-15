@@ -25,9 +25,11 @@ import com.google.atap.tangoservice.TangoXyzIjData;
 
 import java.util.ArrayList;
 
-
-
 public class MainActivity extends Activity implements View.OnTouchListener {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// VARIABLES: //////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     private static final String tag = MainActivity.class.getSimpleName();
     private TangoRajawaliView glView;
     private PointCloudARRenderer renderer;
@@ -35,6 +37,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     private Tango tango;
     private boolean isConnected;
     private boolean isPermissionGranted;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,40 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isConnected) {
+            glView.disconnectCamera();
+            tango.disconnect();
+            isConnected = false;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isConnected && isPermissionGranted) {
+            startAugmentedReality();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            renderer.capturePoints();
+        }
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Tango.TANGO_INTENT_ACTIVITYCODE) {
@@ -64,6 +104,11 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Starts the augmented reality
+     */
     private void startAugmentedReality() {
         if (!isConnected) {
             isConnected = true;
@@ -109,6 +154,11 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Setups the extrinsic
+     */
     private void setupExtrinsic() {
         // Create Camera to IMU Transform
         TangoCoordinateFramePair framePair = new TangoCoordinateFramePair();
@@ -127,12 +177,16 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         renderer.setupExtrinsics(imuTdevicePose, imuTrgbPose, imuTdepthPose);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main_menu, menu);
         return true;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -148,31 +202,5 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (isConnected) {
-            glView.disconnectCamera();
-            tango.disconnect();
-            isConnected = false;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isConnected && isPermissionGranted) {
-            startAugmentedReality();
-        }
-    }
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            renderer.capturePoints();
-        }
-        return true;
     }
 }
