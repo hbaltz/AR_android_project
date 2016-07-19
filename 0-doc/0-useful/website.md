@@ -159,3 +159,6 @@ https://github.com/stetro/project-tango-poc
 
 ## Point cloud library:
 http://pointclouds.org/
+
+## PDFs about geometric tools:
+http://www.geometrictools.com/Documentation/Documentation.html

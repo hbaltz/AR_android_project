@@ -92,6 +92,8 @@ public class PointCloudExporter {
                 }
                 os.close();
 
+
+
                 Log.d("Works?",""+ readFromFile(fileName).length());
 
             } catch (IOException e) {
@@ -135,7 +137,6 @@ public class PointCloudExporter {
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
-
         return ret;
     }
 }
