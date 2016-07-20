@@ -12,4 +12,7 @@
     <string name="enter_name">Name of the room</string>
     <string name="valid_name">Ok</string>
 
+    <string name="noName">Please, enter a name for the room</string>
+    <string name="titleName">Enter the name of the room</string>
+
 </resources>
