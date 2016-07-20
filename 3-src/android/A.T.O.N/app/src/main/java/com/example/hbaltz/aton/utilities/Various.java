@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by hbaltz on 7/20/2016.
@@ -30,9 +31,33 @@ public class Various {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TODO maybe have to change string[] on listAdaptadter
-    public static String[] recoverListOfFiles(Context context){
-         return context.getFilesDir().list();
+    /**
+     * lists the rooms' names in memory
+     *
+     * @param context: the activity context
+     * @return the rooms' names in memory
+     */
+    public static ArrayList<String> recoverListOfFiles(Context context){
+        ArrayList<String> nameRooms = new ArrayList<String>();
+
+        String[] fileSplit;
+        String flSplt, room;
+
+        for (String file:context.getFilesDir().list()) {
+            fileSplit = file.split("-");
+
+            if(fileSplit.length!=0){
+                flSplt =  fileSplit[1];
+
+                if(flSplt.contains(".xyz")){
+                    room = flSplt.split("\\.")[0];
+                    nameRooms.add(room);
+                }
+
+            }
+        }
+
+         return nameRooms;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

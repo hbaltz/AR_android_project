@@ -4,6 +4,7 @@ package com.example.hbaltz.aton;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.hbaltz.aton.rajawali.ar.TangoRajawaliView;
 import com.example.hbaltz.aton.renderer.PointCloudARRenderer;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
+import com.example.hbaltz.aton.utilities.Various;
 import com.google.atap.tangoservice.Tango;
 import com.google.atap.tangoservice.TangoCameraIntrinsics;
 import com.google.atap.tangoservice.TangoConfig;
@@ -54,6 +56,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         tango = new Tango(this);
         startActivityForResult(Tango.getRequestPermissionIntent(Tango.PERMISSIONTYPE_MOTION_TRACKING), Tango.TANGO_INTENT_ACTIVITYCODE);
         wrapper.addView(glView);
+
+        ArrayList<String> roomsNames = Various.recoverListOfFiles(this);
+
+        Log.d("roomsNames", roomsNames.toString());
+
+        for (String room:roomsNames) {
+            Log.d("name", room);
+        }
 
     }
 
