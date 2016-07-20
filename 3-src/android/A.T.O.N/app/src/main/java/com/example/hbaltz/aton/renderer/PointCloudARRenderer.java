@@ -32,6 +32,7 @@ import com.example.hbaltz.aton.rajawali.renderables.primitives.Points;
 import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
+import com.example.hbaltz.aton.utilities.Various;
 
 /**
  * Renderer for Point Cloud data.
@@ -104,7 +105,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
         final Dialog dialog = new Dialog(mainActivity);
         dialog.setContentView(R.layout.dialog_export);
-        dialog.setTitle("Enter the name of the room");
+        dialog.setTitle(mainActivity.getString(R.string.titleName));
 
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         final EditText nameRoom = (EditText) dialog.findViewById(R.id.nameRoom);
@@ -116,11 +117,14 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                 String name = nameRoom.getText().toString();
 
-                PointCloudExporter exporter = new PointCloudExporter(mainActivity, name, collectedPoints);
-                exporter.export();
-                Log.d("Export", "Ok");
+                if(!name.equals("")) {
+                    PointCloudExporter exporter = new PointCloudExporter(mainActivity, name, collectedPoints);
+                    exporter.export();
 
-                dialog.dismiss();
+                    dialog.dismiss();
+                } else {
+                    Various.makeToast(mContext,mainActivity.getString(R.string.noName));
+                }
             }
         });
 

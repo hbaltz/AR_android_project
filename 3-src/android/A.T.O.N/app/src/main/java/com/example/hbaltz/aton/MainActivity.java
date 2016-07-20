@@ -58,13 +58,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         wrapper.addView(glView);
 
         ArrayList<String> roomsNames = Various.recoverListOfFiles(this);
-
         Log.d("roomsNames", roomsNames.toString());
-
-        for (String room:roomsNames) {
-            Log.d("name", room);
-        }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
