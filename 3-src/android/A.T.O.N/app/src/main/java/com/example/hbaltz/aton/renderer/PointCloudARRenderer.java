@@ -15,6 +15,7 @@
  */
 package com.example.hbaltz.aton.renderer;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +34,8 @@ import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
 import com.example.hbaltz.aton.utilities.Various;
+
+import java.util.ArrayList;
 
 /**
  * Renderer for Point Cloud data.
@@ -129,6 +132,25 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
         });
 
         dialog.show();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void displayPointCloud(final MainActivity mainActivity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle("Select One Name:-");
+
+        ArrayList<String> listTemp = Various.recoverListOfFiles(mainActivity);
+
+        final CharSequence[] nameRoom = Various.ArrayList2CharSeq(listTemp);
+
+        builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Various.makeToast(mainActivity, "" + nameRoom[which]);
+                    }
+        });
+
+        builder.show();
 
     }
 
