@@ -92,14 +92,19 @@ public class PointCloudExporter {
                 }
                 os.close();
 
-
-
-                Log.d("Works?",""+ readFromFile(fileName).length());
+                Log.d("Works?","Yep");
 
             } catch (IOException e) {
                 Log.e("Creation", "File not creates");
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            Various.makeToast(context,"Point cloud exported!");
         }
     }
 
