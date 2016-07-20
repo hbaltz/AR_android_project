@@ -32,7 +32,8 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * lists the rooms' names in memory
+     *
+     * Lists the rooms' names in memory
      *
      * @param context: the activity context
      * @return the rooms' names in memory
@@ -56,8 +57,29 @@ public class Various {
 
             }
         }
+        return nameRooms;
+    }
 
-         return nameRooms;
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * converts an arrayList of string in an a table of charSequence
+     *
+     * @param List: the arrayList that we want to convert
+     * @return a table of charSequence
+     */
+    public static CharSequence[] ArrayList2CharSeq(ArrayList<String> List){
+        int lenLs = List.size();
+
+        CharSequence[] charSeq = new CharSequence[lenLs];
+
+        ArrayList<String> nameRooms = new ArrayList<String>();
+
+        for (int i=0; i<lenLs; i++) {
+            charSeq[i] = List.get(i);
+        }
+
+         return charSeq;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -204,7 +204,12 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             case R.id.activity_main_menu_toggle_pointcloud:
                 renderer.togglePointCloudVisibility();
                 return true;
+            case R.id.activity_main_menu_display_pointcloud:
+                renderer.displayPointCloud(this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
