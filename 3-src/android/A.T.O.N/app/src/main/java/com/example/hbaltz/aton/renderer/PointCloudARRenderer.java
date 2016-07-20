@@ -146,6 +146,12 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
         builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        clearPointCloud();
+
+                        String fileName = String.format("pointcloud-%s.xyz", nameRoom[which]);
+
+                        Log.d("testRead",""+Various.readFromFile(mainActivity,fileName).length());
+
                         Various.makeToast(mainActivity, "" + nameRoom[which]);
                     }
         });
