@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -40,6 +41,7 @@ import com.example.hbaltz.aton.utilities.Various;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Renderer for Point Cloud data.
@@ -181,7 +183,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                         final Dialog dialogMail = new Dialog(mainActivity);
                         dialogMail.setContentView(R.layout.dialog_send);
-                        dialogMail.setTitle(mainActivity.getString(R.string.titleName));
+                        dialogMail.setTitle(mainActivity.getString(R.string.enter_email));
 
                         Button dialogButton = (Button) dialogMail.findViewById(R.id.dialogMailButtonOK);
                         final EditText email = (EditText) dialogMail.findViewById(R.id.emailText);
@@ -190,7 +192,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                         dialogButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                            /*
                                 String mail = email.getText().toString();
                                 String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
 
@@ -206,6 +208,41 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                                 // the mail subject
                                 emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Point Cloud of the room: " + nameRoom[pos]);
                                 mainActivity.startActivity(Intent.createChooser(emailIntent , "Send email..."));
+                            }*/
+
+                                String mail = email.getText().toString();
+                                String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
+
+                                File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+                                Log.d("filelocation", "" + filelocation);
+                                Uri path = Uri.fromFile(filelocation);
+
+                                Uri theUri = Uri.parse("content://com.example.hbaltz.aton/files/"+filename);
+
+                                List<Intent> targetedShareIntents = new ArrayList<Intent>();
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+
+                                List<ResolveInfo> resInfo = mainActivity.getPackageManager().queryIntentActivities(shareIntent, 0);
+
+                                if (!resInfo.isEmpty()) {
+                                    for (ResolveInfo resolveInfo : resInfo) {
+                                        String packageName = resolveInfo.activityInfo.packageName;
+                                        Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                        targetedShareIntent.setType("vnd.android.cursor.dir/email");
+                                        targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Point Cloud of the room: " + nameRoom[pos]);
+                                        String to[] = {mail};
+                                        targetedShareIntent.putExtra(Intent.EXTRA_EMAIL, to);
+                                        if (packageName.equals("com.google.android.gm")) {
+                                            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, path);
+                                            targetedShareIntent.setPackage(packageName);
+                                            targetedShareIntents.add(targetedShareIntent);
+                                        }
+                                    }
+
+                                    mainActivity.startActivity(targetedShareIntents.remove(0));
+                                    dialogMail.dismiss();
+                                }
                             }
                         });
 
