@@ -23,4 +23,9 @@
         android:title="@string/display_pointcloud"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/activity_main_menu_send_pointcloud"
+        android:title="@string/send_pointcloud"
+        app:showAsAction="ifRoom" />
+
 </menu>

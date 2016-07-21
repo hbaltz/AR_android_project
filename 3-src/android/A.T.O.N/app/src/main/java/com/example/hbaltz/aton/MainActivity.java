@@ -207,9 +207,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             case R.id.activity_main_menu_display_pointcloud:
                 renderer.displayPointCloud(this);
                 return true;
+            case R.id.activity_main_menu_send_pointcloud:
+                renderer.sendPointCloud(this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

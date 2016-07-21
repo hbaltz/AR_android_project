@@ -19,6 +19,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +38,7 @@ import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
 import com.example.hbaltz.aton.utilities.Various;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -138,7 +142,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     public void displayPointCloud(final MainActivity mainActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-        builder.setTitle("Select One Name:-");
+        builder.setTitle(mainActivity.getString(R.string.chooseRoom));
 
         ArrayList<String> listTemp = Various.recoverListOfFiles(mainActivity);
 
@@ -153,6 +157,59 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                         Log.d("testRead",""+Various.readFromFile(mainActivity,fileName).length());
 
                         Various.makeToast(mainActivity, "" + nameRoom[which]);
+                    }
+        });
+
+        builder.show();
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void sendPointCloud(final MainActivity mainActivity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(mainActivity.getString(R.string.chooseRoom));
+
+        ArrayList<String> listTemp = Various.recoverListOfFiles(mainActivity);
+
+        final CharSequence[] nameRoom = Various.ArrayList2CharSeq(listTemp);
+
+        builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        final int pos = which;
+
+                        final Dialog dialogMail = new Dialog(mainActivity);
+                        dialogMail.setContentView(R.layout.dialog_send);
+                        dialogMail.setTitle(mainActivity.getString(R.string.titleName));
+
+                        Button dialogButton = (Button) dialogMail.findViewById(R.id.dialogMailButtonOK);
+                        final EditText email = (EditText) dialogMail.findViewById(R.id.emailText);
+
+                        // if button is clicked, close the custom dialog
+                        dialogButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                String mail = email.getText().toString();
+                                String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
+
+                                File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
+                                Uri path = Uri.fromFile(filelocation);
+                                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                                // set the type to 'email'
+                                emailIntent .setType("vnd.android.cursor.dir/email");
+                                String to[] = {mail};
+                                emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+                                // the attachment
+                                emailIntent .putExtra(Intent.EXTRA_STREAM, path);
+                                // the mail subject
+                                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Point Cloud of the room: " + nameRoom[pos]);
+                                mainActivity.startActivity(Intent.createChooser(emailIntent , "Send email..."));
+                            }
+                        });
+
+                        dialogMail.show();
                     }
         });
 

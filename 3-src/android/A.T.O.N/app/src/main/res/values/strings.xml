@@ -9,11 +9,18 @@
     <string name="clear_pointcloud">Clear Pointcloud</string>
     <string name="export_pointcloud">Export Pointcloud</string>
     <string name="display_pointcloud">Display Pointcloud</string>
+    <string name="send_pointcloud">Send Pointcloud</string>
 
     <string name="enter_name">Name of the room</string>
     <string name="valid_name">Ok</string>
 
     <string name="noName">Please, enter a name for the room</string>
     <string name="titleName">Enter the name of the room</string>
+
+    <string name="chooseRoom">Please choose a room</string>
+
+
+    <string name="enter_email">Enter your mail</string>
+    <string name="valid_email">Ok</string>
 
 </resources>
