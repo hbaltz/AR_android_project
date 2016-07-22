@@ -131,6 +131,8 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                     PointCloudExporter exporter = new PointCloudExporter(mainActivity, name, collectedPoints);
                     exporter.export();
 
+                    clearPointCloud();
+
                     dialog.dismiss();
                 } else {
                     Various.makeToast(mContext,mainActivity.getString(R.string.noName));
@@ -195,20 +197,13 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                             public void onClick(View v) {
                                 String mail = email.getText().toString();
                                 String filename = String.format("pointcloud-%s.txt", nameRoom[pos]);
-/*
-                                File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-                                Log.d("filelocation", "" + filelocation);
-                                Uri path = Uri.fromFile(filelocation);
 
-                                Uri theUri = Uri.parse(getContext().getCacheDir() + File.separator
-                                        +filename);
-                                        */
-
-                                dialogMail.dismiss();
                                 mainActivity.startActivity(getSendEmailIntent(mail,
                                         "Point Cloud of the room: " + nameRoom[pos],
                                         "In attachment the point cloud of the room: " + nameRoom[pos],
                                         filename));
+
+                                dialogMail.dismiss();
                             }
                         });
 

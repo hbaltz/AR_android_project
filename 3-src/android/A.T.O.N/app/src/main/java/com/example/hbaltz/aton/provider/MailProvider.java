@@ -31,6 +31,7 @@ public class MailProvider  extends ContentProvider {
     // UriMatcher used to match against incoming requests<br />
     private UriMatcher uriMatcher;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onCreate() {
@@ -43,6 +44,7 @@ public class MailProvider  extends ContentProvider {
         return true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
@@ -72,7 +74,7 @@ public class MailProvider  extends ContentProvider {
     }
 
     // //////////////////////////////////////////////////////////////
-    // Not supported / used / required for this example
+    // Not supported / used / required for this application
     // //////////////////////////////////////////////////////////////
 
     @Override
