@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.FloatBuffer;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -64,9 +66,9 @@ public class PointCloudExporter {
             }
             PointCollection pointCollection = params[0];
 
-            String fileName = String.format("pointcloud-%s.xyz", roomName);
+            String fileName = String.format("pointcloud-%s.txt", roomName);
 
-            File f = new File(context.getFilesDir() + "");
+            File f = new File(context.getCacheDir() + File.separator);
             if (!f.exists()) {
                 f.mkdirs();
                 Log.d("created", "yeah");
@@ -77,22 +79,25 @@ public class PointCloudExporter {
             Log.d("fPath", filePath);
 
             try {
-                OutputStream os = new FileOutputStream(file);
+
+                File cacheFile = new File(context.getCacheDir() + File.separator + fileName);
+                cacheFile.createNewFile();
+
+                FileOutputStream fos = new FileOutputStream(cacheFile);
+                OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
+                PrintWriter pw = new PrintWriter(osw);
+
                 int size = pointCollection.getCount();
                 FloatBuffer floatBuffer = pointCollection.getBuffer();
                 floatBuffer.rewind();
-                int progressCounter = 0;
+
                 for (int i = 0; i < size; i++) {
                     String row = String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + "\n";
-                    os.write(row.getBytes());
-                    progressCounter++;
-                    if (progressCounter % (int) ((double) size / 200.0) == 0) {
-                        publishProgress(progressCounter);
-                    }
+                    pw.println(row);
                 }
-                os.close();
 
-                Log.d("Works?","Yep");
+                pw.flush();
+                pw.close();
             } catch (IOException e) {
                 Log.e("Creation", "File not creates");
             }

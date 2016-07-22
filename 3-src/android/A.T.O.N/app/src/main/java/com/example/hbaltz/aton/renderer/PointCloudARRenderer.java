@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.hbaltz.aton.R;
+import com.example.hbaltz.aton.provider.MailProvider;
 import com.example.hbaltz.aton.rajawali.Pose;
 import com.example.hbaltz.aton.rajawali.TouchViewHandler;
 import com.example.hbaltz.aton.rajawali.ar.TangoRajawaliRenderer;
@@ -192,57 +193,22 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                         dialogButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                            /*
                                 String mail = email.getText().toString();
-                                String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
-
-                                File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-                                Uri path = Uri.fromFile(filelocation);
-                                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                                // set the type to 'email'
-                                emailIntent .setType("vnd.android.cursor.dir/email");
-                                String to[] = {mail};
-                                emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
-                                // the attachment
-                                emailIntent .putExtra(Intent.EXTRA_STREAM, path);
-                                // the mail subject
-                                emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Point Cloud of the room: " + nameRoom[pos]);
-                                mainActivity.startActivity(Intent.createChooser(emailIntent , "Send email..."));
-                            }*/
-
-                                String mail = email.getText().toString();
-                                String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
-
+                                String filename = String.format("pointcloud-%s.txt", nameRoom[pos]);
+/*
                                 File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
                                 Log.d("filelocation", "" + filelocation);
                                 Uri path = Uri.fromFile(filelocation);
 
-                                Uri theUri = Uri.parse("content://com.example.hbaltz.aton/files/"+filename);
+                                Uri theUri = Uri.parse(getContext().getCacheDir() + File.separator
+                                        +filename);
+                                        */
 
-                                List<Intent> targetedShareIntents = new ArrayList<Intent>();
-                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setType("text/plain");
-
-                                List<ResolveInfo> resInfo = mainActivity.getPackageManager().queryIntentActivities(shareIntent, 0);
-
-                                if (!resInfo.isEmpty()) {
-                                    for (ResolveInfo resolveInfo : resInfo) {
-                                        String packageName = resolveInfo.activityInfo.packageName;
-                                        Intent targetedShareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                                        targetedShareIntent.setType("vnd.android.cursor.dir/email");
-                                        targetedShareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Point Cloud of the room: " + nameRoom[pos]);
-                                        String to[] = {mail};
-                                        targetedShareIntent.putExtra(Intent.EXTRA_EMAIL, to);
-                                        if (packageName.equals("com.google.android.gm")) {
-                                            targetedShareIntent.putExtra(Intent.EXTRA_STREAM, path);
-                                            targetedShareIntent.setPackage(packageName);
-                                            targetedShareIntents.add(targetedShareIntent);
-                                        }
-                                    }
-
-                                    mainActivity.startActivity(targetedShareIntents.remove(0));
-                                    dialogMail.dismiss();
-                                }
+                                dialogMail.dismiss();
+                                mainActivity.startActivity(getSendEmailIntent(mail,
+                                        "Point Cloud of the room: " + nameRoom[pos],
+                                        "In attachment the point cloud of the room: " + nameRoom[pos],
+                                        filename));
                             }
                         });
 
@@ -283,5 +249,30 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     public void clearPointCloud() {
         collectedPoints.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Intent getSendEmailIntent(String email, String subject, String body, String fileName) {
+
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        //Explicitly only use Gmail to send
+        emailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
+
+        emailIntent.setType("plain/text");
+
+        //Add the recipients
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { email });
+
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+
+        //Add the attachment by specifying a reference to our custom ContentProvider
+        //and the specific file of interest
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + MailProvider.AUTHORITY + "/" + fileName));
+
+        return emailIntent;
     }
 }

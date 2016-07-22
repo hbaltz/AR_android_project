@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,13 +45,13 @@ public class Various {
         String[] fileSplit;
         String flSplt, room;
 
-        for (String file:context.getFilesDir().list()) {
+        for (String file:context.getCacheDir().list()) {
             fileSplit = file.split("-");
 
-            if(fileSplit.length!=0){
+            if(fileSplit.length>=2){
                 flSplt =  fileSplit[1];
 
-                if(flSplt.contains(".xyz")){
+                if(flSplt.contains(".txt")){
                     room = flSplt.split("\\.")[0];
                     nameRooms.add(room);
                 }
