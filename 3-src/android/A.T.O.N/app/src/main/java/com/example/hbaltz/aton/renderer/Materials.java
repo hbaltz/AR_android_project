@@ -10,6 +10,7 @@ public class Materials {
 
     private static Material greenPointCloud;
     private static Material bluePointCloud;
+    private static Material redPointCloud;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
@@ -31,6 +32,16 @@ public class Materials {
             bluePointCloud = createMaterial(color);
         }
         return bluePointCloud;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Material getRedPointCloudMaterial() {
+        if (redPointCloud == null) {
+            float[] color = {1.0f, 0.0f, 0.0f, 1.0f};
+            redPointCloud = createMaterial(color);
+        }
+        return redPointCloud;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

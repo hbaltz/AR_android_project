@@ -120,6 +120,29 @@ public class PointCollection extends Object3D {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public void addPoints(FloatBuffer pointCloudBuffer, int pointCount) {
+        if (count + pointCount < mMaxNumberOfVertices) {
+            pointCloudBuffer.position(0);
+            FloatBuffer transformedPoints = FloatBuffer.allocate(pointCount * 3);
+            for (int i = 0; i < pointCount; i++) {
+                double x = pointCloudBuffer.get();
+                double y = pointCloudBuffer.get();
+                double z = pointCloudBuffer.get();
+                Vector3 v = new Vector3(x, y, z);
+                buffer.put((float) v.x);
+                buffer.put((float) v.y);
+                buffer.put((float) v.z);
+            }
+
+            mGeometry.setNumIndices(pointCount + count);
+            mGeometry.getVertices().position(0);
+            mGeometry.changeBufferData(mGeometry.getVertexBufferInfo(), transformedPoints, count * 3, pointCount * 3);
+            count += pointCount;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     public void preRender() {
         super.preRender();
         setDrawingMode(GLES20.GL_POINTS);

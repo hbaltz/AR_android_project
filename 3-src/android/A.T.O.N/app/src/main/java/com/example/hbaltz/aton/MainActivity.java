@@ -32,13 +32,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     ////////////////////////////////// VARIABLES: //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private static final String tag = MainActivity.class.getSimpleName();
     private TangoRajawaliView glView;
     private PointCloudARRenderer renderer;
     private PointCloudManager pointCloudManager;
     private Tango tango;
     private boolean isConnected;
     private boolean isPermissionGranted;
+
+    private TangoPoseData cloudPose;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
@@ -140,7 +141,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                     TangoCoordinateFramePair framePair = new TangoCoordinateFramePair(
                             TangoPoseData.COORDINATE_FRAME_START_OF_SERVICE,
                             TangoPoseData.COORDINATE_FRAME_DEVICE);
-                    TangoPoseData cloudPose = tango.getPoseAtTime(xyzIj.timestamp, framePair);
+                    cloudPose = tango.getPoseAtTime(xyzIj.timestamp, framePair);
 
                     pointCloudManager.updateXyzIjData(xyzIj, cloudPose);
                 }

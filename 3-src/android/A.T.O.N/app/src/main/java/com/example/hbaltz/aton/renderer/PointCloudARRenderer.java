@@ -41,6 +41,7 @@ import com.example.hbaltz.aton.utilities.PointCloudManager;
 import com.example.hbaltz.aton.utilities.Various;
 
 import java.io.File;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +55,14 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     private static final int MAX_POINTS = 100000;
     private static final int MAX_COLLECTED_POINTS = 300000;
+    private static final int MAX_OPENED_POINTS = 300000;
 
     private Points currentPoints;
     private PointCollection collectedPoints;
+    private PointCollection openedPoints;
     private PointCloudManager pointCloudManager;
     private boolean collectPoints;
+    private boolean openPoints;
 
     private TouchViewHandler mTouchViewHandler;
 
@@ -86,6 +90,10 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
         collectedPoints = new PointCollection(MAX_COLLECTED_POINTS);
         collectedPoints.setMaterial(Materials.getBluePointCloudMaterial());
         getCurrentScene().addChild(collectedPoints);
+
+        openedPoints = new PointCollection(MAX_OPENED_POINTS);
+        openedPoints.setMaterial(Materials.getRedPointCloudMaterial());
+        getCurrentScene().addChild(openedPoints);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +114,13 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                 pointCloudManager.fillCollectedPoints(collectedPoints, pose);
             }
             pointCloudManager.fillCurrentPoints(currentPoints, pose);
+
+            /*
+            if(openPoints) {
+                openPoints = false;
+                pointCloudManager.fillCollectedPoints(openedPoints, pose);
+            }
+            */
         }
     }
 
@@ -168,7 +183,12 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                         String fileName = String.format("pointcloud-%s.txt", nameRoom[which]);
 
-                        Log.d("testRead",""+Various.readFromFile(mainActivity,fileName));
+                        FloatBuffer FBImp = Various.readFromFile(mainActivity,fileName);
+                        Log.d("testRead",""+FBImp);
+
+                        openedPoints.addPoints(FBImp,FBImp.position()/3);
+
+                        openPoints = true;
 
                         Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
                     }
