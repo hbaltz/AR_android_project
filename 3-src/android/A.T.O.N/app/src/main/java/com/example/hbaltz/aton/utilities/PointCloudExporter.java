@@ -105,7 +105,6 @@ public class PointCloudExporter {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-
             Various.makeToast(context,"Point cloud exported!");
         }
     }

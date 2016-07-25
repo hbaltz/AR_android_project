@@ -111,6 +111,11 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Writes on the internal memory the point cloud in the format .txt
+     *
+     * @param mainActivity: : the main activity
+     */
     public void exportPointCloud(final MainActivity mainActivity) {
 
         final Dialog dialog = new Dialog(mainActivity);
@@ -144,6 +149,11 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * displays the selected point cloud
+     *
+     * @param mainActivity: the main activity
+     */
     public void displayPointCloud(final MainActivity mainActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
         builder.setTitle(mainActivity.getString(R.string.chooseRoom));
@@ -160,7 +170,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                         Log.d("testRead",""+Various.readFromFile(mainActivity,fileName));
 
-                        Various.makeToast(mainActivity, "" + nameRoom[which]);
+                        Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
                     }
         });
 
@@ -170,6 +180,11 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Sends the selected point cloud by email
+     *
+     * @param mainActivity: the main activity
+     */
     public void sendPointCloud(final MainActivity mainActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
         builder.setTitle(mainActivity.getString(R.string.chooseRoom));
@@ -247,6 +262,15 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Creates the Intent to send a email with a file in attachment (the file is on internal memory)
+     *
+     * @param email: the address mail where you went to send the email
+     * @param subject: the email's subject
+     * @param body: the email's body
+     * @param fileName: the name of the file that you want to attached
+     * @return an Intent
+     */
     public static Intent getSendEmailIntent(String email, String subject, String body, String fileName) {
 
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);

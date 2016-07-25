@@ -69,7 +69,7 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * converts an arrayList of string in an a table of charSequence
+     * Converts an arrayList of string in an a table of charSequence
      *
      * @param List: the arrayList that we want to convert
      * @return a table of charSequence
@@ -91,11 +91,11 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Read the information in the file
+     * Reads the information in the file and create a FloatBuffer
      *
      * @param context: the activity's context
      * @param file:    the file that we want to read
-     * @return a string that contains all the information int the file
+     * @return a FloatBuffer that contains all the information in the file
      */
     public static FloatBuffer readFromFile(Context context, String file) {
         int size = 0;
@@ -148,7 +148,7 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * counts the number of lines in a file
+     * Counts the number of lines in a file
      *
      * @param context: the context
      * @param fileName: the file's name
