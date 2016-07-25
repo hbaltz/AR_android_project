@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,10 +98,10 @@ public class Various {
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput(file);
+            FileInputStream fis = new FileInputStream(new File(context.getCacheDir(), file));
 
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            if (fis != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(fis);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
                 StringBuilder stringBuilder = new StringBuilder();
@@ -110,7 +111,7 @@ public class Various {
                     Log.d("receiveString", receiveString);
                 }
 
-                inputStream.close();
+                fis.close();
                 ret = stringBuilder.toString();
             }
         } catch (FileNotFoundException e) {
