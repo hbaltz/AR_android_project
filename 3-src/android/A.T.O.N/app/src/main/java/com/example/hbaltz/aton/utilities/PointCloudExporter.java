@@ -89,7 +89,7 @@ public class PointCloudExporter {
                 floatBuffer.rewind();
 
                 for (int i = 0; i < size; i++) {
-                    String row = String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + "\n";
+                    String row = String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get());
                     pw.println(row);
                 }
 
@@ -104,6 +104,7 @@ public class PointCloudExporter {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
 
             Various.makeToast(context,"Point cloud exported!");
         }
