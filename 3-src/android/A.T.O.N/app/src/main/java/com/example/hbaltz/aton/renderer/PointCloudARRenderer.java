@@ -158,7 +158,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                         String fileName = String.format("pointcloud-%s.txt", nameRoom[which]);
 
-                        Log.d("testRead",""+Various.readFromFile(mainActivity,fileName).length());
+                        Log.d("testRead",""+Various.readFromFile(mainActivity,fileName));
 
                         Various.makeToast(mainActivity, "" + nameRoom[which]);
                     }
