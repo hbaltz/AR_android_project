@@ -20,7 +20,6 @@ public class PointCloudManager {
 
     private static final String tag = PointCloudManager.class.getSimpleName();
 
-
     private final TangoCameraIntrinsics tangoCameraIntrinsics;
     private final TangoXyzIjData xyzIjData;
     private TangoPoseData devicePoseAtCloudTime;

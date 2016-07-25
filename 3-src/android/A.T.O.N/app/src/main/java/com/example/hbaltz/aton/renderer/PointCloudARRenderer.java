@@ -128,10 +128,9 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                 String name = nameRoom.getText().toString();
 
                 if(!name.equals("")) {
+                    Log.d("sizeCP", "" + collectedPoints.getCount());
                     PointCloudExporter exporter = new PointCloudExporter(mainActivity, name, collectedPoints);
                     exporter.export();
-
-                    clearPointCloud();
 
                     dialog.dismiss();
                 } else {

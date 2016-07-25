@@ -51,9 +51,7 @@ public class PointCloudExporter {
     ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void export() {
-        new ExportAsyncTask().execute(pointCollection);
-    }
+    public void export() {new ExportAsyncTask().execute(pointCollection);}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +69,6 @@ public class PointCloudExporter {
             File f = new File(context.getCacheDir() + File.separator);
             if (!f.exists()) {
                 f.mkdirs();
-                Log.d("created", "yeah");
             }
             final File file = new File(f, fileName);
             filePath = file.getPath();

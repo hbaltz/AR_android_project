@@ -107,6 +107,7 @@ public class Various {
 
                 while ((receiveString = bufferedReader.readLine()) != null) {
                     stringBuilder.append(receiveString);
+                    Log.d("receiveString", receiveString);
                 }
 
                 inputStream.close();
