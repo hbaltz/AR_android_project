@@ -54,7 +54,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static final int MAX_POINTS = 100000;
-    private static final int MAX_COLLECTED_POINTS = 300000;
+    private static final int MAX_COLLECTED_POINTS = 999999;
     private static final int MAX_OPENED_POINTS = 300000;
 
     private Points currentPoints;
@@ -62,7 +62,6 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     private PointCollection openedPoints;
     private PointCloudManager pointCloudManager;
     private boolean collectPoints;
-    private boolean openPoints;
 
     private TouchViewHandler mTouchViewHandler;
 
@@ -114,13 +113,6 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                 pointCloudManager.fillCollectedPoints(collectedPoints, pose);
             }
             pointCloudManager.fillCurrentPoints(currentPoints, pose);
-
-            /*
-            if(openPoints) {
-                openPoints = false;
-                pointCloudManager.fillCollectedPoints(openedPoints, pose);
-            }
-            */
         }
     }
 
@@ -165,7 +157,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * displays the selected point cloud
+     * Displays the selected point cloud
      *
      * @param mainActivity: the main activity
      */
@@ -181,14 +173,12 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                     public void onClick(DialogInterface dialog, int which) {
                         clearPointCloud();
 
-                        String fileName = String.format("pointcloud-%s.txt", nameRoom[which]);
+                        String fileName = String.format("pointcloud-%s.xyz", nameRoom[which]);
 
                         FloatBuffer FBImp = Various.readFromFile(mainActivity,fileName);
                         Log.d("testRead",""+FBImp);
 
                         openedPoints.addPoints(FBImp,FBImp.position()/3);
-
-                        openPoints = true;
 
                         Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
                     }
@@ -230,7 +220,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                             @Override
                             public void onClick(View v) {
                                 String mail = email.getText().toString();
-                                String filename = String.format("pointcloud-%s.txt", nameRoom[pos]);
+                                String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
 
                                 mainActivity.startActivity(getSendEmailIntent(mail,
                                         "Point Cloud of the room: " + nameRoom[pos],
@@ -294,10 +284,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     public static Intent getSendEmailIntent(String email, String subject, String body, String fileName) {
 
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
-        //Explicitly only use Gmail to send
-        emailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
-
+        
         emailIntent.setType("plain/text");
 
         //Add the recipients
@@ -307,7 +294,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
 
-        //Add the attachment by specifying a reference to our custom ContentProvider
+        //Add the attachment by specifying a reference to our custom MailProvider
         //and the specific file of interest
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + MailProvider.AUTHORITY + "/" + fileName));
 

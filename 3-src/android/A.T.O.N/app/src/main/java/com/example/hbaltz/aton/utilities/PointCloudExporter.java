@@ -64,7 +64,7 @@ public class PointCloudExporter {
             }
             PointCollection pointCollection = params[0];
 
-            String fileName = String.format("pointcloud-%s.txt", roomName);
+            String fileName = String.format("pointcloud-%s.xyz", roomName);
 
             File f = new File(context.getCacheDir() + File.separator);
             if (!f.exists()) {

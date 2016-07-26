@@ -56,7 +56,7 @@ public class Various {
             if (fileSplit.length >= 2) {
                 flSplt = fileSplit[1];
 
-                if (flSplt.contains(".txt")) {
+                if (flSplt.contains(".xyz")) {
                     room = flSplt.split("\\.")[0];
                     nameRooms.add(room);
                 }
