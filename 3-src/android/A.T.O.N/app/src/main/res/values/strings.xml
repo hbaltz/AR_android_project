@@ -10,6 +10,7 @@
     <string name="export_pointcloud">Export Pointcloud</string>
     <string name="display_pointcloud">Display Pointcloud (Soon)</string>
     <string name="send_pointcloud">Send Pointcloud</string>
+    <string name="volume_room">Calculate the volume</string>
 
     <string name="enter_name">Name of the room</string>
     <string name="valid_name">Ok</string>

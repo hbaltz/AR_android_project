@@ -28,4 +28,9 @@
         android:title="@string/send_pointcloud"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/activity_main_menu_calculate_volume"
+        android:title="@string/volume_room"
+        app:showAsAction="ifRoom" />
+
 </menu>
