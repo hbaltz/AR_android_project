@@ -171,15 +171,57 @@ public class Various {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * find the y max on a FloatBuffer of x,y,z
+     *
+     * @param fb: the FloatBuffer which contains xyz coordinates of points
+     * @param sizeFB: the number of the triplet xyz
+     * @return the y maximum
+     */
+    public static float findYMax(FloatBuffer fb, int sizeFB){
+        // Initialize:
+        float Ymax = 0f;
+        float y;
+
+        // We replace the pointer on the begin of the floatBuffer:
+        fb.position(0);
+
+        for(int i = 0; i < sizeFB; i++){
+            // Recover only the y:
+            fb.get();
+            y = fb.get();
+            fb.get();
+
+            // If y is superior to yMax, y becomes Ymax
+            if(y > Ymax){
+                Ymax = y;
+            }
+        }
+
+        return Ymax;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Detect the ceiling on a point cloud of a room
+     *
+     * @param fb: the FloatBuffer which contains xyz coordinates of points
+     * @param sizeFB: the number of the triplet xyz
+     * @param accuracy: the accuracy to be consider like a point of the ceiling
+     * @return an arraylist of triplet xyz (the point detected like the ceiling)
+     */
     public static ArrayList<float[]> detectCelling(FloatBuffer fb, int sizeFB, float accuracy){
+        // Initialize:
         ArrayList<float[]> ceiling = new ArrayList<float[]>();
-
-        float yMax=0;
         float x,y,z;
-        float yPrec=0;
         float[] pt;
-        int indPrec = -1;
 
+        // We recover the yMax:
+        float yMax = findYMax(fb,sizeFB);
+        Log.d("yMax",""+yMax);
+
+        // We replace the pointer on the begin of the floatBuffer:
         fb.position(0);
 
         for(int i = 0; i < sizeFB; i++){
@@ -187,27 +229,14 @@ public class Various {
             y = fb.get();
             z = fb.get();
 
-            if(i == 0){
-                yMax = y;
-            } else {
+            // If the y is close to the yMax we add it to the ceiling:
+            if ((yMax - y) <= accuracy) {
+                pt = new float[3];
+                pt[0] = x;
+                pt[1] = y;
+                pt[2] = z;
 
-                // TODo maybe find the max then detect ceiling
-                if (y > yMax) {
-                    yMax = y;
-                    if ((y - yPrec) >= accuracy) {
-                        ceiling.remove(indPrec);
-                    }
-                }
-                if ((yMax - y) <= accuracy) {
-                    pt = new float[3];
-                    pt[0] = x;
-                    pt[1] = y;
-                    pt[2] = z;
-
-                    ceiling.add(pt);
-                    indPrec ++;
-                    yPrec = y;
-                }
+                ceiling.add(pt);
             }
         }
 
