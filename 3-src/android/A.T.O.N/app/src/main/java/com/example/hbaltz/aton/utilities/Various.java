@@ -11,9 +11,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -184,7 +187,7 @@ public class Various {
         float y;
 
         // We replace the pointer on the begin of the floatBuffer:
-        fb.position(0);
+        fb.rewind();
 
         for(int i = 0; i < sizeFB; i++){
             // Recover only the y:
@@ -222,7 +225,7 @@ public class Various {
         Log.d("yMax",""+yMax);
 
         // We replace the pointer on the begin of the floatBuffer:
-        fb.position(0);
+        fb.rewind();
 
         for(int i = 0; i < sizeFB; i++){
             x = fb.get();
@@ -241,6 +244,67 @@ public class Various {
         }
 
         return ceiling;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static FloatBuffer ArrayList2FloatBuffer(ArrayList<float[]> arrayList){
+        int sizeAL = arrayList.size();
+        FloatBuffer floatbuffer = ByteBuffer.allocateDirect(12*sizeAL).asFloatBuffer();
+
+        for(int i = 0; i<sizeAL; i++){
+            floatbuffer.put(arrayList.get(i));
+        }
+
+        return floatbuffer;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Creates a file on the internal memory
+     *
+     * @param context: the context
+     * @param roomName: the name of the room
+     * @param floatBuffer: the float buffer
+     * @param size: the size of the float buffer
+     */
+    public static void createFile(Context context, String roomName, FloatBuffer floatBuffer, int size){
+
+        String filePath;
+
+        String fileName = String.format("pointcloud-%s.xyz", roomName);
+
+        File f = new File(context.getCacheDir() + File.separator);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        final File file = new File(f, fileName);
+        filePath = file.getPath();
+
+        Log.d("fPath", filePath);
+
+        try {
+
+            File cacheFile = new File(context.getCacheDir() + File.separator + fileName);
+            cacheFile.createNewFile();
+
+            FileOutputStream fos = new FileOutputStream(cacheFile);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
+            PrintWriter pw = new PrintWriter(osw);
+
+            floatBuffer.rewind();
+
+            for (int i = 0; i < size; i++) {
+                String row = String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get());
+                pw.println(row);
+            }
+
+            pw.flush();
+            pw.close();
+        } catch (IOException e) {
+            Log.e("Creation", "File not creates");
+        }
     }
 
 

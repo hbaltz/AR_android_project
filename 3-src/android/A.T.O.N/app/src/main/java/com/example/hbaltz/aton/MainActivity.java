@@ -214,6 +214,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             case R.id.activity_main_menu_calculate_volume:
                 renderer.calculateVolumeRoom(this);
                 return true;
+            case R.id.activity_main_menu_delete_file:
+                renderer.deleteFile(this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -33,4 +33,9 @@
         android:title="@string/volume_room"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/activity_main_menu_delete_file"
+        android:title="@string/delete_file"
+        app:showAsAction="ifRoom" />
+
 </menu>
