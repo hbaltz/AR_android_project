@@ -24,6 +24,7 @@ public class PointCloudVolumeCalculator {
 
     private final Context context;
     private final String roomName;
+    private FloatBuffer fbCeiling;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// CONSTRUCTORS: ///////////////////////////////////////////////
@@ -55,6 +56,8 @@ public class PointCloudVolumeCalculator {
             Log.d("ceiling", "" + ceiling.size());
             if(ceiling.size() !=0)Log.d("ceilingY", "" + ceiling.get(0)[1]);
 
+            fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
+
             return null;
         }
 
@@ -62,6 +65,9 @@ public class PointCloudVolumeCalculator {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
+            String nameFile = String.format("ceiling_%s", roomName);
+
+            Various.createFile(context,nameFile,fbCeiling,fbCeiling.position()/3);
             Various.makeToast(context,"Point cloud opened!");
         }
     }
