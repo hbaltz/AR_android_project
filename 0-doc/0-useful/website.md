@@ -162,3 +162,6 @@ http://pointclouds.org/
 
 ## PDFs about geometric tools:
 http://www.geometrictools.com/Documentation/Documentation.html
+
+## System coordinates tango:
+https://developers.google.com/tango/overview/coordinate-systems
