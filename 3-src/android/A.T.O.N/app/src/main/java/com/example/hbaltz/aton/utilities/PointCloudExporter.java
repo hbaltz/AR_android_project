@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.hbaltz.aton.R;
+import com.example.hbaltz.aton.rajawali.renderables.PointCloud;
 import com.example.hbaltz.aton.renderer.PointCollection;
 
 import java.io.BufferedReader;
@@ -34,7 +35,6 @@ public class PointCloudExporter {
 
     private final Context context;
     private final PointCollection pointCollection;
-    private String filePath;
     private String roomName = "";
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,41 +63,11 @@ public class PointCloudExporter {
                 return null;
             }
             PointCollection pointCollection = params[0];
+            FloatBuffer floatBuffer = pointCollection.getBuffer();
+            int size = pointCollection.getCount();
 
-            String fileName = String.format("pointcloud-%s.xyz", roomName);
+            Various.createFile(context, roomName, floatBuffer, size);
 
-            File f = new File(context.getCacheDir() + File.separator);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            final File file = new File(f, fileName);
-            filePath = file.getPath();
-
-            Log.d("fPath", filePath);
-
-            try {
-
-                File cacheFile = new File(context.getCacheDir() + File.separator + fileName);
-                cacheFile.createNewFile();
-
-                FileOutputStream fos = new FileOutputStream(cacheFile);
-                OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
-                PrintWriter pw = new PrintWriter(osw);
-
-                int size = pointCollection.getCount();
-                FloatBuffer floatBuffer = pointCollection.getBuffer();
-                floatBuffer.rewind();
-
-                for (int i = 0; i < size; i++) {
-                    String row = String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get()) + " " + String.valueOf(floatBuffer.get());
-                    pw.println(row);
-                }
-
-                pw.flush();
-                pw.close();
-            } catch (IOException e) {
-                Log.e("Creation", "File not creates");
-            }
             return null;
         }
 

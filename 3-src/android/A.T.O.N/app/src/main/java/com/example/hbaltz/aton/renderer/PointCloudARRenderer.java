@@ -266,6 +266,38 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Delete a file on the internal memory
+     *
+     * @param mainActivity: the main activity
+     */
+    public void deleteFile(final MainActivity mainActivity){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(mainActivity.getString(R.string.chooseRoom));
+
+        ArrayList<String> listTemp = Various.recoverListOfFiles(mainActivity);
+
+        final CharSequence[] nameRoom = Various.ArrayList2CharSeq(listTemp);
+
+        builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String fileName = String.format("pointcloud-%s.xyz", nameRoom[which]);
+
+                File f = new File(mainActivity.getCacheDir() + File.separator);
+                final File file = new File(f, fileName);
+                file.delete();
+
+                Various.makeToast(mainActivity, fileName + " sdeleted");
+            }
+        });
+
+        builder.show();
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onOffsetsChanged(float v, float v1, float v2, float v3, int i, int i1) {
     }
