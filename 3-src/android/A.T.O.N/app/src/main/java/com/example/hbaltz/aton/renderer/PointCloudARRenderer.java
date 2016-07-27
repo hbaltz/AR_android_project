@@ -223,8 +223,8 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                                 String filename = String.format("pointcloud-%s.xyz", nameRoom[pos]);
 
                                 mainActivity.startActivity(getSendEmailIntent(mail,
-                                        "Point Cloud of the room: " + nameRoom[pos],
-                                        "In attachment the point cloud of the room: " + nameRoom[pos],
+                                        mainActivity.getString(R.string.subj_email) + " " + nameRoom[pos],
+                                        mainActivity.getString(R.string.body_email) + " " + nameRoom[pos],
                                         filename));
 
                                 dialogMail.dismiss();
@@ -284,7 +284,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
     public static Intent getSendEmailIntent(String email, String subject, String body, String fileName) {
 
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        
+
         emailIntent.setType("plain/text");
 
         //Add the recipients

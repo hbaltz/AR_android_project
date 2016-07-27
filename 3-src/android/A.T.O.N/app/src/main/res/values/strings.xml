@@ -8,7 +8,7 @@
     <string name="toggle_pointcloud_capturing">Capture Pointcloud</string>
     <string name="clear_pointcloud">Clear Pointcloud</string>
     <string name="export_pointcloud">Export Pointcloud</string>
-    <string name="display_pointcloud">Display Pointcloud</string>
+    <string name="display_pointcloud">Display Pointcloud (Soon)</string>
     <string name="send_pointcloud">Send Pointcloud</string>
 
     <string name="enter_name">Name of the room</string>
@@ -21,5 +21,8 @@
 
     <string name="enter_email">Enter your mail</string>
     <string name="valid_email">Ok</string>
+
+    <string name="subj_email">Point Cloud of the room: </string>
+    <string name="body_email">In attachment the point cloud of the room: </string>
 
 </resources>
