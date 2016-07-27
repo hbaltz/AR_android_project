@@ -178,9 +178,13 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
                         FloatBuffer FBImp = Various.readFromFile(mainActivity,fileName);
                         Log.d("testRead",""+FBImp);
 
-                        openedPoints.addPoints(FBImp,FBImp.position()/3);
+                        //openedPoints.addPoints(FBImp,FBImp.position()/3);
 
-                        Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
+                        ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,0.5f);
+                        Log.d("ceiling", "" + ceiling.size());
+                        Log.d("ceilingY", "" + ceiling.get(0)[1]);
+
+                        //Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
                     }
         });
 

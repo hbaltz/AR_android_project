@@ -169,5 +169,50 @@ public class Various {
         return count;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static ArrayList<float[]> detectCelling(FloatBuffer fb, int sizeFB, float accuracy){
+        ArrayList<float[]> ceiling = new ArrayList<float[]>();
+
+        float yMax=0;
+        float x,y,z;
+        float yPrec=0;
+        float[] pt;
+        int indPrec = -1;
+
+        fb.position(0);
+
+        for(int i = 0; i < sizeFB; i++){
+            x = fb.get();
+            y = fb.get();
+            z = fb.get();
+
+            if(i == 0){
+                yMax = y;
+            } else {
+
+                // TODo maybe find the max then detect ceiling
+                if (y > yMax) {
+                    yMax = y;
+                    if ((y - yPrec) >= accuracy) {
+                        ceiling.remove(indPrec);
+                    }
+                }
+                if ((yMax - y) <= accuracy) {
+                    pt = new float[3];
+                    pt[0] = x;
+                    pt[1] = y;
+                    pt[2] = z;
+
+                    ceiling.add(pt);
+                    indPrec ++;
+                    yPrec = y;
+                }
+            }
+        }
+
+        return ceiling;
+    }
+
 
 }
