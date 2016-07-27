@@ -172,7 +172,7 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * find the y max on a FloatBuffer of x,y,z
+     * Finds the y max on a FloatBuffer of x,y,z
      *
      * @param fb: the FloatBuffer which contains xyz coordinates of points
      * @param sizeFB: the number of the triplet xyz
@@ -204,7 +204,7 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Detect the ceiling on a point cloud of a room
+     * Detects the ceiling on a point cloud of a room
      *
      * @param fb: the FloatBuffer which contains xyz coordinates of points
      * @param sizeFB: the number of the triplet xyz

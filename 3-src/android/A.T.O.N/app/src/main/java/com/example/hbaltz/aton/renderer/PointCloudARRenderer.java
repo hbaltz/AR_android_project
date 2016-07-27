@@ -38,6 +38,7 @@ import com.example.hbaltz.aton.rajawali.renderables.primitives.Points;
 import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
+import com.example.hbaltz.aton.utilities.PointCloudVolumeCalculator;
 import com.example.hbaltz.aton.utilities.Various;
 
 import java.io.File;
@@ -171,20 +172,14 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
         builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        clearPointCloud();
-
                         String fileName = String.format("pointcloud-%s.xyz", nameRoom[which]);
 
                         FloatBuffer FBImp = Various.readFromFile(mainActivity,fileName);
                         Log.d("testRead",""+FBImp);
 
-                        //openedPoints.addPoints(FBImp,FBImp.position()/3);
+                        openedPoints.addPoints(FBImp,FBImp.position()/3);
 
-                        ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,0.5f);
-                        Log.d("ceiling", "" + ceiling.size());
-                        if(ceiling.size() !=0)Log.d("ceilingY", "" + ceiling.get(0)[1]);
-
-                        //Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
+                        Various.makeToast(mainActivity, "Display point cloud of " + nameRoom[which]);
                     }
         });
 
@@ -237,6 +232,32 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
                         dialogMail.show();
                     }
+        });
+
+        builder.show();
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Displays the selected point cloud
+     *
+     * @param mainActivity: the main activity
+     */
+    public void calculateVolumeRoom(final MainActivity mainActivity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setTitle(mainActivity.getString(R.string.chooseRoom));
+
+        ArrayList<String> listTemp = Various.recoverListOfFiles(mainActivity);
+
+        final CharSequence[] nameRoom = Various.ArrayList2CharSeq(listTemp);
+
+        builder.setItems(nameRoom,new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                PointCloudVolumeCalculator calculator = new PointCloudVolumeCalculator(mainActivity, (String)nameRoom[which]);
+                calculator.calculate();
+            }
         });
 
         builder.show();
