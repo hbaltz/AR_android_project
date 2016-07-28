@@ -1,14 +1,11 @@
 package com.example.hbaltz.aton.utilities;
 
-
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.hbaltz.aton.renderer.PointCollection;
 
 import java.nio.FloatBuffer;
-
-
 
 public class PointCloudExporter {
     ////////////////////////////////////////////////////////////////////////////////////////////////
