@@ -6,11 +6,6 @@ import android.util.Log;
 
 import com.example.hbaltz.aton.renderer.PointCollection;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -54,7 +49,6 @@ public class PointCloudVolumeCalculator {
 
             ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,1f);
             Log.d("ceiling", "" + ceiling.size());
-            if(ceiling.size() !=0)Log.d("ceilingY", "" + ceiling.get(0)[1]);
 
             fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
 

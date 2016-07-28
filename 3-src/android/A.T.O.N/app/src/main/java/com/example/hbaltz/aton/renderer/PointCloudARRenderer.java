@@ -20,22 +20,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.R;
 import com.example.hbaltz.aton.provider.MailProvider;
 import com.example.hbaltz.aton.rajawali.Pose;
 import com.example.hbaltz.aton.rajawali.TouchViewHandler;
 import com.example.hbaltz.aton.rajawali.ar.TangoRajawaliRenderer;
 import com.example.hbaltz.aton.rajawali.renderables.primitives.Points;
-import com.example.hbaltz.aton.MainActivity;
 import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.PointCloudManager;
 import com.example.hbaltz.aton.utilities.PointCloudVolumeCalculator;
@@ -44,7 +42,6 @@ import com.example.hbaltz.aton.utilities.Various;
 import java.io.File;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Renderer for Point Cloud data.
