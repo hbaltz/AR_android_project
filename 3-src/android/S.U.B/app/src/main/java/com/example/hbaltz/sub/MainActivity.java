@@ -97,6 +97,7 @@ public class MainActivity extends FragmentActivity {
     //////////////////////////////////// Angles: ///////////////////////////////////////////////////
     private double azimuthReal = 0d, pitchReal=0d;
     float[] orientationVals = new float[3];
+    private static double AZIMUTH_ACCURACY = 60d, PITCH_ACCURACY = 60d;
 
     //////////////////////////////////// Menu: /////////////////////////////////////////////////////
     private LinearLayout menu;
@@ -490,6 +491,8 @@ public class MainActivity extends FragmentActivity {
      */
     private void updateView(boolean updatedMapView) {
         if (NN != null) {
+            new ViewThread().start();
+
             // We update the display:
             if (DrawView != null && displayPoi) {
                 DrawView.setVariables(NN, orientationVals, user);
@@ -800,6 +803,17 @@ public class MainActivity extends FragmentActivity {
             simpFault = user.simplifyFault(geomen,InfoFaults,WGS_1984_WMAS,500,meter);
 
             user.calculateDistToFault(InfoFaults,geomen,WGS_1984_WMAS);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public class ViewThread extends Thread {
+        @Override
+        public void run() {
+            // We calculate the azimuth between all the NN and the user:
+            NN = user.theoreticalAngleToPOIs(NN, azimuthReal, AZIMUTH_ACCURACY, pitchReal,PITCH_ACCURACY );
+            if(DEBUG) Log.d("azTeo", "" + NN);
         }
     }
 }

@@ -87,6 +87,7 @@ public class FtDrawSurfaceView extends View {
             int len_pois = POIs.size();
 
             // Initialize:
+            boolean isVisible;  // true is the poi is visible by the user
             Polygon footprint; // the footprint of the building
             int countPoint; // the number of point in the footprint
             Point pointTemp; // the point that we project
@@ -99,44 +100,48 @@ public class FtDrawSurfaceView extends View {
             orMatTest = orMat;
             orMatTest[1] = (orMatTest[1] + zDef)%360;
 
-            for(int i =0; i<len_pois; i++){
+            for(int i =0; i<len_pois; i++) {
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
 
-                // If the POI is visible by the user, we draw his footprint
-                draw = false;
+                isVisible = POI.isVisible();
 
-                // We recover the footprint
-                footprint = POI.getFootprint();
+                if (isVisible) {
+                    // If the POI is visible by the user, we draw his footprint
+                    draw = false;
 
-                // We count the number of point in the footprint
-                countPoint = footprint.getPointCount();
+                    // We recover the footprint
+                    footprint = POI.getFootprint();
 
-                //We initialize the path (which will served to draw the footprint)
-                wallpath = new Path();
-                wallpath.reset(); // only needed when reusing this path for a new build
+                    // We count the number of point in the footprint
+                    countPoint = footprint.getPointCount();
 
-                // We project each point of the footprint on the screen with a perspective projection
-                for(int j=0; j<countPoint; j++){
-                    pointTemp = footprint.getPoint(j);
+                    //We initialize the path (which will served to draw the footprint)
+                    wallpath = new Path();
+                    wallpath.reset(); // only needed when reusing this path for a new build
 
-                    pos = Utilities.positionMatOr(user.getLocation(),pointTemp,orMatTest,zDef);
-                    posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
+                    // We project each point of the footprint on the screen with a perspective projection
+                    for (int j = 0; j < countPoint; j++) {
+                        pointTemp = footprint.getPoint(j);
 
-                    if(posScreenTemp!=null) {
-                        xPos = posScreenTemp.get(0);
-                        yPos = posScreenTemp.get(1);
+                        pos = Utilities.positionMatOr(user.getLocation(), pointTemp, orMatTest, zDef);
+                        posScreenTemp = Utilities.positionScreen(pos, (float) screenWidth, (float) screenHeight);
 
-                        if (j == 0) {
-                            wallpath.moveTo(xPos, yPos);
-                            draw = true;
-                        } else wallpath.lineTo(xPos, yPos);
+                        if (posScreenTemp != null) {
+                            xPos = posScreenTemp.get(0);
+                            yPos = posScreenTemp.get(1);
+
+                            if (j == 0) {
+                                wallpath.moveTo(xPos, yPos);
+                                draw = true;
+                            } else wallpath.lineTo(xPos, yPos);
+                        }
                     }
-                }
 
-                if(draw) {
-                    wallpath.close();
-                    canvas.drawPath(wallpath, paint);
+                    if (draw) {
+                        wallpath.close();
+                        canvas.drawPath(wallpath, paint);
+                    }
                 }
             }
         }

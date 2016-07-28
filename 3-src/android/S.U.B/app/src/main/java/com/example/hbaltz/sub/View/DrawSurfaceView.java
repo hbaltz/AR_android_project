@@ -101,48 +101,51 @@ public class DrawSurfaceView extends View {
             ArrayList<Integer> sizeStrings;// the size of the string included in information
 
 
-            for(int i =0; i<len_pois; i++){
+            for(int i =0; i<len_pois; i++) {
                 // We recover the POI et the filed visible to know if the user sees the POI
                 BuildingPOI POI = POIs.get(i);
 
+                isVisible = POI.isVisible();
 
-                // If the poi is visible we recover information about it :
-                dist = POI.getDistance();
+                if (isVisible) {
+                    // If the poi is visible we recover information about it :
+                    dist = POI.getDistance();
 
-                /////////////////////////////////// Calculate location: ////////////////////////////
-                // We calculate where the point have to be draw
-                posScreen = Utilities.positionMatOr(user.getLocation(),POI.getLocation(),orMat,0f);
-                posScreen = Utilities.positionScreen(posScreen,(float)screenWidth,(float)screenHeight);
+                    /////////////////////////////////// Calculate location: ////////////////////////////
+                    // We calculate where the point have to be draw
+                    posScreen = Utilities.positionMatOr(user.getLocation(), POI.getLocation(), orMat, 0f);
+                    posScreen = Utilities.positionScreen(posScreen, (float) screenWidth, (float) screenHeight);
 
-                if(posScreen!=null) {
-                    xPosScreen = posScreen.get(0);
-                    //yPosScreen = posScreen.get(1);
+                    if (posScreen != null) {
+                        xPosScreen = posScreen.get(0);
+                        //yPosScreen = posScreen.get(1);
 
-                    // We draw in the middle of the y-axis
-                    yPosScreen = (float) ((screenHeight / 2));
+                        // We draw in the middle of the y-axis
+                        yPosScreen = (float) ((screenHeight / 2));
 
-                    // We calculate the radius of the circle and of the text regarding the distance
-                    radius = (float) (2000 / dist);
+                        // We calculate the radius of the circle and of the text regarding the distance
+                        radius = (float) (2000 / dist);
 
-                    /////////////////////////////////// Recover info: //////////////////////////////
-                    // We recover the information about the Poi that we want to display
-                    strct = POI.getStructure();
-                    information = POI.recoverInformation();
-                    sizeStrings = Utilities.lengths(information); // Useful for the size of the rectangle
+                        /////////////////////////////////// Recover info: //////////////////////////////
+                        // We recover the information about the Poi that we want to display
+                        strct = POI.getStructure();
+                        information = POI.recoverInformation();
+                        sizeStrings = Utilities.lengths(information); // Useful for the size of the rectangle
 
-                    // We initialize the paint regarding the structure field:
-                    paint = initializedPaint(strct);
-                    paint.setTextSize(radius);
+                        // We initialize the paint regarding the structure field:
+                        paint = initializedPaint(strct);
+                        paint.setTextSize(radius);
 
-                    /////////////////////////////////// Draw: //////////////////////////////////////
-                    // We draw the circle:
-                    canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
+                        /////////////////////////////////// Draw: //////////////////////////////////////
+                        // We draw the circle:
+                        canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
-                    // We define the size of the rectangle:
-                    w = radius * Collections.max(sizeStrings) / 2;
+                        // We define the size of the rectangle:
+                        w = radius * Collections.max(sizeStrings) / 2;
 
-                    // We draw the rectangle and the texts:
-                    drawInformation(canvas, information, xPosScreen, yPosScreen, radius, w, paint, paintRect);
+                        // We draw the rectangle and the texts:
+                        drawInformation(canvas, information, xPosScreen, yPosScreen, radius, w, paint, paintRect);
+                    }
                 }
             }
         }

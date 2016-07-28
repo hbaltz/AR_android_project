@@ -186,4 +186,49 @@ public final class Utilities {
 
         return null;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which calculates the minimal and maximum value of the angle
+     * around the angle's accuracy
+     *
+     * @param angleTheo: an angle
+     * @param angle_accuracy: the angle's accuracy
+     * @return minimal and maximum value of the angle around the angle's accuracy
+     */
+    public static List<Double> angleAccuracy(double angleTheo, double angle_accuracy) {
+        double minAngle = angleTheo - angle_accuracy;
+        double maxAngle = angleTheo + angle_accuracy;
+        List<Double> minMax = new ArrayList<>();
+
+        minMax.clear();
+        minMax.add(minAngle);
+        minMax.add(maxAngle);
+
+        return minMax;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Function which verifies if the angle is between minAngle and maxAngle of the theoretical azimuth
+     *
+     * @param minAngle: minimal angle value for the azimuth
+     * @param maxAngle: maximal angle value for the azimuth
+     * @param angle: the angle
+     * @return a boolean(true if angle is between minAngle and maxAngle, false else)
+     */
+    public static boolean isBetween(double minAngle, double maxAngle, double angle) {
+        if (minAngle > maxAngle) {
+            if (isBetween(0, maxAngle, angle) && isBetween(minAngle, 360, angle))
+                return true;
+        } else {
+            if (angle > minAngle && angle < maxAngle)
+                return true;
+        }
+        return false;
+    }
 }
