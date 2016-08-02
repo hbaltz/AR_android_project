@@ -8,3 +8,16 @@ Portions of this software were developed at the Laboratory for Applied Geomatics
 and GIS Science (LAGGISS) in the Department of Geography, University of Ottawa.
 
 This software contains code derived from the sample codes of the Project Tango, Google Inc.
+
+
+Polygon contains point
+Copyright 2013-present Roman Kushnarenko
+
+This product includes software developed by 
+Roman Kushnarenko.(https://github.com/sromku/polygon-contains-point) 
+
+Portions of this software were developed at the Laboratory for Applied Geomatics
+and GIS Science (LAGGISS) in the Department of Geography, University of Ottawa.
+
+This software contains code derived from the sample codes of the project: 
+Polygon contains point, Roman Kushnarenko.
