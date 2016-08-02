@@ -171,3 +171,7 @@ https://developers.google.com/tango/overview/coordinate-systems
 ## Minimun rectangle:
 http://gis.stackexchange.com/questions/22895/how-to-find-the-minimum-area-rectangle-for-given-points
 https://sourceforge.net/p/opencarto/code/HEAD/tree/trunk/server/src/main/java/org/opencarto/algo/base/SmallestSurroundingRectangle.java
+
+## Create a polygon with android:
+http://stackoverflow.com/questions/15816928/test-of-point-inside-polygon-in-android
+https://github.com/sromku/polygon-contains-point
