@@ -165,3 +165,9 @@ http://www.geometrictools.com/Documentation/Documentation.html
 
 ## System coordinates tango:
 https://developers.google.com/tango/overview/coordinate-systems
+
+# Area:
+
+## Minimun rectangle:
+http://gis.stackexchange.com/questions/22895/how-to-find-the-minimum-area-rectangle-for-given-points
+https://sourceforge.net/p/opencarto/code/HEAD/tree/trunk/server/src/main/java/org/opencarto/algo/base/SmallestSurroundingRectangle.java
