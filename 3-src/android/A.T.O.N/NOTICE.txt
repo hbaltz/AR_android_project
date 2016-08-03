@@ -21,3 +21,16 @@ and GIS Science (LAGGISS) in the Department of Geography, University of Ottawa.
 
 This software contains code derived from the sample codes of the project: 
 Polygon contains point, Roman Kushnarenko.
+
+android-geom
+Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+This product includes software developed by 
+Free Software Foundation, Inc.(https://github.com/pokowaka/android-geom) 
+
+Portions of this software were developed at the Laboratory for Applied Geomatics
+and GIS Science (LAGGISS) in the Department of Geography, University of Ottawa.
+
+This software contains code derived from the sample codes of the project: 
+Polygon contains point, Free Software Foundation, Inc.
