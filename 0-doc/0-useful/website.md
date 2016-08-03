@@ -175,3 +175,14 @@ https://sourceforge.net/p/opencarto/code/HEAD/tree/trunk/server/src/main/java/or
 ## Create a polygon with android:
 http://stackoverflow.com/questions/15816928/test-of-point-inside-polygon-in-android
 https://github.com/sromku/polygon-contains-point
+
+## Find enclosed envelop:
+http://math.stackexchange.com/questions/1247050/how-to-find-a-enclosed-envelope-with-maximum-points-among-a-cloud-of-spheres
+
+## Convex hull implementation:
+http://www.dr-mikes-maths.com/DP-convex-hull-java-code.html
+http://www.gregbugaj.com/?p=499
+https://github.com/pokowaka/android-geom/blob/master/geom/src/main/java/math/geom2d/polygon/convhull/JarvisMarch2D.java
+
+## Jarvis march:
+https://fr.wikipedia.org/wiki/Marche_de_Jarvis
