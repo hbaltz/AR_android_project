@@ -49,7 +49,7 @@ public class PointCloudVolumeCalculator {
             FloatBuffer FBImp = Various.readFromFile(context,fileName);
             Log.d("testRead",""+FBImp);
 
-            ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,0.7f);
+            ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,1f);
             Log.d("ceiling", "" + ceiling.size());
 
             JarvisMarch jarvisMarch = new JarvisMarch();
