@@ -62,4 +62,8 @@ public class Point
 	{
 		return String.format("(%.2f,%.2f)", x, y);
 	}
+
+    public boolean equals(Point pt) {
+        return (this.x == pt.x && this.y == pt.y);
+    }
 }
