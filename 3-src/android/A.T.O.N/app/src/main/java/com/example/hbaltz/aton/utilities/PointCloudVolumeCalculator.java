@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.hbaltz.aton.hull.JarvisMarch;
+import com.example.hbaltz.aton.polygon.Polygon;
 import com.example.hbaltz.aton.renderer.PointCollection;
 
 import java.nio.FloatBuffer;
@@ -47,8 +49,17 @@ public class PointCloudVolumeCalculator {
             FloatBuffer FBImp = Various.readFromFile(context,fileName);
             Log.d("testRead",""+FBImp);
 
-            ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,1f);
+            ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,0.7f);
             Log.d("ceiling", "" + ceiling.size());
+
+            ArrayList<float[]> testCeil = new ArrayList<float[]>();
+            for(int i = 0; i<5 ; i++){
+                testCeil.add(ceiling.get(i));
+            }
+
+            JarvisMarch jarvisMarch = new JarvisMarch();
+            Polygon convCeiling = jarvisMarch.convexHull(testCeil);
+            Log.d("ceilArea", "" + convCeiling.getArea());
 
             fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
 

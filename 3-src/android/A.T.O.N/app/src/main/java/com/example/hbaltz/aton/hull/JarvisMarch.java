@@ -1,5 +1,7 @@
 package com.example.hbaltz.aton.hull;
 
+import android.util.Log;
+
 import com.example.hbaltz.aton.polygon.Angle;
 import com.example.hbaltz.aton.polygon.Point;
 import com.example.hbaltz.aton.polygon.Polygon;
@@ -53,7 +55,9 @@ public class JarvisMarch implements ConvexHull{
             nextPoint = findNextPoint(currentPoint, angle, points);
             angle = Angle.horizontalAngle(currentPoint, nextPoint);
             currentPoint = nextPoint;
-        } while (currentPoint != pointLow);
+
+            Log.d("Calc?","Yes");
+        } while (!currentPoint.equals(pointLow));
 
         // Create a polygon with points located on the convex hull
         return convexHullBuilder.build();
