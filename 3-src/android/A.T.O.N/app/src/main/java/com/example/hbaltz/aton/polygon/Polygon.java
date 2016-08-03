@@ -18,7 +18,7 @@ public class Polygon
 	private final List<Line> _sides;
 
     private float height, width;
-    private float area;
+    private float areaAprox;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// CONSTRUCTORS: ////////////////////////////////////////
@@ -33,7 +33,7 @@ public class Polygon
         height = boundingBox.xMax - boundingBox.xMin;
         width = boundingBox.yMax - boundingBox.yMin;
 
-        area = height*width;
+        areaAprox = height*width;
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,8 +56,8 @@ public class Polygon
         return this.width;
     }
 
-    public float getArea() {
-        return this.area;
+    public float getAreaAprox() {
+        return this.areaAprox;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
