@@ -203,6 +203,38 @@ public class Various {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Finds the y min on a FloatBuffer of x,y,z
+     *
+     * @param fb: the FloatBuffer which contains xyz coordinates of points
+     * @param sizeFB: the number of the triplet xyz
+     * @return the y min
+     */
+    public static float findYMin(FloatBuffer fb, int sizeFB){
+        // Initialize:
+        float yMin = Float.MAX_VALUE;
+        float y;
+
+        // We replace the pointer on the begin of the floatBuffer:
+        fb.rewind();
+
+        for(int i = 0; i < sizeFB; i++){
+            // Recover only the y:
+            fb.get();
+            y = fb.get();
+            fb.get();
+
+            // If y is superior to yMax, y becomes Ymax
+            if(y < yMin){
+                yMin = y;
+            }
+        }
+
+        return yMin;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Detects the ceiling on a point cloud of a room
      *
      * @param fb: the FloatBuffer which contains xyz coordinates of points
@@ -244,6 +276,12 @@ public class Various {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Converts an arraylist pf laot in a floatbuffer
+     *
+     * @param arrayList: an arraylist
+     * @return a floatbuffer
+     */
     public static FloatBuffer ArrayList2FloatBuffer(ArrayList<float[]> arrayList){
         int sizeAL = arrayList.size();
         FloatBuffer floatbuffer = ByteBuffer.allocateDirect(12*sizeAL).asFloatBuffer();
