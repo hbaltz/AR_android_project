@@ -22,6 +22,7 @@ public class PointCloudVolumeCalculator {
     private final Context context;
     private final String roomName;
     private FloatBuffer fbCeiling;
+    private FloatBuffer fbFloor;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// CONSTRUCTORS: ///////////////////////////////////////////////
@@ -59,9 +60,10 @@ public class PointCloudVolumeCalculator {
             JarvisMarch jarvisMarch = new JarvisMarch();
             Polygon convCeiling = jarvisMarch.convexHull(ceiling);
 
-            float volumeAprox = height * convCeiling.getArea();
+            float volume = height * convCeiling.getArea();
 
             fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
+            fbFloor = Various.ArrayList2FloatBuffer(floor);
 
             return null;
         }
@@ -70,9 +72,12 @@ public class PointCloudVolumeCalculator {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            String nameFile = String.format("ceiling_%s", roomName);
+            String nameFileCeiling = String.format("ceiling_%s", roomName);
+            Various.createFile(context,nameFileCeiling,fbCeiling,fbCeiling.position()/3);
 
-            Various.createFile(context,nameFile,fbCeiling,fbCeiling.position()/3);
+            String nameFileFloor = String.format("floor_%s", roomName);
+            Various.createFile(context,nameFileFloor,fbFloor,fbFloor.position()/3);
+
             Various.makeToast(context,"Point cloud opened!");
         }
     }
