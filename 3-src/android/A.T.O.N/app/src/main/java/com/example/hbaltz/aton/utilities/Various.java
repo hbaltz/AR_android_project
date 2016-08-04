@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by hbaltz on 7/20/2016.
@@ -272,6 +273,35 @@ public class Various {
         }
 
         return ceiling;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Find the y median of on array of XYZ coordinates
+     *
+     * @param cloudPoint: the Arraylist of XYZ coordinates
+     * @return the median y
+     */
+    public static float findYMedian(ArrayList<float[]> cloudPoint){
+        int sizeCP = cloudPoint.size();
+        float[] arrayY = new float[sizeCP];
+
+        for(int i =0; i<sizeCP;i++){
+            arrayY[i] = cloudPoint.get(i)[1];
+        }
+
+        Arrays.sort(arrayY);
+
+        float median;
+        int lenArr = arrayY.length;
+
+        if (lenArr % 2 == 0)
+            median = (arrayY[lenArr/2] + arrayY[lenArr/2 - 1])/2;
+        else
+            median =  arrayY[lenArr/2];
+
+        return median;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
