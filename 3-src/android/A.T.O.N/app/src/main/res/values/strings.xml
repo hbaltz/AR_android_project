@@ -27,4 +27,7 @@
     <string name="subj_email">Point Cloud of the room: </string>
     <string name="body_email">In attachment the point cloud of the room: </string>
 
+    <string name="valid_infoRoom">Ok</string>
+    <string name="titleInfoRoom">Information about the room</string>
+
 </resources>

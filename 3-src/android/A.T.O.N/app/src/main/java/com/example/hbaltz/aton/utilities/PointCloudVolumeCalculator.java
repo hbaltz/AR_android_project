@@ -69,7 +69,7 @@ public class PointCloudVolumeCalculator {
 
             Log.d("Vol", "" + room.getVolume());
 
-            Various.makeToast(context,"Point cloud opened!");
+            room.displayInformation(context);
         }
     }
 }

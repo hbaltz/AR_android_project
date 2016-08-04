@@ -1,7 +1,19 @@
 package com.example.hbaltz.aton.object;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.hbaltz.aton.MainActivity;
+import com.example.hbaltz.aton.R;
 import com.example.hbaltz.aton.hull.JarvisMarch;
 import com.example.hbaltz.aton.polygon.Polygon;
+import com.example.hbaltz.aton.utilities.PointCloudExporter;
 import com.example.hbaltz.aton.utilities.Various;
 
 import java.nio.FloatBuffer;
@@ -128,5 +140,36 @@ public class Room {
     ////////////////////////////////// METHODS: ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @SuppressLint("SetTextI18n")
+    public void displayInformation(final Context context){
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_display_info_room);
+        dialog.setTitle(context.getString(R.string.titleInfoRoom));
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.buttonOkInfoRoom);
+
+        final TextView tvName = (TextView) dialog.findViewById(R.id.textViewNameRoom);
+        final TextView tvHeight = (TextView) dialog.findViewById(R.id.textViewHeightRoom);
+        final TextView tvVolume = (TextView) dialog.findViewById(R.id.textViewVolumeRoom);
+        final TextView tvVolumeOcc = (TextView) dialog.findViewById(R.id.textViewVolumeOccRoom);
+        final TextView tvType = (TextView) dialog.findViewById(R.id.textViewTypeRoom);
+
+        tvName.setText("Name: " + name);
+        tvHeight.setText("Height: " + height + " m");
+        tvVolume.setText("Volume: " + volume + " m^3");
+        tvVolumeOcc.setText("Volume occupied: " + volumeOcc + " m^3");
+        tvType.setText("Type: " + type);
+
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
 
 }
