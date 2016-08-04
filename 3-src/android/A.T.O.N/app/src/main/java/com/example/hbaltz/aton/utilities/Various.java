@@ -251,7 +251,6 @@ public class Various {
 
         // We recover the yMax:
         float yMax = findYMax(fb,sizeFB);
-        Log.d("yMax",""+yMax);
 
         // We replace the pointer on the begin of the floatBuffer:
         fb.rewind();
@@ -273,6 +272,47 @@ public class Various {
         }
 
         return ceiling;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Detects the floor on a point cloud of a room
+     *
+     * @param fb: the FloatBuffer which contains xyz coordinates of points
+     * @param sizeFB: the number of the triplet xyz
+     * @param accuracy: the accuracy to be consider like a point of the floor
+     * @return an arraylist of triplet xyz (the point detected like the floor)
+     */
+    public static ArrayList<float[]> detectFloor(FloatBuffer fb, int sizeFB, float accuracy){
+        // Initialize:
+        ArrayList<float[]> floor = new ArrayList<float[]>();
+        float x,y,z;
+        float[] pt;
+
+        // We recover the yMax:
+        float yMin = findYMin(fb,sizeFB);
+
+        // We replace the pointer on the begin of the floatBuffer:
+        fb.rewind();
+
+        for(int i = 0; i < sizeFB; i++){
+            x = fb.get();
+            y = fb.get();
+            z = fb.get();
+
+            // If the y is close to the yMax we add it to the ceiling:
+            if ((y - yMin) <= accuracy) {
+                pt = new float[3];
+                pt[0] = x;
+                pt[1] = y;
+                pt[2] = z;
+
+                floor.add(pt);
+            }
+        }
+
+        return floor;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

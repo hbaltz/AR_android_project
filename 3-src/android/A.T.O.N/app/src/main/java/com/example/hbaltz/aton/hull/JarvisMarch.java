@@ -54,7 +54,12 @@ public class JarvisMarch implements ConvexHull{
             nextPoint = findNextPoint(currentPoint, angle, points);
             angle = Angle.horizontalAngle(currentPoint, nextPoint);
             currentPoint = nextPoint;
-
+/*
+            Log.d("angle",""+ angle);
+            Log.d("nextpoint","X: " + nextPoint.getX() + ", Y: "+nextPoint.getY());
+            Log.d("curpoint","X: " + currentPoint.getX() + ", Y: "+currentPoint.getY());
+            Log.d("Calc?","Yes");
+            */
         } while (!currentPoint.equals(pointLow));
 
         // Create a polygon with points located on the convex hull

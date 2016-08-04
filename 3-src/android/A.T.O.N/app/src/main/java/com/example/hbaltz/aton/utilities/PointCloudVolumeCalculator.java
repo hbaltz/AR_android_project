@@ -50,21 +50,17 @@ public class PointCloudVolumeCalculator {
             Log.d("testRead",""+FBImp);
 
             ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,1f);
-            Log.d("ceiling", "" + ceiling.size());
+            ArrayList<float[]> floor = Various.detectFloor(FBImp,FBImp.position()/3,1f);
+
+            float yCeil = Various.findYMedian(ceiling);
+            float yFloor = Various.findYMedian(floor);
+            float height = yCeil - yFloor;
 
             JarvisMarch jarvisMarch = new JarvisMarch();
             Polygon convCeiling = jarvisMarch.convexHull(ceiling);
-            Log.d("ceilArea", "" + convCeiling.getArea());
-
-            float yMax = Various.findYMax(FBImp,FBImp.position()/3);
-            float yMin = Various.findYMin(FBImp,FBImp.position()/3);
-            float height = yMax - yMin;
-
-            Log.d("height", "" + height);
 
             float volumeAprox = height * convCeiling.getArea();
-            Log.d("volumeAprox", "" + volumeAprox);
-            
+
             fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
 
             return null;
