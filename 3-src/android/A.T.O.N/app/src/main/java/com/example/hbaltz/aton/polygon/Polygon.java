@@ -17,8 +17,7 @@ public class Polygon
 	private final BoundingBox _boundingBox;
 	private final List<Line> _sides;
 
-    private float height, width;
-    private float areaAprox;
+    private float area;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// CONSTRUCTORS: ////////////////////////////////////////
@@ -30,10 +29,7 @@ public class Polygon
 		_sides = sides;
 		_boundingBox = boundingBox;
 
-        height = boundingBox.xMax - boundingBox.xMin;
-        width = boundingBox.yMax - boundingBox.yMin;
-
-        areaAprox = height*width;
+        area = calculateArea();
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,16 +44,8 @@ public class Polygon
         return this._sides;
     }
 
-    public float getHeight() {
-        return this.height;
-    }
-
-    public float getWidth() {
-        return this.width;
-    }
-
-    public float getAreaAprox() {
-        return this.areaAprox;
+    public float getArea() {
+        return this.area;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,44 +197,7 @@ public class Polygon
 			}
 		}
 	}
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Check if the the given point is inside of the polygon.<br>
-	 * 
-	 * @param point
-	 *            The point to check
-	 * @return <code>True</code> if the point is inside the polygon, otherwise return <code>False</code>
-	 */
-	public boolean contains(Point point)
-	{
-		if (inBoundingBox(point))
-		{
-			Line ray = createRay(point);
-			int intersection = 0;
-			for (Line side : _sides)
-			{
-				if (intersect(ray, side))
-				{
-					// System.out.println("intersection++");
-					intersection++;
-				}
-			}
-
-			/*
-			 * If the number of intersections is odd, then the point is inside the polygon
-			 */
-			if (intersection % 2 == 1)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * By given ray and one side of the polygon, check if both lines intersect.
 	 * 
@@ -345,4 +296,27 @@ public class Polygon
 		public float yMax = Float.NEGATIVE_INFINITY;
 		public float yMin = Float.NEGATIVE_INFINITY;
 	}
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public float calculateArea(){
+        int sizeSid = this._sides.size();
+
+        Line curLine;
+        Point start,end;
+        float multXY=0f, multYX=0f;
+
+
+        for(int i = 0 ; i < sizeSid ; i++){
+            curLine = _sides.get(i);
+
+            start = curLine.getStart();
+            end =curLine.getEnd();
+
+            multXY += start.getX()*end.getY();
+            multYX += start.getY()*end.getX();
+        }
+
+        return (multXY - multYX) / 2;
+    }
 }
