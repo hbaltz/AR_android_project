@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.hbaltz.aton.hull.JarvisMarch;
+import com.example.hbaltz.aton.object.Room;
 import com.example.hbaltz.aton.polygon.Polygon;
 import com.example.hbaltz.aton.renderer.PointCollection;
 
@@ -21,8 +22,7 @@ public class PointCloudVolumeCalculator {
 
     private final Context context;
     private final String roomName;
-    private FloatBuffer fbCeiling;
-    private FloatBuffer fbFloor;
+    private Room room;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////// CONSTRUCTORS: ///////////////////////////////////////////////
@@ -50,20 +50,7 @@ public class PointCloudVolumeCalculator {
             FloatBuffer FBImp = Various.readFromFile(context,fileName);
             Log.d("testRead",""+FBImp);
 
-            ArrayList<float[]> ceiling = Various.detectCelling(FBImp,FBImp.position()/3,1f);
-            ArrayList<float[]> floor = Various.detectFloor(FBImp,FBImp.position()/3,1f);
-
-            float yCeil = Various.findYMedian(ceiling);
-            float yFloor = Various.findYMedian(floor);
-            float height = yCeil - yFloor;
-
-            JarvisMarch jarvisMarch = new JarvisMarch();
-            Polygon convCeiling = jarvisMarch.convexHull(ceiling);
-
-            float volume = height * convCeiling.getArea();
-
-            fbCeiling = Various.ArrayList2FloatBuffer(ceiling);
-            fbFloor = Various.ArrayList2FloatBuffer(floor);
+            room = new Room(roomName,FBImp);
 
             return null;
         }
@@ -73,10 +60,14 @@ public class PointCloudVolumeCalculator {
             super.onPostExecute(aVoid);
 
             String nameFileCeiling = String.format("ceiling_%s", roomName);
+            FloatBuffer fbCeiling = room.getCeiling();
             Various.createFile(context,nameFileCeiling,fbCeiling,fbCeiling.position()/3);
 
             String nameFileFloor = String.format("floor_%s", roomName);
+            FloatBuffer fbFloor = room.getFloor();
             Various.createFile(context,nameFileFloor,fbFloor,fbFloor.position()/3);
+
+            Log.d("Vol", "" + room.getVolume());
 
             Various.makeToast(context,"Point cloud opened!");
         }
