@@ -186,3 +186,6 @@ https://github.com/pokowaka/android-geom/blob/master/geom/src/main/java/math/geo
 
 ## Jarvis march:
 https://fr.wikipedia.org/wiki/Marche_de_Jarvis
+
+#Area poly:
+http://www.wikihow.com/Calculate-the-Area-of-a-Polygon
