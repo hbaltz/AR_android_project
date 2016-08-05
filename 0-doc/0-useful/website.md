@@ -200,3 +200,6 @@ http://www.cs.stevens.edu/~david/Mobile_Object_Recognition_files/Mobile%20Object
 
 ## Depth images:
 http://slidingshapes.cs.princeton.edu/paper.pdf
+
+## Tango:
+file:///C:/Users/hbaltz/Downloads/Diakit%C3%A9-First_Experiments_with_the_Tango_Tablet_for_Indoor_Scanning-938.pdf
