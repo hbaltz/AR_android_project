@@ -189,3 +189,14 @@ https://fr.wikipedia.org/wiki/Marche_de_Jarvis
 
 #Area poly:
 http://www.wikihow.com/Calculate-the-Area-of-a-Polygon
+
+# Object recognition:
+
+## In 3D scans:
+http://www.willowgarage.com/blog/2010/10/06/3d-point-cloud-based-object-recognition-system
+
+## Mobile:
+http://www.cs.stevens.edu/~david/Mobile_Object_Recognition_files/Mobile%20Object%20Recognition.pdf
+
+## Depth images:
+http://slidingshapes.cs.princeton.edu/paper.pdf
