@@ -111,14 +111,13 @@ public class DrawSurfaceView extends View {
                     // If the poi is visible we recover information about it :
                     dist = POI.getDistance();
 
-                    /////////////////////////////////// Calculate location: ////////////////////////////
+                    /////////////////////////////////// Calculate location: ////////////////////////
                     // We calculate where the point have to be draw
                     posScreen = Utilities.positionMatOr(user.getLocation(), POI.getLocation(), orMat, 0f);
                     posScreen = Utilities.positionScreen(posScreen, (float) screenWidth, (float) screenHeight);
 
                     if (posScreen != null) {
                         xPosScreen = posScreen.get(0);
-                        //yPosScreen = posScreen.get(1);
 
                         // We draw in the middle of the y-axis
                         yPosScreen = (float) ((screenHeight / 2));
@@ -126,7 +125,7 @@ public class DrawSurfaceView extends View {
                         // We calculate the radius of the circle and of the text regarding the distance
                         radius = (float) (2000 / dist);
 
-                        /////////////////////////////////// Recover info: //////////////////////////////
+                        /////////////////////////////////// Recover info: //////////////////////////
                         // We recover the information about the Poi that we want to display
                         strct = POI.getStructure();
                         information = POI.recoverInformation();
@@ -136,7 +135,7 @@ public class DrawSurfaceView extends View {
                         paint = initializedPaint(strct);
                         paint.setTextSize(radius);
 
-                        /////////////////////////////////// Draw: //////////////////////////////////////
+                        /////////////////////////////////// Draw: //////////////////////////////////
                         // We draw the circle:
                         canvas.drawCircle(xPosScreen, yPosScreen, radius, paint);
 
@@ -235,7 +234,7 @@ public class DrawSurfaceView extends View {
 
         // We draw the texts:
         for(int k=0; k < sizeInfo; k++){
-            infoTemp = information.get(sizeInfo-k-1); // To draw in the first in the ArrayLIst the higher
+            infoTemp = information.get(sizeInfo-k-1); // To draw the first the array in the ArrayLIst the higher
             c.drawText(infoTemp, x-r, y-(k+1)*(r+1), paint);
         }
     }

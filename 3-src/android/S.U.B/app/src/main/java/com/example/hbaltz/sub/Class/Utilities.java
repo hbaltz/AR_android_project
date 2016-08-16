@@ -114,9 +114,6 @@ public final class Utilities {
     public static List<Float> positionMatOr(Point locUser, Point pt, float[] orMat,
                                             float zDef) {
 
-        //TODO separate in two functions
-
-
         List<Float> pos = new ArrayList<>();
 
         float x = (float) (pt.getX() - locUser.getX());
@@ -186,8 +183,6 @@ public final class Utilities {
 
         return null;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
