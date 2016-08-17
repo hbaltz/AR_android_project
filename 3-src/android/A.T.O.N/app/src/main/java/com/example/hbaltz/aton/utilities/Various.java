@@ -410,6 +410,4 @@ public class Various {
             Log.e("Creation", "File not creates");
         }
     }
-
-
 }

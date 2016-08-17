@@ -57,7 +57,7 @@ public class PointCloudARRenderer extends TangoRajawaliRenderer {
 
     private Points currentPoints;
     private PointCollection collectedPoints;
-    private PointCollection openedPoints;
+    private PointCollection openedPoints; // Not use for the moment
     private PointCloudManager pointCloudManager;
     private boolean collectPoints;
 
