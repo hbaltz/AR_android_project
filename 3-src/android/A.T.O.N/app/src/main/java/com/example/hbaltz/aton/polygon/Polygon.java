@@ -299,6 +299,10 @@ public class Polygon
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Calculates the area of the polygon
+	 * @return the polygon's area
+     */
     public float calculateArea(){
         int sizeSid = this._sides.size();
 
@@ -311,7 +315,7 @@ public class Polygon
             curLine = _sides.get(i);
 
             start = curLine.getStart();
-            end =curLine.getEnd();
+            end = curLine.getEnd();
 
             multXY += start.getX()*end.getY();
             multYX += start.getY()*end.getX();

@@ -48,6 +48,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize the renderer:
         glView = new TangoRajawaliView(this);
         renderer = new PointCloudARRenderer(this);
         glView.setSurfaceRenderer(renderer);
@@ -58,6 +60,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         startActivityForResult(Tango.getRequestPermissionIntent(Tango.PERMISSIONTYPE_MOTION_TRACKING), Tango.TANGO_INTENT_ACTIVITYCODE);
         wrapper.addView(glView);
 
+        // Recover the name of the room already on the internal memory:
         ArrayList<String> roomsNames = Various.recoverListOfFiles(this);
         Log.d("roomsNames", roomsNames.toString());
     }
@@ -98,6 +101,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Result on the permmision of the motion tracking:
         if (requestCode == Tango.TANGO_INTENT_ACTIVITYCODE) {
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Motion Tracking Permissions Required!", Toast.LENGTH_SHORT).show();
@@ -116,14 +120,16 @@ public class MainActivity extends Activity implements View.OnTouchListener {
      */
     private void startAugmentedReality() {
         if (!isConnected) {
+            // Initialize if the camera is not connected:
             isConnected = true;
             glView.connectToTangoCamera(tango, TangoCameraIntrinsics.TANGO_CAMERA_COLOR);
             TangoConfig config = tango.getConfig(TangoConfig.CONFIG_TYPE_DEFAULT);
             config.putBoolean(TangoConfig.KEY_BOOLEAN_LOWLATENCYIMUINTEGRATION, true);
-            config.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true);
+            config.putBoolean(TangoConfig.KEY_BOOLEAN_DEPTH, true);// Allow the depth perception
             tango.connect(config);
 
             ArrayList<TangoCoordinateFramePair> framePairs = new ArrayList<TangoCoordinateFramePair>();
+            // Set the listener
             tango.connectListener(framePairs, new Tango.OnTangoUpdateListener() {
                 @Override
                 public void onPoseAvailable(TangoPoseData pose) {
@@ -136,6 +142,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                     }
                 }
 
+                // When the xyz information are available for the scene, we update he point cloud manager
                 @Override
                 public void onXyzIjAvailable(TangoXyzIjData xyzIj) {
                     TangoCoordinateFramePair framePair = new TangoCoordinateFramePair(
@@ -152,8 +159,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
                 }
             });
 
+            // Setup the extrinsic:
             setupExtrinsic();
 
+            // Associate the point cloud manager to the renderer:
             pointCloudManager = new PointCloudManager(tango.getCameraIntrinsics(TangoCameraIntrinsics.TANGO_CAMERA_COLOR));
             renderer.setPointCloudManager(pointCloudManager);
         }

@@ -397,6 +397,7 @@ public class Various {
             OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
             PrintWriter pw = new PrintWriter(osw);
 
+            // Rewind the float buffer
             floatBuffer.rewind();
 
             for (int i = 0; i < size; i++) {
