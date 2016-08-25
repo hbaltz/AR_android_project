@@ -145,7 +145,7 @@ https://developers.google.com/tango/overview/coordinate-systems
 ## How maps indoor:
 http://bgr.com/2014/02/24/how-googles-project-tango-sees-indoor-spaces/
 
-## Capturing and aving point cloud:
+## Capturing and saving point cloud:
 http://stackoverflow.com/questions/27473651/how-do-i-get-started-capturing-and-saving-project-tango-point-cloud-data-as-a-me
 
 ## Ransac:
@@ -201,5 +201,3 @@ http://www.cs.stevens.edu/~david/Mobile_Object_Recognition_files/Mobile%20Object
 ## Depth images:
 http://slidingshapes.cs.princeton.edu/paper.pdf
 
-## Tango:
-file:///C:/Users/hbaltz/Downloads/Diakit%C3%A9-First_Experiments_with_the_Tango_Tablet_for_Indoor_Scanning-938.pdf
